@@ -1,0 +1,135 @@
+{
+  "experiment_id": "109",
+  "experiment_name": "exp_109_simple_ecs",
+  "scenario_name": "simple_ecs",
+  "configuration": {
+    "ip_cov_target": 0.5,
+    "ip_cov_realized": 1.0,
+    "eps_jump": 0.005,
+    "likelihood": "log_successors_queue_jump",
+    "num_iterations": 500000,
+    "burn_in_fraction": 0.5,
+    "thin": 1
+  },
+  "scenario": {
+    "task_ids": [
+      "AuthorizeSecurityGroup",
+      "CreateSecurityGroup",
+      "CreateVSwitch",
+      "CreateVpc",
+      "RunInstances"
+    ],
+    "n_tasks": 5
+  },
+  "posterior": {
+    "n_samples_total": 5000,
+    "n_samples_post_burnin": 2500,
+    "burn_in_fraction": 0.5,
+    "thin": 1,
+    "avg_H": [
+      [
+        0.0,
+        0.0,
+        0.0116,
+        0.0,
+        0.5948
+      ],
+      [
+        0.384,
+        0.0,
+        0.0132,
+        0.0,
+        0.6972
+      ],
+      [
+        0.0048,
+        0.0008,
+        0.0,
+        0.0,
+        0.6344
+      ],
+      [
+        0.6956,
+        0.6224,
+        0.6616,
+        0.0,
+        0.8708
+      ],
+      [
+        0.0004,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "std_H": [
+      [
+        0.0,
+        0.0,
+        0.10707679487171626,
+        0.0,
+        0.49093070794155874
+      ],
+      [
+        0.48635789291426007,
+        0.0,
+        0.11413045167701669,
+        0.0,
+        0.4594694331508917
+      ],
+      [
+        0.06911555541265738,
+        0.028272955275316942,
+        0.0,
+        0.0,
+        0.48159800664040153
+      ],
+      [
+        0.460152844172462,
+        0.48478679850011985,
+        0.4731653410806786,
+        0.0,
+        0.3354211680857361
+      ],
+      [
+        0.019995999599920083,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "avg_H_mean": 0.2822,
+    "avg_H_std": 0.1988626562367321,
+    "n_edges_confident": 18,
+    "frac_edges_confident": 0.9
+  },
+  "parameters": {
+    "rho_trace": {
+      "mean": 0.4999302530614023,
+      "std": 0.2724918487223632,
+      "median": 0.515463870204541,
+      "min": 0.00021166646561754376,
+      "max": 0.993775230273301
+    },
+    "K_trace": {
+      "mean": 3.4588,
+      "std": 1.3963891148243746,
+      "median": 3.0,
+      "min": 1.0,
+      "max": 10.0
+    },
+    "softmax_beta_trace": {
+      "mean": 1.7763179249091747,
+      "std": 1.2902090098686527,
+      "median": 1.4786137843845397,
+      "min": 0.04768515092954614,
+      "max": 10.956306352563642
+    }
+  },
+  "metadata": {
+    "model_type": "single_partial_order_per_scenario",
+    "timestamp": "2026-01-20 04:25:33.589972"
+  }
+}
