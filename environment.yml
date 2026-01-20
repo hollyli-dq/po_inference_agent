@@ -1,0 +1,70 @@
+name: hpo_inference
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Core Python
+  - python=3.9
+  
+  # Numerical computing
+  - numpy>=1.19.5
+  - pandas>=1.2.4
+  - scipy
+  - scikit-learn
+  - numba
+  - xarray
+  
+  # MCMC and statistical modeling
+  - pymc3<4.0
+  - theano-pymc
+  - arviz
+  - statsmodels
+  
+  # Data handling and configuration
+  - pyyaml
+  - pip
+  - pyreadr>=0.4.0
+  - netcdf4
+  - hdf5
+  
+  # Visualization
+  - matplotlib
+  - seaborn
+  - networkx
+  - graphviz
+  - pygraphviz
+  
+  # Jupyter environment
+  - jupyter
+  - jupyterlab
+  - notebook
+  - ipykernel
+  - ipywidgets
+  
+  # Build tools (for C++ extensions)
+  - cmake
+  - make
+  - boost
+  - boost-cpp
+  - clang
+  - cxx-compiler
+  
+  # R integration
+  - r-base=4.1
+  - r-essentials
+  - r-tidyverse
+  - r-irkernel
+  
+  # Development tools
+  - pytest
+  - tqdm
+  - tabulate
+  - requests
+  
+  # Additional dependencies via pip
+  - pip:
+    - rpy2>=3.5.0
+    - pre-commit
+    - black
+    - isort
+    - flake8

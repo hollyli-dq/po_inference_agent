@@ -1,0 +1,13 @@
+time,product,api,success,error
+13:44:42,VPC,DescribeVpcs,1,
+13:44:46,VPC,CreateVpc,1,
+13:44:49,VPC,CreateVSwitch,1,
+13:44:53,ECS,CreateSecurityGroup,1,
+13:44:59,ECS,AuthorizeSecurityGroup,1,
+13:45:05,ECS,RunInstances,1,
+13:46:17,Redis,CreateInstance,0,The specified parameter InstanceType is not valid....
+13:46:31,Redis,CreateInstance,1,
+13:46:37,SLB,CreateLoadBalancer,1,
+13:46:40,SLB,CreateLoadBalancerHTTPListener,1,
+13:46:45,SLB,AddBackendServers,0,The parameter BackendServers must be a JSON string...
+13:46:52,SLB,AddBackendServers,1,

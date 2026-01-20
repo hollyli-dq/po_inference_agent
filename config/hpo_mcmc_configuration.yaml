@@ -1,0 +1,34 @@
+# config.yaml  
+
+sampling:
+ min_tasks_scaler: 2
+ min_size: 2
+
+
+# MCMC run configuration.
+mcmc:
+  num_iterations: 5000000         # Total number of MCMC iterations.
+  K: 3                         # Latent dimension (number of columnsin U).
+  
+# Configuration for updating ρ.
+rho:
+  dr: 0.1                     # Multiplicative step size for rho update.
+
+# Configuration for updating ρ&τ.
+rhotau:
+  drrt: 0.8            # Multiplicative step size for rho tau update.
+
+# Configuration for noise parameter updates.
+noise:
+  noise_option: "softmax_queue_jump"  # Options: "queue_jump", "weighted_queue_jump", "softmax_queue_jump"
+
+# Prior parameters.
+prior:
+  rho_prior: 2.0          # Prior parameter for rho.
+  noise_beta_prior: 9       # Beta prior parameter for the noise parameter.
+  k_prior: 3              # Prior parameter for the number of latent dimensions K.
+  discount_d: 0        # Prior discount parameter for the discount function.
+  concentration_theta: 0.8        # Prior concentration parameter for the theta distribution.
+
+analysis:
+  output_dir: "mcmc_output"

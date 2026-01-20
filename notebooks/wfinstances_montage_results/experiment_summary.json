@@ -1,0 +1,56 @@
+{
+  "timestamp": "2026-01-19T00:57:27.832013",
+  "config": {
+    "num_traces": 300,
+    "num_iterations": 3000000,
+    "seed": 42,
+    "cp_cov_targets": [
+      0.5,
+      0.6,
+      0.7,
+      0.75,
+      0.8,
+      0.85,
+      0.9,
+      0.95
+    ],
+    "instances": [
+      "montage-chameleon-2mass-005d-001.json",
+      "montage-chameleon-2mass-01d-001.json"
+    ]
+  },
+  "results": [
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.5
+    },
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.6
+    },
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.7
+    },
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.75
+    },
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.8
+    },
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.85
+    },
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.9
+    },
+    {
+      "error": "Can't pickle local object 'main.<locals>.run_single_cp_cov'",
+      "cp_cov_target": 0.95
+    }
+  ]
+}

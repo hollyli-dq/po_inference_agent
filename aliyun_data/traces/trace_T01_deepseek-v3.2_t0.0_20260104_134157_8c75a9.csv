@@ -1,0 +1,7 @@
+time,product,api,success,error
+13:42:11,VPC,DescribeVpcs,1,
+13:42:17,VPC,CreateVpc,1,
+13:42:49,ECS,DescribeVSwitches,0,"任务未完成: 缺少资源: VSwitch(缺少VSwitchId), SecurityGroup(缺..."
+13:42:59,VPC,CreateVSwitch,1,
+13:43:05,ECS,CreateSecurityGroup,1,
+13:43:18,ECS,RunInstances,1,

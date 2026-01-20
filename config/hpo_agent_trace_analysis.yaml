@@ -1,0 +1,29 @@
+data:
+  separator: "_"
+  deduplicate: true
+  remove_all_duplicates: true
+  use_event_name_only: true
+  shuffle_node_ids: true
+  shuffle_seed: 42
+
+mcmc:
+  num_iterations: 500000
+  dr: 0.95
+  drrt: 0.95
+  noise_model: softmax_queue_jump
+  softmax_beta_prior: [2.0, 1.0]
+  softmax_beta_stepsize: 0.1
+  softmax_frontier_eps: 0.001
+  softmax_lambda: 1.0
+  K_prior: 3
+  fixed_K: 3
+  random_seed: 42
+  cycle_length: 500
+
+analysis:
+  burn_in_fraction: 0.5
+  plot_dpi: 600
+  plot_figsize_global: [20, 15]
+  plot_figsize_assessor: [18, 13]
+  enable_profiling: true
+  output_dir: notebooks/outputs/hpo_agent_trace_analysis

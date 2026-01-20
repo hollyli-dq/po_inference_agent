@@ -1,0 +1,13 @@
+time,product,api,success,error
+13:49:20,VPC,DescribeVpcs,1,
+13:49:24,VPC,CreateVpc,1,
+13:49:30,VPC,CreateVSwitch,1,
+13:49:34,ECS,CreateSecurityGroup,1,
+13:49:39,ECS,AuthorizeSecurityGroup,1,
+13:49:43,ECS,RunInstances,1,
+13:49:47,SLB,CreateLoadBalancer,1,
+13:49:53,SLB,AddBackendServers,0,The parameter BackendServers must be a JSON string...
+13:49:57,SLB,AddBackendServers,1,
+13:50:01,SLB,CreateLoadBalancerHTTPListener,1,
+13:50:04,EIP,AllocateEipAddress,1,
+13:50:21,EIP,AssociateEipAddress,1,

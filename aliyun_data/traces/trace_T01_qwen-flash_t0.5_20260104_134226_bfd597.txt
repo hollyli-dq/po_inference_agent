@@ -1,0 +1,29 @@
+=== TRACE: trace_T01_qwen-flash_t0.5_20260104_134226_bfd597 ===
+TASK: 在杭州可用区H创建一个2核4G的ECS实例
+STATUS: success | MODE: explore | ACTIONS: 5
+DURATION: 34610ms | TOKENS: 26238
+
+--- ACTION SEQUENCE ---
+[01] ✓ 13:42:35 VPC.CreateVpc
+     IN: RegionId=cn-hangzhou, CidrBlock=172.16.0.0/12
+     OUT: RequestId=da21dc4e-2793-4ea8-b75a-0fbfac3bb725, VpcId=vpc-3f8f577e, VRouterId=vrt-c4916efa, RouteTableId=vtb-d7c61d4e, ResourceGroupId=
+[02] ✓ 13:42:38 VPC.CreateVSwitch
+     IN: VpcId=vpc-3f8f577e, ZoneId=cn-hangzhou-h, CidrBlock=172.16.0.0/24
+     OUT: RequestId=48e13631-8530-44fd-a1e8-cea7c332fd96, VSwitchId=vsw-589a6423
+[03] ✗ 13:42:47 ECS.DescribeSecurityGroups
+     IN: RegionId=cn-hangzhou
+     ERR: 任务未完成: 缺少资源: SecurityGroup(缺少SecurityGroupId), ECS(缺少InstanceIds); ECS数量不足(期望1台,实际0台)
+[04] ✓ 13:42:51 ECS.CreateSecurityGroup
+     IN: VpcId=vpc-3f8f577e, RegionId=cn-hangzhou
+     OUT: RequestId=e56877db-7e89-420f-85d5-fb65f82b416b, SecurityGroupId=sg-3cda4281
+[05] ✓ 13:42:56 ECS.RunInstances
+     IN: RegionId=cn-hangzhou, VSwitchId=vsw-589a6423, SecurityGroupId=sg-3cda4281, InstanceType=ecs.c6.large, ImageId=centos_7_9_x64_20G_alibase_20230816.vhd, Amount=1, SystemDiskCategory=cloud_essd, Syste...
+     OUT: RequestId=8524b867-d51f-434f-8fd8-5f91368f6a66, InstanceIdSets={'InstanceIdSet': ['i-d09d1c5e']}
+
+--- RESOURCES CREATED ---
+  VPC: VpcId=vpc-3f8f577e
+  VPC: VSwitchId=vsw-589a6423
+  ECS: SecurityGroupId=sg-3cda4281
+  ECS: InstanceIds=['i-d09d1c5e']
+
+=== END ===

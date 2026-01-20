@@ -1,0 +1,112 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db *.pdf
+*.png
+
+# Data files and checkpoints
+*.pkl
+*.npy
+*.npz
+
+# MCMC checkpoint directories
+**/checkpoints/
+**/results/
+mcmc_*_output/
+test_output/
+*_output/
+*checkpoint*.pkl
+checkpoint_*.pkl
+
+# Large data files
+*.RData
+*.zip
+
+# Generated data directories
+data/generated_data/
+data/3d_data/
+
+# MCMC output directories
+mcmc_3d_sound_output/
+mcmc_4d_sound_output/
+mcmc_sushi_output/
+
+# Test output directories
+tests/hpo_test_output/
+
+# Large optimization result files
+parameter_optimization_results_*.json
+optimized_*_profile.txt
+original_*_profile.txt
+
+# Animal dataset (excluded from repo)
+animal/
+
+# Installer files
+miniconda_installer.exe
+
+# Ghana output directories
+ghana_mcmc_output/
+ghana_split_merge_output/
+
+# Large datasets (exclude from repo, keep only wfcommons)
+aliyun_data/
+data/real_osworld_traces/
+data/parsed_real_analysis/
+notebooks/systematic_experiment_results/
+*.log

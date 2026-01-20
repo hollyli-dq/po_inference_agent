@@ -1,0 +1,43 @@
+=== TRACE: trace_T04_20260104_013035_c9b6eb ===
+TASK: 创建一个公网可访问的负载均衡架构：申请一个EIP弹性公网IP，绑定到SLB，SLB后端挂载一台ECS
+STATUS: success | MODE: expert | ACTIONS: 9
+DURATION: 3962ms | TOKENS: 0
+
+--- ACTION SEQUENCE ---
+[01] ✓ 01:30:39 VPC.CreateVpc
+     IN: RegionId=cn-hangzhou, CidrBlock=172.16.0.0/12
+     OUT: RequestId=6507a062-e6dd-44db-8bde-40d4e93b1954, VpcId=vpc-bdb1fe08, VRouterId=vrt-7a1a0c36, RouteTableId=vtb-34430fcb, ResourceGroupId=
+[02] ✓ 01:30:39 EIP.AllocateEipAddress
+     IN: RegionId=cn-hangzhou, Bandwidth=5, InternetChargeType=PayByTraffic
+     OUT: RequestId=64af11d4-48ce-409b-bc11-e4d04acb9ffb, AllocationId=eip-0ef319d0, EipAddress=72.6.136.146
+[03] ✓ 01:30:39 VPC.CreateVSwitch
+     IN: VpcId=vpc-bdb1fe08, ZoneId=cn-hangzhou-h, CidrBlock=172.16.0.0/12
+     OUT: RequestId=5093b17e-4d3b-45bc-9f79-24a778cad8f2, VSwitchId=vsw-48c56a1d
+[04] ✓ 01:30:39 ECS.CreateSecurityGroup
+     IN: VpcId=vpc-bdb1fe08, RegionId=cn-hangzhou
+     OUT: RequestId=031a81c0-21b6-46fa-bac8-850629ebd39f, SecurityGroupId=sg-d637923d
+[05] ✓ 01:30:39 ECS.AuthorizeSecurityGroup
+     IN: RegionId=cn-hangzhou, SecurityGroupId=sg-d637923d, IpProtocol=tcp, PortRange=80/80, SourceCidrIp=0.0.0.0/0
+     OUT: RequestId=856ec311-7770-42ca-a1c7-b7583b110660
+[06] ✓ 01:30:39 SLB.CreateLoadBalancer
+     IN: RegionId=cn-hangzhou, VSwitchId=vsw-48c56a1d, AddressType=intranet, LoadBalancerSpec=slb.s1.small
+     OUT: RequestId=affec316-1b45-48bf-ae75-4c285ca9946a, LoadBalancerId=lb-aef9c821, Address=192.168.1.100, LoadBalancerName=None, VpcId=None
+[07] ✓ 01:30:39 ECS.RunInstances
+     IN: RegionId=cn-hangzhou, VSwitchId=vsw-48c56a1d, SecurityGroupId=sg-d637923d, InstanceType=ecs.c6.large, ImageId=centos_7_9_x64_20G_alibase_20230816.vhd, Amount=1, SystemDiskCategory=cloud_essd, Syste...
+     OUT: RequestId=b5fc2db1-7f6e-4d41-9417-f79298fd5982, InstanceIdSets={'InstanceIdSet': ['i-a026403b']}
+[08] ✓ 01:30:39 EIP.AssociateEipAddress
+     IN: AllocationId=eip-0ef319d0, InstanceType=SlbInstance, InstanceId=lb-aef9c821
+     OUT: RequestId=a8127706-07f9-4691-80ac-582cb86f6cda
+[09] ✓ 01:30:39 SLB.AddBackendServers
+     IN: LoadBalancerId=lb-aef9c821, BackendServers=[{"ServerId": "i-a026403b", "Weight": 100}]
+     OUT: RequestId=d2d681fc-c126-4c94-b20e-ec407adf5b37, LoadBalancerId=lb-aef9c821, BackendServers={'BackendServer': [{'ServerId': 'i-a026403b', 'Weight': ...
+
+--- RESOURCES CREATED ---
+  VPC: VpcId=vpc-bdb1fe08
+  EIP: AllocationId=eip-0ef319d0, EipAddress=72.6.136.146
+  VPC: VSwitchId=vsw-48c56a1d
+  ECS: SecurityGroupId=sg-d637923d
+  SLB: LoadBalancerId=lb-aef9c821
+  ECS: InstanceIds=['i-a026403b']
+
+=== END ===

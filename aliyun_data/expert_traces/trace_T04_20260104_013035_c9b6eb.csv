@@ -1,0 +1,10 @@
+time,product,api,success,error
+01:30:39,VPC,CreateVpc,1,
+01:30:39,EIP,AllocateEipAddress,1,
+01:30:39,VPC,CreateVSwitch,1,
+01:30:39,ECS,CreateSecurityGroup,1,
+01:30:39,ECS,AuthorizeSecurityGroup,1,
+01:30:39,SLB,CreateLoadBalancer,1,
+01:30:39,ECS,RunInstances,1,
+01:30:39,EIP,AssociateEipAddress,1,
+01:30:39,SLB,AddBackendServers,1,

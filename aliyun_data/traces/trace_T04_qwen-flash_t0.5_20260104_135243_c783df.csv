@@ -1,0 +1,13 @@
+time,product,api,success,error
+13:52:55,ECS,DescribeAvailableResource,1,
+13:52:59,VPC,CreateVpc,1,
+13:53:04,VPC,CreateVSwitch,1,
+13:53:09,ECS,CreateSecurityGroup,1,
+13:53:30,ECS,DescribeInstances,0,"任务未完成: 缺少资源: ECS(缺少InstanceIds), SLB(缺少LoadBalance..."
+13:53:36,SLB,CreateLoadBalancer,1,
+13:53:39,EIP,AllocateEipAddress,1,
+13:53:43,EIP,AssociateEipAddress,1,
+13:53:54,ECS,DescribeInstances,0,"任务未完成: 缺少资源: ECS(缺少InstanceIds); ECS数量不足(期望1台,实际0台..."
+13:54:00,ECS,RunInstances,1,
+13:54:05,SLB,AddBackendServers,0,The parameter BackendServers must be a JSON string...
+13:54:11,SLB,AddBackendServers,1,

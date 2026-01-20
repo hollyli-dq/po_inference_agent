@@ -1,0 +1,11 @@
+time,product,api,success,error
+13:43:14,VPC,CreateVpc,1,
+13:43:19,VPC,CreateVSwitch,1,
+13:43:55,ECS,DescribeSecurityGroups,0,"任务未完成: 缺少资源: SecurityGroup(缺少SecurityGroupId), ECS..."
+13:44:37,ECS,CreateSecurityGroup,1,
+13:44:44,ECS,RunInstances,1,
+13:44:52,SLB,CreateLoadBalancer,1,
+13:45:01,SLB,AddBackendServers,0,The parameter BackendServers is not valid JSON.
+13:45:16,SLB,AddBackendServers,0,The parameter BackendServers must be a JSON string...
+13:45:46,ECS,DescribeDBInstances,0,任务未完成: 缺少资源: RDS(缺少DBInstanceId)
+13:45:58,RDS,CreateDBInstance,1,

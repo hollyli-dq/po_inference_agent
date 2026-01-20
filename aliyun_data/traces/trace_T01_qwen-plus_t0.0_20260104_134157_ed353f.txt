@@ -1,0 +1,26 @@
+=== TRACE: trace_T01_qwen-plus_t0.0_20260104_134157_ed353f ===
+TASK: 在杭州可用区H创建一个2核4G的ECS实例
+STATUS: success | MODE: explore | ACTIONS: 4
+DURATION: 32824ms | TOKENS: 20992
+
+--- ACTION SEQUENCE ---
+[01] ✓ 13:42:09 VPC.CreateVpc
+     IN: RegionId=cn-hangzhou, CidrBlock=172.16.0.0/12
+     OUT: RequestId=c34dac0a-c60a-4d37-988b-b013333104c8, VpcId=vpc-95174b17, VRouterId=vrt-533965a8, RouteTableId=vtb-3e8bbf2e, ResourceGroupId=
+[02] ✓ 13:42:14 VPC.CreateVSwitch
+     IN: VpcId=vpc-95174b17, ZoneId=cn-hangzhou-h, CidrBlock=172.16.0.0/24
+     OUT: RequestId=7f299855-81f3-4c42-a7d5-ebf144ce3dac, VSwitchId=vsw-191b4427
+[03] ✓ 13:42:18 ECS.CreateSecurityGroup
+     IN: VpcId=vpc-95174b17, RegionId=cn-hangzhou
+     OUT: RequestId=3598ff4f-6c0b-4e12-8c1c-433046b476aa, SecurityGroupId=sg-0fae3d47
+[04] ✓ 13:42:25 ECS.RunInstances
+     IN: RegionId=cn-hangzhou, VSwitchId=vsw-191b4427, SecurityGroupId=sg-0fae3d47, InstanceType=ecs.c6.large, ImageId=centos_7_9_x64_20G_alibase_20230816.vhd, Amount=1, SystemDiskCategory=cloud_essd, Syste...
+     OUT: RequestId=5e3b6392-e626-4747-8076-c77a6516832d, InstanceIdSets={'InstanceIdSet': ['i-007dbf20']}
+
+--- RESOURCES CREATED ---
+  VPC: VpcId=vpc-95174b17
+  VPC: VSwitchId=vsw-191b4427
+  ECS: SecurityGroupId=sg-0fae3d47
+  ECS: InstanceIds=['i-007dbf20']
+
+=== END ===

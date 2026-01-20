@@ -1,0 +1,93 @@
+Warning: pygraphviz not available. Graph visualization features will be limited.
+======================================================================
+UNCERTAINTY-AWARE EXECUTION ABLATION EXPERIMENT
+======================================================================
+Mode: FULL RUN
+Iterations: 1000000
+Likelihoods: ['log_successors_queue_jump', 'queue_jump']
+Confidence thresholds: [0.5  0.6  0.7  0.8  0.9  0.95 0.99]
+
+Loading data...
+trace_source: combined
+dual_zone_ecs_slb: traces=9
+dual_zone_ecs_slb_rds: traces=8
+eip_slb_ecs: traces=11
+simple_ecs: traces=11
+slb_ecs_rds: traces=10
+slb_ecs_redis: traces=11
+dual_zone_ecs_slb: added=5 crit_pairs=5 coverage=1.000 (target=1.0)
+dual_zone_ecs_slb_rds: added=6 crit_pairs=18 coverage=1.000 (target=1.0)
+eip_slb_ecs: added=12 crit_pairs=16 coverage=1.000 (target=1.0)
+simple_ecs: added=1 crit_pairs=2 coverage=1.000 (target=1.0)
+slb_ecs_rds: added=31 crit_pairs=32 coverage=1.000 (target=1.0)
+slb_ecs_redis: added=16 crit_pairs=15 coverage=1.000 (target=1.0)
+assessors: ['dual_zone_ecs_slb', 'dual_zone_ecs_slb_rds', 'eip_slb_ecs', 'simple_ecs', 'slb_ecs_rds', 'slb_ecs_redis']
+dual_zone_ecs_slb: observations=14, items=7
+dual_zone_ecs_slb_rds: observations=14, items=10
+eip_slb_ecs: observations=23, items=9
+simple_ecs: observations=12, items=5
+slb_ecs_rds: observations=41, items=12
+slb_ecs_redis: observations=27, items=9
+Subsampling to CP-Cov target 0.9...
+  dual_zone_ecs_slb: 3 traces, realized CP-Cov = 1.000
+  dual_zone_ecs_slb_rds: 6 traces, realized CP-Cov = 0.944
+  eip_slb_ecs: 3 traces, realized CP-Cov = 1.000
+  simple_ecs: 2 traces, realized CP-Cov = 1.000
+  slb_ecs_rds: 4 traces, realized CP-Cov = 0.906
+  slb_ecs_redis: 4 traces, realized CP-Cov = 0.933
+
+======================================================================
+RUNNING MCMC EXPERIMENTS
+======================================================================
+  Running ablation_log_successors_queue_jump with log_successors_queue_jump, 1000000 iterations...
+📊 Update Schedule Frequencies: {'U0': 89, 'Ua': 273, 'rho': 11, 'tau': 16, 'rho_tau': 11, 'noise': 11, 'K': 89}
+📋 Sequential update cycle length: 500
+Iteration 50000/1000000 - Accept Rate: 42.89%
+Iteration 100000/1000000 - Accept Rate: 40.58%
+Iteration 150000/1000000 - Accept Rate: 38.30%
+Iteration 200000/1000000 - Accept Rate: 36.52%
+Iteration 250000/1000000 - Accept Rate: 35.37%
+Iteration 300000/1000000 - Accept Rate: 34.39%
+Iteration 350000/1000000 - Accept Rate: 34.01%
+Iteration 400000/1000000 - Accept Rate: 33.76%
+Iteration 450000/1000000 - Accept Rate: 33.71%
+Iteration 500000/1000000 - Accept Rate: 33.57%
+Iteration 550000/1000000 - Accept Rate: 33.40%
+Iteration 600000/1000000 - Accept Rate: 33.66%
+Iteration 650000/1000000 - Accept Rate: 33.87%
+Iteration 700000/1000000 - Accept Rate: 33.78%
+Iteration 750000/1000000 - Accept Rate: 33.54%
+Iteration 800000/1000000 - Accept Rate: 33.31%
+Iteration 850000/1000000 - Accept Rate: 33.11%
+Iteration 900000/1000000 - Accept Rate: 32.94%
+Iteration 950000/1000000 - Accept Rate: 32.85%
+Iteration 1000000/1000000 - Accept Rate: 32.84%
+Progress: [========================================] 100.0%  (Iteration 1000000/1000000)
+  Saved results to /Users/dongqing/Desktop/hpo_inference_agent/notebooks/systematic_experiment_results/uncertainty_ablation/ablation_log_successors_queue_jump
+  Running ablation_queue_jump with queue_jump, 1000000 iterations...
+📊 Update Schedule Frequencies: {'U0': 89, 'Ua': 273, 'rho': 11, 'tau': 16, 'rho_tau': 11, 'noise': 11, 'K': 89}
+📋 Sequential update cycle length: 500
+✅ LinextDirect C++ library loaded: ./linext/liblinext.dylib
+Traceback (most recent call last):
+  File "/Users/dongqing/Desktop/hpo_inference_agent/notebooks/uncertainty_aware_execution_ablation.py", line 706, in <module>
+    main(quick=args.quick)
+    ~~~~^^^^^^^^^^^^^^^^^^
+  File "/Users/dongqing/Desktop/hpo_inference_agent/notebooks/uncertainty_aware_execution_ablation.py", line 577, in main
+    result = run_mcmc_experiment(
+        exp_name=exp_name,
+    ...<6 lines>...
+        seed=SEED_BASE,
+    )
+  File "/Users/dongqing/Desktop/hpo_inference_agent/notebooks/uncertainty_aware_execution_ablation.py", line 296, in run_mcmc_experiment
+    mcmc = mcmc_simulation_hpo_k_optim(
+        num_iterations=num_iterations,
+    ...<16 lines>...
+        softmax_beta_stepsize=0.1,
+    )
+  File "/Users/dongqing/Desktop/hpo_inference_agent/src/mcmc/hpo_po_hm_mcmc_k_optim.py", line 510, in mcmc_simulation_hpo_k_optim
+    log_llk_proposed = HPO_LogLikelihoodCache_Optimized.calculate_log_likelihood_hpo_noise_accelerated(
+        h_U=h_U,  # Reuse existing h_U - noise updates don't change structure
+    ...<7 lines>...
+        item_to_index=item_to_index  # Required for weighted_queue_jump
+    )
+TypeError: HPO_LogLikelihoodCache_Optimized.calculate_log_likelihood_hpo_noise_accelerated() got an unexpected keyword argument 'item_to_index'

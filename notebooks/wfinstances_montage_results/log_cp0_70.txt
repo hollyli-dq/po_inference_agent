@@ -1,0 +1,46 @@
+======================================================================
+WfInstances Montage Hierarchical Experiments
+======================================================================
+Instances (assessors): 2
+Traces per instance: 300
+MCMC iterations: 3,000,000
+CP-Cov targets: [0.7]
+Output: /Users/dongqing/Desktop/hpo_inference_agent/notebooks/wfinstances_montage_results
+
+Instance 1: montage-chameleon-2mass-005d-001.json
+  Tasks: 58, Edges: 90
+  Task types: 8, Depth: 8
+  Generating traces (target CP-Cov: 0.98)...
+  Targeted generation: 300 base + 24 targeted = 324 total, CP-Cov: 0.972
+  Final pool: 324 traces, CP-Cov: 0.972 (1169/1203 pairs)
+
+Instance 2: montage-chameleon-2mass-01d-001.json
+  Tasks: 103, Edges: 189
+  Task types: 8, Depth: 8
+  Generating traces (target CP-Cov: 0.98)...
+  Targeted generation: 300 base + 11 targeted = 311 total, CP-Cov: 0.913
+  Final pool: 311 traces, CP-Cov: 0.913 (3778/4137 pairs)
+
+######################################################################
+# Running 1 hierarchical experiments
+# (each with 2 assessors)
+# Estimated time: ~3 hours
+######################################################################
+
+[1/1] Starting CP-Cov=0.7...
+
+======================================================================
+Hierarchical Experiment | CP-Cov Target: 0.7
+======================================================================
+  Global task space: 145 tasks (16 shared between instances)
+  Assessor montage-chameleon-2mass-005d-001: 4 traces, CP-Cov: 0.719
+  Assessor montage-chameleon-2mass-01d-001: 6 traces, CP-Cov: 0.712
+
+  Running baselines...
+
+  Running MCMC (3,000,000 iterations) with 2 assessors...
+📊 Update Schedule Frequencies: {'U0': 165, 'Ua': 163, 'rho': 2, 'tau': 3, 'rho_tau': 2, 'noise': 2, 'K': 163}
+📋 Sequential update cycle length: 500
+Iteration 150000/3000000 - Accept Rate: 37.47%
+Iteration 300000/3000000 - Accept Rate: 36.38%
+Iteration 450000/3000000 - Accept Rate: 35.67%

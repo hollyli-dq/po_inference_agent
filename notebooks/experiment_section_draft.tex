@@ -1,0 +1,278 @@
+% ============================================================================
+% EXPERIMENT SECTION DRAFT - Cloud-IaC-6 Benchmark
+% ============================================================================
+
+\subsection{Aliyun Cloud Provisioning Experiments}
+\label{sec:aliyun_experiments}
+
+We evaluate BHPOP on the \textbf{Cloud-IaC-6} benchmark, comprising six Infrastructure-as-Code (IaC) deployment scenarios of increasing complexity. Ground-truth dependency graphs were manually specified by cloud architects and validated against Alibaba Cloud's resource provisioning constraints.
+
+\subsubsection{Experimental Setup}
+
+\paragraph{Dataset.} The Cloud-IaC-6 benchmark spans scenarios from simple single-instance deployments ($|V|=5$, $|E|=5$) to complex high-availability architectures with multiple availability zones ($|V|=12$, $|E|=14$). Traces were collected from production-style agents driven by heterogeneous LLMs (Qwen, DeepSeek, Kimi) with varied sampling temperatures to maximize trace diversity. We collected 54 successful traces across all scenarios, then augmented with synthetic linear extensions to achieve target critical-pair coverage levels.
+
+\paragraph{Experimental Grid.} We conduct a systematic sweep over:
+\begin{itemize}[nosep,leftmargin=*]
+    \item \textbf{Critical-Pair Coverage (CP-Cov)}: $\{0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0\}$
+    \item \textbf{Queue-jump probability} ($\epsilon_{\text{jump}}$): $\{0.001, 0.005, 0.01, 0.05, 0.1\}$
+\end{itemize}
+This yields 35 MCMC experiments, each running 1 million iterations with 50\% burn-in. We use the successor-utility likelihood ($Q_{\text{succ}}$) with softmax frontier selection.
+
+\paragraph{Baselines.} We compare against:
+\begin{itemize}[nosep,leftmargin=*]
+    \item \textbf{AND (Intersection)}: Infers edge $i \to j$ iff $i$ precedes $j$ in \emph{every} trace containing both.
+    \item \textbf{Majority}: Infers edge $i \to j$ iff $i$ precedes $j$ in $>50\%$ of traces, with cycle-breaking.
+    \item \textbf{Inductive Miner (IMf)}: Process mining algorithm using recursive log splitting~\citep{leemans2013discovering}.
+    \item \textbf{Heuristics Miner}: Frequency-based process discovery with dependency thresholds~\citep{weijters2006process}.
+\end{itemize}
+
+\paragraph{Metrics.} We report:
+\begin{itemize}[nosep,leftmargin=*]
+    \item \textbf{Cover F1}: Harmonic mean of precision and recall on Hasse diagram edges.
+    \item \textbf{SHD}: Structural Hamming Distance (edge additions + deletions).
+    \item \textbf{Feasibility}: Fraction of observed traces that remain valid linear extensions of the inferred poset.
+\end{itemize}
+
+% ============================================================================
+\subsubsection{Recovery Results}
+\label{sec:rq1_recovery}
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Structural recovery at full trace diversity (CP-Cov=1.0).} The AND baseline achieves perfect recovery when traces fully cover all critical pairs. BHPOP with the corrected posterior aggregation achieves comparable performance.}
+\label{tab:recovery_cpcov_1}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Method} & \textbf{Cover F1} & \textbf{SHD} & \textbf{Feasibility} \\
+\midrule
+AND (Intersection) & \textbf{1.000} $\pm$ 0.00 & \textbf{0.0} $\pm$ 0.0 & \textbf{1.00} $\pm$ 0.00 \\
+BHPOP (50K iters) & 0.935 $\pm$ 0.09 & 1.5 $\pm$ 1.9 & 0.98 $\pm$ 0.03 \\
+Majority & 0.518 $\pm$ 0.25 & 9.5 $\pm$ 5.7 & 0.22 $\pm$ 0.38 \\
+Heuristics Miner & 0.549 $\pm$ 0.12 & 8.3 $\pm$ 3.7 & 0.17 $\pm$ 0.20 \\
+Inductive Miner & 0.461 $\pm$ 0.16 & 10.7 $\pm$ 5.1 & 1.00 $\pm$ 0.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Perfect recovery is achievable with sufficient trace diversity.}
+Table~\ref{tab:recovery_cpcov_1} shows that when traces cover all critical pairs (CP-Cov=1.0), the AND baseline achieves \emph{perfect} structural recovery (F1=1.0, SHD=0) across all six scenarios. This validates the theoretical identifiability result: observing both orientations of every incomparable pair uniquely determines the true partial order.
+
+BHPOP with the posterior mean threshold aggregation (threshold=0.5) achieves near-perfect recovery (F1=0.935 averaged across scenarios), with three scenarios achieving F1=1.0. The remaining scenarios show minor edge discrepancies due to finite MCMC samples (50K iterations vs.\ 400K in the full notebook experiments).
+
+\paragraph{Trace diversity (CP-Cov) drives identifiability.}
+Figure~\ref{fig:cp_cov_sweep} shows recovery as a function of realized CP-Cov. Key findings:
+\begin{itemize}[nosep,leftmargin=*]
+    \item Cover F1 improves monotonically: $0.835 \to 1.000$ as CP-Cov increases from 0.5 to 1.0.
+    \item SHD drops from 3.8 to 0.0 with increasing diversity.
+    \item Feasibility remains high ($>0.94$) throughout, indicating conservative inference.
+\end{itemize}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.45\textwidth]{figures/aliyun/f1_vs_cpcov.pdf}
+\caption{\textbf{Trace diversity controls recoverability.} Cover F1 vs.\ realized CP-Cov at $\epsilon_{\text{jump}}=0.01$. The AND baseline achieves perfect recovery at CP-Cov=1.0.}
+\label{fig:cp_cov_sweep}
+\end{figure}
+
+\paragraph{Robustness to ordering noise ($\epsilon_{\text{jump}}$).}
+At high diversity (CP-Cov$\approx 1.0$), performance is stable across $\epsilon_{\text{jump}} \in [0.005, 0.1]$. The AND baseline achieves F1=1.0 regardless of the noise parameter, since it relies only on unanimous precedence evidence. BHPOP shows slight sensitivity at intermediate noise levels ($\epsilon=0.05$), but maintains F1$>0.9$ across all settings.
+
+% ============================================================================
+\subsubsection{Posterior Convergence Analysis}
+\label{sec:convergence}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.45\textwidth]{figures/aliyun/posterior_traces.pdf}
+\caption{\textbf{MCMC convergence diagnostics.} (Top) Log-likelihood trace showing rapid mixing after burn-in. (Bottom) Posterior distributions for key hyperparameters.}
+\label{fig:posterior_convergence}
+\end{figure}
+
+Figure~\ref{fig:posterior_convergence} shows convergence diagnostics from a representative experiment (50K iterations, CP-Cov=1.0, $\epsilon=0.01$):
+
+\paragraph{Log-likelihood.} The chain reaches stationarity within 10K iterations, with the burn-in period (25K iterations, marked by red dashed line) conservatively discarding transient samples.
+
+\paragraph{Softmax inverse temperature ($\beta$).} The posterior concentrates around $\beta \approx 1.5$--$2.0$, indicating moderate preference strength in the frontier selection model. Higher $\beta$ values imply agents tend to select actions with higher ``canonical'' priority, while lower values suggest more uniform random selection.
+
+\paragraph{Inferred parameters.}
+\begin{itemize}[nosep,leftmargin=*]
+    \item \textbf{Noise probability ($\rho$)}: Posterior mean $\approx 0.02$--$0.05$, indicating low noise in observed traces.
+    \item \textbf{Number of latent components ($K$)}: Posterior mode at $K=2$--$3$, suggesting the hierarchical structure captures scenario-specific variation.
+    \item \textbf{Concentration ($\tau$)}: Values around $1.0$ indicate moderate shrinkage toward the global partial order.
+\end{itemize}
+
+% ============================================================================
+\subsubsection{Baseline Comparison}
+\label{sec:baseline_comparison}
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Method comparison across all CP-Cov levels.} Aggregated performance over 168 experiment configurations (6 scenarios $\times$ 7 CP-Cov $\times$ 4 $\epsilon$).}
+\label{tab:method_comparison}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Method} & \textbf{Cover F1} & \textbf{SHD} & \textbf{Feasibility} \\
+\midrule
+AND (Intersection) & \textbf{0.929} $\pm$ 0.10 & \textbf{1.7} $\pm$ 2.4 & \textbf{0.97} $\pm$ 0.09 \\
+Majority & 0.624 $\pm$ 0.25 & 7.6 $\pm$ 5.2 & 0.44 $\pm$ 0.46 \\
+Heuristics Miner & 0.543 $\pm$ 0.12 & 8.6 $\pm$ 3.9 & 0.20 $\pm$ 0.22 \\
+Inductive Miner & 0.471 $\pm$ 0.17 & 11.1 $\pm$ 5.7 & 1.00 $\pm$ 0.00 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:method_comparison} summarizes performance across all experimental configurations:
+
+\paragraph{AND dominates at high diversity.} The intersection baseline achieves the best overall F1 (0.929) by being maximally conservative: it only infers edges with unanimous support. This works well when traces are diverse enough to cover all critical pairs, but may miss edges in low-diversity settings.
+
+\paragraph{Process mining baselines underperform.} Inductive Miner and Heuristics Miner, designed for general process discovery, achieve F1$<0.55$. These methods optimize for fitness and precision in Petri net semantics, which differs from the strict partial order structure we seek to recover.
+
+\paragraph{Feasibility as a diagnostic.} Inductive Miner achieves perfect feasibility (1.0) but low F1, indicating it infers an overly permissive structure (few edges). Conversely, Majority achieves higher F1 but lower feasibility (0.44), suggesting it over-constrains and rejects valid traces.
+
+% ============================================================================
+\subsubsection{Per-Scenario Analysis}
+\label{sec:per_scenario}
+
+\begin{table}[t]
+\centering
+\caption{\textbf{Per-scenario recovery at CP-Cov=1.0.} AND achieves perfect recovery on all scenarios.}
+\label{tab:per_scenario}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Scenario} & \textbf{$|V|$} & \textbf{$|E|$} & \textbf{AND F1} & \textbf{BHPOP F1} & \textbf{Maj. F1} \\
+\midrule
+simple\_ecs & 5 & 5 & 1.00 & 1.00 & 1.00 \\
+dual\_zone\_slb & 7 & 8 & 1.00 & 1.00 & 0.43 \\
+eip\_slb\_ecs & 9 & 10 & 1.00 & 1.00 & 0.63 \\
+slb\_ecs\_redis & 9 & 10 & 1.00 & 0.76 & 0.44 \\
+dual\_zone\_rds & 10 & 12 & 1.00 & 0.88 & 0.29 \\
+slb\_ecs\_rds & 12 & 14 & 1.00 & 0.97 & 0.32 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:per_scenario} reveals that scenario complexity (graph size) does not degrade AND baseline performance when CP-Cov=1.0 is achieved. However, BHPOP shows slight degradation on more complex scenarios (slb\_ecs\_redis: F1=0.76), likely due to insufficient MCMC iterations for larger state spaces.
+
+% ============================================================================
+% APPENDIX MATERIAL
+% ============================================================================
+
+\appendix
+\section{Additional Experimental Details}
+\label{app:experiment_details}
+
+\subsection{Cloud-IaC-6 Benchmark Scenarios}
+\label{app:scenarios}
+
+\begin{table}[h]
+\centering
+\caption{Cloud-IaC-6 benchmark scenario definitions.}
+\label{tab:aliyun_scenarios_full}
+\small
+\begin{tabular}{llccl}
+\toprule
+\textbf{ID} & \textbf{Scenario} & \textbf{$|V|$} & \textbf{$|E|$} & \textbf{Description} \\
+\midrule
+S1 & simple\_ecs & 5 & 5 & Basic ECS instance with VPC \\
+S2 & slb\_ecs\_rds & 12 & 14 & Load balancer + ECS + RDS \\
+S3 & slb\_ecs\_redis & 9 & 10 & Load balancer + ECS + Redis \\
+S4 & eip\_slb\_ecs & 9 & 10 & Elastic IP + SLB + ECS \\
+S5 & dual\_zone\_ecs\_slb & 7 & 8 & Dual-AZ ECS with SLB \\
+S6 & dual\_zone\_ecs\_slb\_rds & 10 & 12 & Dual-AZ with RDS backend \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Critical-Pair Coverage Analysis}
+\label{app:cpcov}
+
+Critical-pair coverage measures what fraction of incomparable pairs in the ground-truth poset have been observed in both orientations across the trace corpus:
+\begin{equation}
+\text{CP-Cov} = \frac{|\{(i,j) \in \mathcal{I} : \exists \sigma, \sigma' \text{ s.t. } i <_\sigma j \wedge j <_{\sigma'} i\}|}{|\mathcal{I}|}
+\end{equation}
+where $\mathcal{I}$ is the set of incomparable pairs in the true poset.
+
+\begin{table}[h]
+\centering
+\caption{Original trace statistics and CP-Cov before synthetic augmentation.}
+\label{tab:original_cpcov}
+\small
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Scenario} & \textbf{Traces} & \textbf{Crit. Pairs} & \textbf{Covered} & \textbf{CP-Cov} \\
+\midrule
+simple\_ecs & 10 & 2 & 0 & 0.000 \\
+slb\_ecs\_rds & 9 & 32 & 8 & 0.250 \\
+slb\_ecs\_redis & 10 & 15 & 8 & 0.533 \\
+eip\_slb\_ecs & 10 & 16 & 9 & 0.562 \\
+dual\_zone\_slb & 8 & 5 & 1 & 0.200 \\
+dual\_zone\_rds & 7 & 18 & 6 & 0.333 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The original traces have low CP-Cov (0.0--0.56), motivating our synthetic augmentation strategy using Kahn's algorithm to sample additional linear extensions until target coverage is achieved.
+
+\subsection{MCMC Hyperparameters}
+\label{app:mcmc_hyperparams}
+
+\begin{table}[h]
+\centering
+\caption{MCMC configuration for systematic experiments.}
+\label{tab:mcmc_config}
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Value} \\
+\midrule
+Iterations & 1,000,000 \\
+Burn-in fraction & 0.5 \\
+Thinning & 1 \\
+Cycle length & 500 \\
+$\rho$ prior & Exp(1.0) \\
+$K$ prior & Poisson(3) \\
+$\beta$ prior & Gamma(2.0, 1.0) \\
+$\beta$ step size & 0.1 \\
+Softmax $\lambda$ & 1.0 \\
+Decay rates (dr, drrt) & 0.95 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Posterior Aggregation}
+\label{app:posterior_agg}
+
+Given MCMC samples $\{H^{(t)}\}_{t=1}^T$ after burn-in, we compute the final point estimate via posterior mean thresholding:
+\begin{equation}
+\hat{H}_{ij} = \mathbf{1}\left[\frac{1}{T}\sum_{t=1}^T H^{(t)}_{ij} \geq 0.5\right]
+\end{equation}
+followed by transitive reduction to obtain the Hasse diagram (cover relation).
+
+This simple approach outperforms more complex marginal-mode estimators that first apply transitive closure to each sample, which inflates edge counts and degrades recovery accuracy.
+
+\subsection{Computational Cost}
+\label{app:compute}
+
+\begin{table}[h]
+\centering
+\caption{Computational requirements for systematic experiments.}
+\label{tab:compute}
+\small
+\begin{tabular}{ll}
+\toprule
+\textbf{Resource} & \textbf{Specification} \\
+\midrule
+Hardware & Apple M1 Pro, 16GB RAM \\
+Parallel workers & 8 \\
+Time per 1M-iter experiment & $\sim$50--60 minutes \\
+Total experiments & 35 \\
+Total wall-clock time & $\sim$4--5 hours \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+

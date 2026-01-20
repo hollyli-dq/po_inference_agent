@@ -1,0 +1,17 @@
+{
+  "config": {
+    "num_items": 8,
+    "num_assessors": 5,
+    "K": 2,
+    "rho_true": 0.3,
+    "tau_true": 0.7,
+    "min_choice_set_size": 2,
+    "max_choice_set_size": 6,
+    "trace_count": 20,
+    "betas": [
+      0.8,
+      1.5
+    ],
+    "epsilon": 0.01,
+    "random_seed": 42,
+    "output_dir": 

@@ -1,0 +1,129 @@
+version: 1
+default_action: "Other"
+use_raw_action_if_unmatched: false
+drop_unmatched: false
+ignore_patterns:
+  - "^click\\b"
+  - "^scroll\\b"
+  - "mouse\\b"
+  - "keypress\\b"
+  - "hover\\b"
+
+artifact_fields:
+  - observation
+  - result
+  - response
+  - output
+  - state
+  - fields
+  - form
+  - payload
+  - data
+  - inputs
+  - outputs
+
+task_patterns:
+  - task_match: "incident"
+    patterns:
+      - label: "Open Incident Form"
+        match:
+          - "open.*incident"
+          - "new.*incident"
+          - "create.*incident"
+      - label: "Fill Short Description"
+        match:
+          - "short description"
+          - "summary"
+      - label: "Assign Priority"
+        match:
+          - "priority"
+      - label: "Assign Group"
+        match:
+          - "assignment group"
+          - "assign.*group"
+      - label: "Submit Ticket"
+        match:
+          - "submit"
+          - "save"
+          - "create.*record"
+      - label: "Resolve Incident"
+        match:
+          - "resolve"
+          - "close incident"
+  - task_match: "service|request|catalog"
+    patterns:
+      - label: "Open Service Catalog"
+        match:
+          - "service catalog"
+          - "catalog"
+      - label: "Select Service Item"
+        match:
+          - "select.*item"
+          - "choose.*service"
+      - label: "Fill Request Details"
+        match:
+          - "fill.*request"
+          - "request details"
+          - "quantity"
+          - "variables"
+      - label: "Submit Request"
+        match:
+          - "submit"
+          - "checkout"
+          - "place order"
+      - label: "Approve Request"
+        match:
+          - "approve"
+          - "approval"
+  - task_match: "knowledge|kb|article"
+    patterns:
+      - label: "Search Knowledge Base"
+        match:
+          - "search.*knowledge"
+          - "kb search"
+      - label: "Open Article"
+        match:
+          - "open.*article"
+          - "view.*article"
+      - label: "Edit Article"
+        match:
+          - "edit.*article"
+          - "update.*article"
+      - label: "Publish Article"
+        match:
+          - "publish"
+          - "submit.*article"
+
+global_patterns:
+  - label: "Search Record"
+    match:
+      - "search"
+      - "lookup"
+      - "filter"
+  - label: "Open Form"
+    match:
+      - "open.*form"
+      - "new.*record"
+  - label: "Fill Form Fields"
+    match:
+      - "fill.*field"
+      - "set.*field"
+      - "update.*field"
+  - label: "Save Record"
+    match:
+      - "save"
+      - "submit"
+  - label: "Assign Owner"
+    match:
+      - "assign"
+      - "owner"
+      - "assignee"
+  - label: "Add Comment"
+    match:
+      - "comment"
+      - "note"
+  - label: "Close Record"
+    match:
+      - "close"
+      - "resolve"
+      - "complete"

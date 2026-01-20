@@ -1,0 +1,7 @@
+time,product,api,success,error
+13:42:06,ECS,DescribeAvailableResource,1,
+13:42:09,ECS,DescribeImages,1,
+13:42:15,VPC,CreateVpc,1,
+13:42:19,VPC,CreateVSwitch,1,
+13:42:22,ECS,CreateSecurityGroup,1,
+13:42:28,ECS,RunInstances,1,

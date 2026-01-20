@@ -1,0 +1,46 @@
+=== TRACE: trace_T06_20260104_013053_4fbcb1 ===
+TASK: 创建完整的高可用生产环境：双可用区部署两台ECS，创建SLB做负载均衡，并配置RDS MySQL主备高可用集群
+STATUS: success | MODE: expert | ACTIONS: 10
+DURATION: 3792ms | TOKENS: 0
+
+--- ACTION SEQUENCE ---
+[01] ✓ 01:30:56 VPC.CreateVpc
+     IN: RegionId=cn-hangzhou, CidrBlock=172.16.0.0/12
+     OUT: RequestId=2d2cb0c7-c854-4548-941e-3080cc6c0ae0, VpcId=vpc-90acff22, VRouterId=vrt-cb34466e, RouteTableId=vtb-b4611afc, ResourceGroupId=
+[02] ✓ 01:30:56 VPC.CreateVSwitch
+     IN: VpcId=vpc-90acff22, ZoneId=cn-hangzhou-h, CidrBlock=172.16.0.0/12
+     OUT: RequestId=b4bc9129-8a0c-4e43-b7fe-d20205c11bd4, VSwitchId=vsw-042c792e
+[03] ✓ 01:30:56 ECS.CreateSecurityGroup
+     IN: VpcId=vpc-90acff22, RegionId=cn-hangzhou
+     OUT: RequestId=14f56fe9-b085-47a1-a309-346343fd9f27, SecurityGroupId=sg-52dcdd6d
+[04] ✓ 01:30:56 ECS.AuthorizeSecurityGroup
+     IN: RegionId=cn-hangzhou, SecurityGroupId=sg-52dcdd6d, IpProtocol=tcp, PortRange=80/80, SourceCidrIp=0.0.0.0/0
+     OUT: RequestId=10ed561d-7ba4-43a8-98c7-8408968f6f8e
+[05] ✓ 01:30:56 SLB.CreateLoadBalancer
+     IN: RegionId=cn-hangzhou, VSwitchId=vsw-042c792e, AddressType=intranet, LoadBalancerSpec=slb.s1.small
+     OUT: RequestId=36a3fe9a-0ce3-43dc-b031-55a04f76063f, LoadBalancerId=lb-2f6fc203, Address=192.168.1.100, LoadBalancerName=None, VpcId=None
+[06] ✓ 01:30:56 RDS.CreateDBInstance
+     IN: RegionId=cn-hangzhou, Engine=MySQL, EngineVersion=8.0, DBInstanceClass=mysql.n2.medium.2c, DBInstanceStorage=20, DBInstanceNetType=Intranet, SecurityIPList=172.16.0.0/12, PayType=Postpaid, VpcId=vp...
+     OUT: RequestId=ae023aed-9dab-4c3f-ac65-eb9c9ab2c834, DBInstanceId=rm-3241319e, OrderId=762ba30a-8fa2-4942-b77c-6863422d3a61, ConnectionString=, Port=3306
+[07] ✓ 01:30:56 ECS.RunInstances
+     IN: RegionId=cn-hangzhou, VSwitchId=vsw-042c792e, SecurityGroupId=sg-52dcdd6d, InstanceType=ecs.c6.large, ImageId=centos_7_9_x64_20G_alibase_20230816.vhd, Amount=2, SystemDiskCategory=cloud_essd, Syste...
+     OUT: RequestId=b02da51e-cd97-4f86-99ce-d2225d78d81a, InstanceIdSets={'InstanceIdSet': ['i-2f80d204', 'i-377d3c2e']}
+[08] ✓ 01:30:56 RDS.CreateAccount
+     IN: DBInstanceId=rm-3241319e, AccountName=admin, AccountPassword=Admin@123456
+     OUT: RequestId=82773238-71cb-4b8a-9724-5346d3a69a8f
+[09] ✓ 01:30:56 SLB.AddBackendServers
+     IN: LoadBalancerId=lb-2f6fc203, BackendServers=[{"ServerId": "i-2f80d204", "Weight": 100}, {"ServerId": "i-377d3c2e", "Weight": 100}]
+     OUT: RequestId=9167115f-ca8e-4526-b516-c78d96d1856a, LoadBalancerId=lb-2f6fc203, BackendServers={BackendServer...}
+[10] ✓ 01:30:56 RDS.ModifySecurityIps
+     IN: DBInstanceId=rm-3241319e, SecurityIps=172.16.0.0/12
+     OUT: RequestId=169e921d-ecb4-4fb7-9c85-dc1095c16839
+
+--- RESOURCES CREATED ---
+  VPC: VpcId=vpc-90acff22
+  VPC: VSwitchId=vsw-042c792e
+  ECS: SecurityGroupId=sg-52dcdd6d
+  SLB: LoadBalancerId=lb-2f6fc203
+  RDS: DBInstanceId=rm-3241319e
+  ECS: InstanceIds=['i-2f80d204', 'i-377d3c2e']
+
+=== END ===

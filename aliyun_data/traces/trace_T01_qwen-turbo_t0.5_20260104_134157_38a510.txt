@@ -1,0 +1,32 @@
+=== TRACE: trace_T01_qwen-turbo_t0.5_20260104_134157_38a510 ===
+TASK: 在杭州可用区H创建一个2核4G的ECS实例
+STATUS: success | MODE: explore | ACTIONS: 6
+DURATION: 29081ms | TOKENS: 30660
+
+--- ACTION SEQUENCE ---
+[01] ✓ 13:42:05 VPC.DescribeVpcs
+     IN: RegionId=cn-hangzhou
+     OUT: RequestId=377bdf23-1233-40fe-b75c-acc74df86a98, TotalCount=0, Vpcs={'Vpc': []}
+[02] ✓ 13:42:08 VPC.CreateVpc
+     IN: RegionId=cn-hangzhou, CidrBlock=172.16.0.0/12
+     OUT: RequestId=47446de3-8459-498f-ad1a-a0845681534e, VpcId=vpc-9ccf0180, VRouterId=vrt-2c1462e3, RouteTableId=vtb-88dc085b, ResourceGroupId=
+[03] ✓ 13:42:12 VPC.CreateVSwitch
+     IN: VpcId=vpc-9ccf0180, ZoneId=cn-hangzhou-h, CidrBlock=172.16.0.0/24
+     OUT: RequestId=dfd663a8-0ced-4f7e-a296-d6542bed1f9c, VSwitchId=vsw-5652ddf9
+[04] ✓ 13:42:14 ECS.CreateSecurityGroup
+     IN: VpcId=vpc-9ccf0180, RegionId=cn-hangzhou, SecurityGroupName=ECS-SecurityGroup, Description=Security group for ECS instance
+     OUT: RequestId=49e59820-f862-40bf-b109-7c2bf233e53a, SecurityGroupId=sg-38b0cc5e
+[05] ✓ 13:42:17 ECS.AuthorizeSecurityGroup
+     IN: RegionId=cn-hangzhou, SecurityGroupId=sg-38b0cc5e, IpProtocol=tcp, PortRange=22/22, SourceCidrIp=0.0.0.0/0, Policy=accept
+     OUT: RequestId=a74efe7a-29ad-40f8-a19b-48734b5d8ac7
+[06] ✓ 13:42:21 ECS.RunInstances
+     IN: RegionId=cn-hangzhou, VSwitchId=vsw-5652ddf9, SecurityGroupId=sg-38b0cc5e, InstanceType=ecs.c6.large, ImageId=centos_7_9_x64_20G_alibase_20230816.vhd, Amount=1, SystemDiskCategory=cloud_essd, Syste...
+     OUT: RequestId=2b2d0290-fec6-4df2-9de0-edf8e3d824c9, InstanceIdSets={'InstanceIdSet': ['i-246b37bd']}
+
+--- RESOURCES CREATED ---
+  VPC: VpcId=vpc-9ccf0180
+  VPC: VSwitchId=vsw-5652ddf9
+  ECS: SecurityGroupId=sg-38b0cc5e
+  ECS: InstanceIds=['i-246b37bd']
+
+=== END ===

@@ -1,0 +1,12 @@
+time,product,api,success,error
+14:00:23,VPC,DescribeVpcs,1,
+14:00:43,ECS,DescribeVpcs,0,"任务未完成: 缺少资源: VPC(缺少VpcId), VSwitch(缺少VSwitchId), S..."
+14:00:50,VPC,CreateVpc,1,
+14:01:35,VPC,CreateVSwitch,1,
+14:01:41,VPC,CreateVSwitch,1,
+14:01:47,ECS,CreateSecurityGroup,1,
+14:01:59,ECS,RunInstances,1,
+14:02:04,SLB,CreateLoadBalancer,1,
+14:04:19,SLB,AddBackendServers,1,
+14:06:15,RDS,CreateDBInstance,1,
+14:06:21,ECS,AuthorizeSecurityGroup,1,

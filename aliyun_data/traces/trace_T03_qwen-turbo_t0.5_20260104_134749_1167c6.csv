@@ -1,0 +1,6 @@
+time,product,api,success,error
+13:48:02,VPC,CreateVpc,1,
+13:48:06,VPC,CreateVSwitch,1,
+13:48:08,ECS,CreateSecurityGroup,1,
+13:48:13,ECS,RunInstances,1,
+13:48:19,SLB,CreateLoadBalancer,1,

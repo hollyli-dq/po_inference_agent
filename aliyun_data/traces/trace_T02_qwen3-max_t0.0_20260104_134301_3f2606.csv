@@ -1,0 +1,10 @@
+time,product,api,success,error
+13:43:13,VPC,DescribeVpcs,1,
+13:43:18,VPC,CreateVpc,1,
+13:43:25,VPC,CreateVSwitch,1,
+13:43:30,ECS,CreateSecurityGroup,1,
+13:43:38,ECS,RunInstances,1,
+13:43:47,SLB,CreateLoadBalancer,1,
+13:43:52,SLB,AddBackendServers,1,
+13:44:01,RDS,CreateDBInstance,1,
+13:44:06,RDS,CreateAccount,1,

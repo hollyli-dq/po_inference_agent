@@ -1,0 +1,299 @@
+{
+  "run_time": "2026-01-04T01:30:57.342653",
+  "mode": "expert",
+  "features": [
+    "auto_intent_detection",
+    "auto_poset_selection",
+    "standard_params"
+  ],
+  "total_scenarios": 6,
+  "success_count": 6,
+  "failed_count": 0,
+  "exception_count": 0,
+  "total_actions": 52,
+  "total_duration_s": 52.43347191810608,
+  "total_llm_tokens": 3501,
+  "standard_params": {
+    "RegionId": "cn-hangzhou",
+    "ZoneId": "cn-hangzhou-h",
+    "ZoneIdSecondary": "cn-hangzhou-i",
+    "CidrBlock": "172.16.0.0/12",
+    "VSwitchCidrBlock": "172.16.0.0/24",
+    "VSwitchCidrBlockSecondary": "172.16.1.0/24",
+    "InstanceType": "ecs.c6.large",
+    "ImageId": "centos_7_9_x64_20G_alibase_20230816.vhd",
+    "SystemDiskCategory": "cloud_essd",
+    "SystemDiskSize": 40,
+    "InternetMaxBandwidthOut": 5,
+    "IpProtocol": "tcp",
+    "PortRange": "80/80",
+    "SourceCidrIp": "0.0.0.0/0",
+    "ListenerPort": 80,
+    "BackendServerPort": 80,
+    "ListenerProtocol": "http",
+    "DBInstanceClass": "mysql.n2.medium.2c",
+    "DBInstanceStorage": 20,
+    "Engine": "MySQL",
+    "EngineVersion": "8.0",
+    "DBInstanceNetType": "Intranet",
+    "SecurityIPList": "172.16.0.0/12",
+    "PayType": "Postpaid",
+    "DBInstanceStorageType": "cloud_essd",
+    "AccountName": "admin",
+    "AccountPassword": "Admin@123456",
+    "SecurityIps": "172.16.0.0/12",
+    "InstanceClass": "redis.master.mid.default",
+    "RedisEngine": "Redis",
+    "RedisEngineVersion": "7.0",
+    "ChargeType": "PostPaid",
+    "NetworkType": "VPC",
+    "AddressType": "intranet",
+    "LoadBalancerSpec": "slb.s1.small",
+    "Bandwidth": "5",
+    "InternetChargeType": "PayByTraffic"
+  },
+  "results": [
+    {
+      "scenario": "任务 1",
+      "intent_type": "simple_ecs",
+      "query": "在杭州可用区H创建一个2核4G的ECS实例",
+      "status": "success",
+      "mode_used": "expert",
+      "actions_executed": [
+        "CreateVpc",
+        "CreateVSwitch",
+        "CreateSecurityGroup",
+        "AuthorizeSecurityGroup",
+        "RunInstances"
+      ],
+      "actions_count": 5,
+      "resources_created": {
+        "VPC.VpcId": "vpc-b300b51c",
+        "VPC.VSwitchId": "vsw-21a4cdc2",
+        "ECS.SecurityGroupId": "sg-8b9b069c",
+        "ECS.InstanceIds": [
+          "i-a641ce68"
+        ],
+        "VpcId": "vpc-b300b51c",
+        "VSwitchId": "vsw-21a4cdc2",
+        "SecurityGroupId": "sg-8b9b069c",
+        "InstanceIds": [
+          "i-a641ce68"
+        ]
+      },
+      "trace_id": "trace_T01_20260104_013010_de8f09",
+      "duration_s": 3.486539840698242,
+      "llm_tokens": 563,
+      "error": null
+    },
+    {
+      "scenario": "任务 2",
+      "intent_type": "slb_ecs_rds",
+      "query": "创建一个完整的Web应用架构：包含一个SLB负载均衡器，后端挂载一台ECS服务器，并配置一个RDS MySQL数据库",
+      "status": "success",
+      "mode_used": "expert",
+      "actions_executed": [
+        "CreateVpc",
+        "CreateVSwitch",
+        "CreateSecurityGroup",
+        "AuthorizeSecurityGroup",
+        "CreateLoadBalancer",
+        "CreateDBInstance",
+        "RunInstances",
+        "CreateLoadBalancerHTTPListener",
+        "CreateAccount",
+        "StartLoadBalancerListener",
+        "AddBackendServers",
+        "ModifySecurityIps"
+      ],
+      "actions_count": 12,
+      "resources_created": {
+        "VPC.VpcId": "vpc-00ef5b8e",
+        "VPC.VSwitchId": "vsw-0585c762",
+        "ECS.SecurityGroupId": "sg-540e904b",
+        "SLB.LoadBalancerId": "lb-7f7ccd00",
+        "RDS.DBInstanceId": "rm-4e3bbb32",
+        "ECS.InstanceIds": [
+          "i-98efba4d"
+        ],
+        "VpcId": "vpc-00ef5b8e",
+        "VSwitchId": "vsw-0585c762",
+        "SecurityGroupId": "sg-540e904b",
+        "InstanceIds": [
+          "i-98efba4d"
+        ],
+        "LoadBalancerId": "lb-7f7ccd00",
+        "DBInstanceId": "rm-4e3bbb32"
+      },
+      "trace_id": "trace_T02_20260104_013018_76f536",
+      "duration_s": 4.21799111366272,
+      "llm_tokens": 589,
+      "error": null
+    },
+    {
+      "scenario": "任务 3",
+      "intent_type": "slb_ecs_redis",
+      "query": "搭建一个带缓存的Web服务：创建SLB负载均衡、一台ECS实例、以及Redis缓存实例",
+      "status": "success",
+      "mode_used": "expert",
+      "actions_executed": [
+        "CreateVpc",
+        "CreateVSwitch",
+        "CreateSecurityGroup",
+        "AuthorizeSecurityGroup",
+        "CreateLoadBalancer",
+        "CreateInstance",
+        "RunInstances",
+        "DescribeInstanceAttribute",
+        "AddBackendServers"
+      ],
+      "actions_count": 9,
+      "resources_created": {
+        "VPC.VpcId": "vpc-5152fb51",
+        "VPC.VSwitchId": "vsw-d61b9df6",
+        "ECS.SecurityGroupId": "sg-4c4566ab",
+        "SLB.LoadBalancerId": "lb-6fa95f83",
+        "REDIS.InstanceId": "r-kvstore-2a09bedc",
+        "ECS.InstanceIds": [
+          "i-609fdfe0"
+        ],
+        "VpcId": "vpc-5152fb51",
+        "VSwitchId": "vsw-d61b9df6",
+        "SecurityGroupId": "sg-4c4566ab",
+        "InstanceIds": [
+          "i-609fdfe0"
+        ],
+        "LoadBalancerId": "lb-6fa95f83"
+      },
+      "trace_id": "trace_T03_20260104_013026_872bd2",
+      "duration_s": 4.117383003234863,
+      "llm_tokens": 583,
+      "error": null
+    },
+    {
+      "scenario": "任务 4",
+      "intent_type": "eip_slb_ecs",
+      "query": "创建一个公网可访问的负载均衡架构：申请一个EIP弹性公网IP，绑定到SLB，SLB后端挂载一台ECS",
+      "status": "success",
+      "mode_used": "expert",
+      "actions_executed": [
+        "CreateVpc",
+        "AllocateEipAddress",
+        "CreateVSwitch",
+        "CreateSecurityGroup",
+        "AuthorizeSecurityGroup",
+        "CreateLoadBalancer",
+        "RunInstances",
+        "AssociateEipAddress",
+        "AddBackendServers"
+      ],
+      "actions_count": 9,
+      "resources_created": {
+        "VPC.VpcId": "vpc-bdb1fe08",
+        "EIP.AllocationId": "eip-0ef319d0",
+        "EIP.EipAddress": "72.6.136.146",
+        "VPC.VSwitchId": "vsw-48c56a1d",
+        "ECS.SecurityGroupId": "sg-d637923d",
+        "SLB.LoadBalancerId": "lb-aef9c821",
+        "ECS.InstanceIds": [
+          "i-a026403b"
+        ],
+        "VpcId": "vpc-bdb1fe08",
+        "VSwitchId": "vsw-48c56a1d",
+        "SecurityGroupId": "sg-d637923d",
+        "InstanceIds": [
+          "i-a026403b"
+        ],
+        "LoadBalancerId": "lb-aef9c821",
+        "AllocationId": "eip-0ef319d0"
+      },
+      "trace_id": "trace_T04_20260104_013035_c9b6eb",
+      "duration_s": 3.96543288230896,
+      "llm_tokens": 583,
+      "error": null
+    },
+    {
+      "scenario": "任务 5",
+      "intent_type": "dual_zone_ecs_slb",
+      "query": "创建高可用架构：在杭州的两个不同可用区各创建一台ECS实例，并创建一个SLB将这两台ECS作为后端服务器",
+      "status": "success",
+      "mode_used": "expert",
+      "actions_executed": [
+        "CreateVpc",
+        "CreateVSwitch",
+        "CreateSecurityGroup",
+        "AuthorizeSecurityGroup",
+        "CreateLoadBalancer",
+        "RunInstances",
+        "AddBackendServers"
+      ],
+      "actions_count": 7,
+      "resources_created": {
+        "VPC.VpcId": "vpc-ec0438b9",
+        "VPC.VSwitchId": "vsw-57a3b623",
+        "ECS.SecurityGroupId": "sg-737f0c64",
+        "SLB.LoadBalancerId": "lb-b61a73ce",
+        "ECS.InstanceIds": [
+          "i-17b8d724",
+          "i-b039bf4c"
+        ],
+        "VpcId": "vpc-ec0438b9",
+        "VSwitchId": "vsw-57a3b623",
+        "SecurityGroupId": "sg-737f0c64",
+        "InstanceIds": [
+          "i-17b8d724",
+          "i-b039bf4c"
+        ],
+        "LoadBalancerId": "lb-b61a73ce"
+      },
+      "trace_id": "trace_T05_20260104_013044_6e4077",
+      "duration_s": 3.9479119777679443,
+      "llm_tokens": 584,
+      "error": null
+    },
+    {
+      "scenario": "任务 6",
+      "intent_type": "dual_zone_ecs_slb_rds",
+      "query": "创建完整的高可用生产环境：双可用区部署两台ECS，创建SLB做负载均衡，并配置RDS MySQL主备高可用集群",
+      "status": "success",
+      "mode_used": "expert",
+      "actions_executed": [
+        "CreateVpc",
+        "CreateVSwitch",
+        "CreateSecurityGroup",
+        "AuthorizeSecurityGroup",
+        "CreateLoadBalancer",
+        "CreateDBInstance",
+        "RunInstances",
+        "CreateAccount",
+        "AddBackendServers",
+        "ModifySecurityIps"
+      ],
+      "actions_count": 10,
+      "resources_created": {
+        "VPC.VpcId": "vpc-90acff22",
+        "VPC.VSwitchId": "vsw-042c792e",
+        "ECS.SecurityGroupId": "sg-52dcdd6d",
+        "SLB.LoadBalancerId": "lb-2f6fc203",
+        "RDS.DBInstanceId": "rm-3241319e",
+        "ECS.InstanceIds": [
+          "i-2f80d204",
+          "i-377d3c2e"
+        ],
+        "VpcId": "vpc-90acff22",
+        "VSwitchId": "vsw-042c792e",
+        "SecurityGroupId": "sg-52dcdd6d",
+        "InstanceIds": [
+          "i-2f80d204",
+          "i-377d3c2e"
+        ],
+        "LoadBalancerId": "lb-2f6fc203",
+        "DBInstanceId": "rm-3241319e"
+      },
+      "trace_id": "trace_T06_20260104_013053_4fbcb1",
+      "duration_s": 3.7965471744537354,
+      "llm_tokens": 599,
+      "error": null
+    }
+  ]
+}

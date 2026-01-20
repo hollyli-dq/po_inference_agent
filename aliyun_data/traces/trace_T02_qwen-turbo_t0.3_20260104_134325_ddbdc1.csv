@@ -1,0 +1,9 @@
+time,product,api,success,error
+13:43:35,VPC,CreateVpc,1,
+13:43:39,VPC,CreateVSwitch,1,
+13:43:42,ECS,CreateSecurityGroup,1,
+13:43:46,ECS,RunInstances,1,
+13:43:52,RDS,CreateDBInstance,1,
+13:44:02,ECS,DescribeLoadBalancers,0,任务未完成: 缺少资源: SLB(缺少LoadBalancerId)
+13:44:06,SLB,CreateLoadBalancer,1,
+13:44:09,SLB,AddBackendServers,1,

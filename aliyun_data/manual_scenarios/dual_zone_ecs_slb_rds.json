@@ -1,0 +1,54 @@
+{
+  "name": "Dual Zone ECS + SLB + RDS",
+  "description": "Production HA: Dual zone ECS, SLB, and RDS HA.",
+  "edges": [
+    [
+      "CreateVpc",
+      "CreateVSwitch"
+    ],
+    [
+      "CreateVpc",
+      "CreateSecurityGroup"
+    ],
+    [
+      "CreateSecurityGroup",
+      "AuthorizeSecurityGroup"
+    ],
+    [
+      "CreateVSwitch",
+      "RunInstances"
+    ],
+    [
+      "AuthorizeSecurityGroup",
+      "RunInstances"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateLoadBalancer"
+    ],
+    [
+      "RunInstances",
+      "AddBackendServers"
+    ],
+    [
+      "CreateLoadBalancer",
+      "AddBackendServers"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateDBInstance"
+    ],
+    [
+      "CreateDBInstance",
+      "CreateAccount"
+    ],
+    [
+      "CreateDBInstance",
+      "ModifySecurityIps"
+    ],
+    [
+      "RunInstances",
+      "ModifySecurityIps"
+    ]
+  ]
+}

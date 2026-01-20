@@ -1,0 +1,12 @@
+time,product,api,success,error
+13:59:57,VPC,CreateVpc,1,
+14:00:00,VPC,CreateVSwitch,1,
+14:01:55,VPC,CreateVSwitch,1,
+14:02:05,ECS,CreateSecurityGroup,1,
+14:02:29,ECS,DescribeInstances,0,"任务未完成: 缺少资源: ECS(缺少InstanceIds), SLB(缺少LoadBalance..."
+14:02:34,ECS,RunInstances,1,
+14:02:41,SLB,CreateLoadBalancer,1,
+14:02:47,SLB,CreateLoadBalancerHTTPListener,1,
+14:02:52,SLB,AddBackendServers,1,
+14:02:58,RDS,DescribeAvailableZones,1,
+14:03:05,RDS,CreateDBInstance,1,

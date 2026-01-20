@@ -1,0 +1,6 @@
+time,product,api,success,error
+01:30:14,VPC,CreateVpc,1,
+01:30:14,VPC,CreateVSwitch,1,
+01:30:14,ECS,CreateSecurityGroup,1,
+01:30:14,ECS,AuthorizeSecurityGroup,1,
+01:30:14,ECS,RunInstances,1,

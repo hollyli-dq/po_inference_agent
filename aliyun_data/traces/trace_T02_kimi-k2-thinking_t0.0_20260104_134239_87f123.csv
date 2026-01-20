@@ -1,0 +1,15 @@
+time,product,api,success,error
+13:43:02,ECS,DescribeAvailableResource,1,
+13:43:14,VPC,DescribeVpcs,1,
+13:44:43,VPC,CreateVpc,1,
+13:48:24,ECS,DescribeVSwitches,0,"任务未完成: 缺少资源: VSwitch(缺少VSwitchId), SecurityGroup(缺..."
+13:48:33,VPC,CreateVSwitch,1,
+13:48:44,ECS,CreateSecurityGroup,1,
+13:48:59,ECS,RunInstances,1,
+13:49:23,SLB,CreateLoadBalancer,1,
+13:50:09,ECS,DescribeDBInstances,0,任务未完成: 缺少资源: RDS(缺少DBInstanceId)
+13:50:38,SLB,AddBackendServers,1,
+13:51:03,RDS,CreateDBInstance,1,
+13:51:29,RDS,CreateAccount,1,
+13:51:43,SLB,StartLoadBalancerListener,0,Listener not found
+13:51:59,SLB,CreateLoadBalancerHTTPListener,1,

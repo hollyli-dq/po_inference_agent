@@ -1,0 +1,2196 @@
+{
+    "name": "Montage-synthetic-instance",
+    "description": "Instance generated with WfCommons - https://wfcommons.org",
+    "createdAt": "2026-01-18T00:21:41.627379+00:00",
+    "schemaVersion": "1.5",
+    "author": {
+        "name": "dongqing",
+        "email": "support@wfcommons.org"
+    },
+    "workflow": {
+        "specification": {
+            "tasks": [
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000059",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000063",
+                        "mDiffFit_00000064",
+                        "mDiffFit_00000065",
+                        "mBackground_00000071"
+                    ],
+                    "inputFiles": [
+                        "4b1efcaa-32fe-4a07-8315-51a3c266f902.fits",
+                        "95f7d0d0-ee63-4569-9992-3e3bacd7ffd5.hdr"
+                    ],
+                    "outputFiles": [
+                        "151ab418-4cc4-479f-bae6-9bd70c0e06f5.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000060",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000063",
+                        "mDiffFit_00000066",
+                        "mDiffFit_00000067",
+                        "mBackground_00000072"
+                    ],
+                    "inputFiles": [
+                        "4628bf0e-6888-4b4d-a51d-d2dc4d6ed6d7.fits",
+                        "773c66a3-13b1-40aa-a3ca-032bf3d3d2a8.hdr"
+                    ],
+                    "outputFiles": [
+                        "54a0418a-aa72-4878-b853-99eaead2674e.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000061",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000064",
+                        "mDiffFit_00000066",
+                        "mDiffFit_00000068",
+                        "mBackground_00000073"
+                    ],
+                    "inputFiles": [
+                        "b5ea141d-5ef3-4c38-bfa7-3595b4e34a80.fits",
+                        "93720e25-ac0c-4bcd-8799-e6aeffb39129.hdr"
+                    ],
+                    "outputFiles": [
+                        "fbbcea98-f6f3-4f43-ba32-5070216bcd25.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000062",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000065",
+                        "mDiffFit_00000067",
+                        "mDiffFit_00000068",
+                        "mBackground_00000074"
+                    ],
+                    "inputFiles": [
+                        "403cdb81-583c-4c17-badc-1965d3cc5aef.fits",
+                        "82dba51b-f172-46c4-b4d7-a1c69ae649aa.hdr"
+                    ],
+                    "outputFiles": [
+                        "eee50f7c-4c8e-41d6-a46f-0fbc746a4ba3.fits"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000063",
+                    "parents": [
+                        "mProject_00000059",
+                        "mProject_00000060"
+                    ],
+                    "children": [
+                        "mConcatFit_00000069"
+                    ],
+                    "inputFiles": [
+                        "151ab418-4cc4-479f-bae6-9bd70c0e06f5.fits",
+                        "54a0418a-aa72-4878-b853-99eaead2674e.fits",
+                        "9b5dda85-49ba-4ed8-9f33-516a26910ccd.hdr"
+                    ],
+                    "outputFiles": [
+                        "f9b2dba9-6b20-4ddb-b144-56a3d6e378ce.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000064",
+                    "parents": [
+                        "mProject_00000059",
+                        "mProject_00000061"
+                    ],
+                    "children": [
+                        "mConcatFit_00000069"
+                    ],
+                    "inputFiles": [
+                        "151ab418-4cc4-479f-bae6-9bd70c0e06f5.fits",
+                        "fbbcea98-f6f3-4f43-ba32-5070216bcd25.fits",
+                        "8e0c4e96-9eb3-43f7-a946-a6ab1dd4eb77.hdr"
+                    ],
+                    "outputFiles": [
+                        "cec6c02b-18ce-4e4d-b393-89a84acec219.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000065",
+                    "parents": [
+                        "mProject_00000059",
+                        "mProject_00000062"
+                    ],
+                    "children": [
+                        "mConcatFit_00000069"
+                    ],
+                    "inputFiles": [
+                        "151ab418-4cc4-479f-bae6-9bd70c0e06f5.fits",
+                        "eee50f7c-4c8e-41d6-a46f-0fbc746a4ba3.fits",
+                        "b56a974b-1ff1-4cea-a688-f9d6d3318b08.hdr"
+                    ],
+                    "outputFiles": [
+                        "8b4ccab7-c312-4a54-adb3-83ca263a6fc1.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000066",
+                    "parents": [
+                        "mProject_00000060",
+                        "mProject_00000061"
+                    ],
+                    "children": [
+                        "mConcatFit_00000069"
+                    ],
+                    "inputFiles": [
+                        "54a0418a-aa72-4878-b853-99eaead2674e.fits",
+                        "fbbcea98-f6f3-4f43-ba32-5070216bcd25.fits",
+                        "76048c5c-c77d-4229-96c9-663ca01576fb.hdr"
+                    ],
+                    "outputFiles": [
+                        "af3c90de-2449-43f7-8519-770a04ddf299.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000067",
+                    "parents": [
+                        "mProject_00000060",
+                        "mProject_00000062"
+                    ],
+                    "children": [
+                        "mConcatFit_00000069"
+                    ],
+                    "inputFiles": [
+                        "54a0418a-aa72-4878-b853-99eaead2674e.fits",
+                        "eee50f7c-4c8e-41d6-a46f-0fbc746a4ba3.fits",
+                        "054e9d04-e500-4178-b5b5-3501e5cee22c.hdr"
+                    ],
+                    "outputFiles": [
+                        "2d949a39-b217-4f80-831c-97d5f135e8c7.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000068",
+                    "parents": [
+                        "mProject_00000061",
+                        "mProject_00000062"
+                    ],
+                    "children": [
+                        "mConcatFit_00000069"
+                    ],
+                    "inputFiles": [
+                        "fbbcea98-f6f3-4f43-ba32-5070216bcd25.fits",
+                        "eee50f7c-4c8e-41d6-a46f-0fbc746a4ba3.fits",
+                        "4469db5b-c4b1-412e-a409-26858f5933c7.hdr"
+                    ],
+                    "outputFiles": [
+                        "2b9fc599-edec-468f-80a6-312d7e67fb22.txt"
+                    ]
+                },
+                {
+                    "name": "mConcatFit",
+                    "id": "mConcatFit_00000069",
+                    "parents": [
+                        "mDiffFit_00000063",
+                        "mDiffFit_00000064",
+                        "mDiffFit_00000065",
+                        "mDiffFit_00000066",
+                        "mDiffFit_00000067",
+                        "mDiffFit_00000068"
+                    ],
+                    "children": [
+                        "mBgModel_00000070"
+                    ],
+                    "inputFiles": [
+                        "f9b2dba9-6b20-4ddb-b144-56a3d6e378ce.txt",
+                        "cec6c02b-18ce-4e4d-b393-89a84acec219.txt",
+                        "8b4ccab7-c312-4a54-adb3-83ca263a6fc1.txt",
+                        "af3c90de-2449-43f7-8519-770a04ddf299.txt",
+                        "2d949a39-b217-4f80-831c-97d5f135e8c7.txt",
+                        "2b9fc599-edec-468f-80a6-312d7e67fb22.txt",
+                        "d97d9efe-813c-4140-9f4f-476c43d40bd1.tbl"
+                    ],
+                    "outputFiles": [
+                        "d167c3b6-d317-4046-9acb-20e1515092a7.tbl"
+                    ]
+                },
+                {
+                    "name": "mBgModel",
+                    "id": "mBgModel_00000070",
+                    "parents": [
+                        "mConcatFit_00000069"
+                    ],
+                    "children": [
+                        "mBackground_00000071",
+                        "mBackground_00000072",
+                        "mBackground_00000073",
+                        "mBackground_00000074"
+                    ],
+                    "inputFiles": [
+                        "d167c3b6-d317-4046-9acb-20e1515092a7.tbl"
+                    ],
+                    "outputFiles": [
+                        "bfcf1b5b-8fe4-435f-81cd-c73b51e2033c.tbl"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000071",
+                    "parents": [
+                        "mProject_00000059",
+                        "mBgModel_00000070"
+                    ],
+                    "children": [
+                        "mImgtbl_00000075",
+                        "mAdd_00000076"
+                    ],
+                    "inputFiles": [
+                        "151ab418-4cc4-479f-bae6-9bd70c0e06f5.fits",
+                        "bfcf1b5b-8fe4-435f-81cd-c73b51e2033c.tbl"
+                    ],
+                    "outputFiles": [
+                        "923e099e-ef09-45b9-880f-c523f0e5c08b.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000072",
+                    "parents": [
+                        "mProject_00000060",
+                        "mBgModel_00000070"
+                    ],
+                    "children": [
+                        "mImgtbl_00000075",
+                        "mAdd_00000076"
+                    ],
+                    "inputFiles": [
+                        "54a0418a-aa72-4878-b853-99eaead2674e.fits",
+                        "bfcf1b5b-8fe4-435f-81cd-c73b51e2033c.tbl"
+                    ],
+                    "outputFiles": [
+                        "62385efb-8f6a-4764-8464-0a0eed71670c.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000073",
+                    "parents": [
+                        "mProject_00000061",
+                        "mBgModel_00000070"
+                    ],
+                    "children": [
+                        "mImgtbl_00000075",
+                        "mAdd_00000076"
+                    ],
+                    "inputFiles": [
+                        "fbbcea98-f6f3-4f43-ba32-5070216bcd25.fits",
+                        "bfcf1b5b-8fe4-435f-81cd-c73b51e2033c.tbl"
+                    ],
+                    "outputFiles": [
+                        "52bc6d2f-583d-4e13-8260-35e48b0cec39.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000074",
+                    "parents": [
+                        "mProject_00000062",
+                        "mBgModel_00000070"
+                    ],
+                    "children": [
+                        "mImgtbl_00000075",
+                        "mAdd_00000076"
+                    ],
+                    "inputFiles": [
+                        "eee50f7c-4c8e-41d6-a46f-0fbc746a4ba3.fits",
+                        "bfcf1b5b-8fe4-435f-81cd-c73b51e2033c.tbl"
+                    ],
+                    "outputFiles": [
+                        "0bb0aa52-5d8f-4f5a-be20-1d79623e2cc1.fits"
+                    ]
+                },
+                {
+                    "name": "mImgtbl",
+                    "id": "mImgtbl_00000075",
+                    "parents": [
+                        "mBackground_00000071",
+                        "mBackground_00000072",
+                        "mBackground_00000073",
+                        "mBackground_00000074"
+                    ],
+                    "children": [
+                        "mAdd_00000076"
+                    ],
+                    "inputFiles": [
+                        "923e099e-ef09-45b9-880f-c523f0e5c08b.fits",
+                        "62385efb-8f6a-4764-8464-0a0eed71670c.fits",
+                        "52bc6d2f-583d-4e13-8260-35e48b0cec39.fits",
+                        "0bb0aa52-5d8f-4f5a-be20-1d79623e2cc1.fits",
+                        "38c3dba8-4cea-4e98-a86c-9391d1c0bf53.tbl"
+                    ],
+                    "outputFiles": [
+                        "a847398a-2438-45eb-b267-96c7d942566a.tbl"
+                    ]
+                },
+                {
+                    "name": "mAdd",
+                    "id": "mAdd_00000076",
+                    "parents": [
+                        "mBackground_00000071",
+                        "mBackground_00000072",
+                        "mBackground_00000073",
+                        "mBackground_00000074",
+                        "mImgtbl_00000075"
+                    ],
+                    "children": [
+                        "mViewer_00000077",
+                        "mViewer_00000116"
+                    ],
+                    "inputFiles": [
+                        "923e099e-ef09-45b9-880f-c523f0e5c08b.fits",
+                        "62385efb-8f6a-4764-8464-0a0eed71670c.fits",
+                        "52bc6d2f-583d-4e13-8260-35e48b0cec39.fits",
+                        "0bb0aa52-5d8f-4f5a-be20-1d79623e2cc1.fits",
+                        "a847398a-2438-45eb-b267-96c7d942566a.tbl",
+                        "375ecce8-2323-494f-836c-56d28ac93a43.hdr"
+                    ],
+                    "outputFiles": [
+                        "11313cbb-8c99-49d1-94e9-5781c23d45fb.fits"
+                    ]
+                },
+                {
+                    "name": "mViewer",
+                    "id": "mViewer_00000077",
+                    "parents": [
+                        "mAdd_00000076"
+                    ],
+                    "children": [],
+                    "inputFiles": [
+                        "11313cbb-8c99-49d1-94e9-5781c23d45fb.fits"
+                    ],
+                    "outputFiles": [
+                        "eff2abe5-b763-454d-898d-64218f19c04b.jpg",
+                        "48dfe32d-7d23-4c78-972a-abc904d34f76.png"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000078",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000082",
+                        "mDiffFit_00000083",
+                        "mDiffFit_00000084",
+                        "mBackground_00000090"
+                    ],
+                    "inputFiles": [
+                        "e3908291-507d-45ae-85dd-603f18e68658.fits",
+                        "01976aae-565b-48a0-ba93-0f1436a48a9a.hdr"
+                    ],
+                    "outputFiles": [
+                        "9c682711-3822-4198-b557-7e622d6f6309.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000079",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000082",
+                        "mDiffFit_00000085",
+                        "mDiffFit_00000086",
+                        "mBackground_00000091"
+                    ],
+                    "inputFiles": [
+                        "852202d5-ed7b-4092-a077-82834da9df47.fits",
+                        "14661079-2784-4ed7-9394-bf0610160e28.hdr"
+                    ],
+                    "outputFiles": [
+                        "1f823488-2207-4b85-85c1-875b1be014c3.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000080",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000083",
+                        "mDiffFit_00000085",
+                        "mDiffFit_00000087",
+                        "mBackground_00000092"
+                    ],
+                    "inputFiles": [
+                        "fc34b035-aa41-46b6-8c71-1fb51c5e3024.fits",
+                        "ed3fbc10-f4b1-4de3-a3ad-958ec055e872.hdr"
+                    ],
+                    "outputFiles": [
+                        "1777a326-3799-4c3b-8941-69ce99d0f481.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000081",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000084",
+                        "mDiffFit_00000086",
+                        "mDiffFit_00000087",
+                        "mBackground_00000093"
+                    ],
+                    "inputFiles": [
+                        "cd4df2ce-21ea-4190-8ac8-3fe26f7fba85.fits",
+                        "d37c854c-dfab-4a52-bd34-bbde45feebc3.hdr"
+                    ],
+                    "outputFiles": [
+                        "8ee37d52-1dcd-46de-9c7e-e40fe0881bb7.fits"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000082",
+                    "parents": [
+                        "mProject_00000078",
+                        "mProject_00000079"
+                    ],
+                    "children": [
+                        "mConcatFit_00000088"
+                    ],
+                    "inputFiles": [
+                        "9c682711-3822-4198-b557-7e622d6f6309.fits",
+                        "1f823488-2207-4b85-85c1-875b1be014c3.fits",
+                        "ccf452af-eabc-4857-8f18-a972b1088879.hdr"
+                    ],
+                    "outputFiles": [
+                        "a0bcd628-1964-4416-b2a3-a5909b8f597c.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000083",
+                    "parents": [
+                        "mProject_00000078",
+                        "mProject_00000080"
+                    ],
+                    "children": [
+                        "mConcatFit_00000088"
+                    ],
+                    "inputFiles": [
+                        "9c682711-3822-4198-b557-7e622d6f6309.fits",
+                        "1777a326-3799-4c3b-8941-69ce99d0f481.fits",
+                        "41dbca21-5d9e-43b9-aa89-428f3b907040.hdr"
+                    ],
+                    "outputFiles": [
+                        "439f0896-dcab-43d5-ad43-14328696d4a9.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000084",
+                    "parents": [
+                        "mProject_00000078",
+                        "mProject_00000081"
+                    ],
+                    "children": [
+                        "mConcatFit_00000088"
+                    ],
+                    "inputFiles": [
+                        "9c682711-3822-4198-b557-7e622d6f6309.fits",
+                        "8ee37d52-1dcd-46de-9c7e-e40fe0881bb7.fits",
+                        "b3c40730-ccf3-4edf-940e-f52580ab5fb2.hdr"
+                    ],
+                    "outputFiles": [
+                        "01e4535b-2072-49e3-bde9-4106be4b0bb7.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000085",
+                    "parents": [
+                        "mProject_00000079",
+                        "mProject_00000080"
+                    ],
+                    "children": [
+                        "mConcatFit_00000088"
+                    ],
+                    "inputFiles": [
+                        "1f823488-2207-4b85-85c1-875b1be014c3.fits",
+                        "1777a326-3799-4c3b-8941-69ce99d0f481.fits",
+                        "6b15c478-9404-4c8c-817e-bbcc42a3c63e.hdr"
+                    ],
+                    "outputFiles": [
+                        "f6cd70e7-9e93-4434-9519-b05d97a4b010.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000086",
+                    "parents": [
+                        "mProject_00000079",
+                        "mProject_00000081"
+                    ],
+                    "children": [
+                        "mConcatFit_00000088"
+                    ],
+                    "inputFiles": [
+                        "1f823488-2207-4b85-85c1-875b1be014c3.fits",
+                        "8ee37d52-1dcd-46de-9c7e-e40fe0881bb7.fits",
+                        "10383179-2295-402b-8d5e-d74bf05091f0.hdr"
+                    ],
+                    "outputFiles": [
+                        "4cc3f1f5-6773-40a2-931d-405ea553f449.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000087",
+                    "parents": [
+                        "mProject_00000080",
+                        "mProject_00000081"
+                    ],
+                    "children": [
+                        "mConcatFit_00000088"
+                    ],
+                    "inputFiles": [
+                        "1777a326-3799-4c3b-8941-69ce99d0f481.fits",
+                        "8ee37d52-1dcd-46de-9c7e-e40fe0881bb7.fits",
+                        "e3438936-58f4-4b80-bdec-795db95513f4.hdr"
+                    ],
+                    "outputFiles": [
+                        "c084cde6-2e5c-4d1f-abf4-56063f3ce2bb.txt"
+                    ]
+                },
+                {
+                    "name": "mConcatFit",
+                    "id": "mConcatFit_00000088",
+                    "parents": [
+                        "mDiffFit_00000082",
+                        "mDiffFit_00000083",
+                        "mDiffFit_00000084",
+                        "mDiffFit_00000085",
+                        "mDiffFit_00000086",
+                        "mDiffFit_00000087"
+                    ],
+                    "children": [
+                        "mBgModel_00000089"
+                    ],
+                    "inputFiles": [
+                        "a0bcd628-1964-4416-b2a3-a5909b8f597c.txt",
+                        "439f0896-dcab-43d5-ad43-14328696d4a9.txt",
+                        "01e4535b-2072-49e3-bde9-4106be4b0bb7.txt",
+                        "f6cd70e7-9e93-4434-9519-b05d97a4b010.txt",
+                        "4cc3f1f5-6773-40a2-931d-405ea553f449.txt",
+                        "c084cde6-2e5c-4d1f-abf4-56063f3ce2bb.txt",
+                        "4ef05075-3ed4-44b1-8b1f-500a1da255dc.tbl"
+                    ],
+                    "outputFiles": [
+                        "d25d5eee-f9b4-4aa5-aa62-ba6a7ee61ff6.tbl"
+                    ]
+                },
+                {
+                    "name": "mBgModel",
+                    "id": "mBgModel_00000089",
+                    "parents": [
+                        "mConcatFit_00000088"
+                    ],
+                    "children": [
+                        "mBackground_00000090",
+                        "mBackground_00000091",
+                        "mBackground_00000092",
+                        "mBackground_00000093"
+                    ],
+                    "inputFiles": [
+                        "d25d5eee-f9b4-4aa5-aa62-ba6a7ee61ff6.tbl"
+                    ],
+                    "outputFiles": [
+                        "a5a97aee-ec94-47df-89f3-c2d57ea0dff3.tbl"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000090",
+                    "parents": [
+                        "mProject_00000078",
+                        "mBgModel_00000089"
+                    ],
+                    "children": [
+                        "mImgtbl_00000094",
+                        "mAdd_00000095"
+                    ],
+                    "inputFiles": [
+                        "9c682711-3822-4198-b557-7e622d6f6309.fits",
+                        "a5a97aee-ec94-47df-89f3-c2d57ea0dff3.tbl"
+                    ],
+                    "outputFiles": [
+                        "fa9bade7-f391-4b58-8521-9facacea3856.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000091",
+                    "parents": [
+                        "mProject_00000079",
+                        "mBgModel_00000089"
+                    ],
+                    "children": [
+                        "mImgtbl_00000094",
+                        "mAdd_00000095"
+                    ],
+                    "inputFiles": [
+                        "1f823488-2207-4b85-85c1-875b1be014c3.fits",
+                        "a5a97aee-ec94-47df-89f3-c2d57ea0dff3.tbl"
+                    ],
+                    "outputFiles": [
+                        "7753aea1-67a1-4c79-a2d2-071cb0037055.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000092",
+                    "parents": [
+                        "mProject_00000080",
+                        "mBgModel_00000089"
+                    ],
+                    "children": [
+                        "mImgtbl_00000094",
+                        "mAdd_00000095"
+                    ],
+                    "inputFiles": [
+                        "1777a326-3799-4c3b-8941-69ce99d0f481.fits",
+                        "a5a97aee-ec94-47df-89f3-c2d57ea0dff3.tbl"
+                    ],
+                    "outputFiles": [
+                        "71063014-d033-4a5e-b044-0eded447cf47.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000093",
+                    "parents": [
+                        "mProject_00000081",
+                        "mBgModel_00000089"
+                    ],
+                    "children": [
+                        "mImgtbl_00000094",
+                        "mAdd_00000095"
+                    ],
+                    "inputFiles": [
+                        "8ee37d52-1dcd-46de-9c7e-e40fe0881bb7.fits",
+                        "a5a97aee-ec94-47df-89f3-c2d57ea0dff3.tbl"
+                    ],
+                    "outputFiles": [
+                        "d70f33e0-29a5-4709-9e1d-b01ba939107f.fits"
+                    ]
+                },
+                {
+                    "name": "mImgtbl",
+                    "id": "mImgtbl_00000094",
+                    "parents": [
+                        "mBackground_00000090",
+                        "mBackground_00000091",
+                        "mBackground_00000092",
+                        "mBackground_00000093"
+                    ],
+                    "children": [
+                        "mAdd_00000095"
+                    ],
+                    "inputFiles": [
+                        "fa9bade7-f391-4b58-8521-9facacea3856.fits",
+                        "7753aea1-67a1-4c79-a2d2-071cb0037055.fits",
+                        "71063014-d033-4a5e-b044-0eded447cf47.fits",
+                        "d70f33e0-29a5-4709-9e1d-b01ba939107f.fits",
+                        "de559fed-58af-4b30-87c4-c3df4f044643.tbl"
+                    ],
+                    "outputFiles": [
+                        "f0826ac2-8ba6-4a50-842b-05c89e1358f1.tbl"
+                    ]
+                },
+                {
+                    "name": "mAdd",
+                    "id": "mAdd_00000095",
+                    "parents": [
+                        "mBackground_00000090",
+                        "mBackground_00000091",
+                        "mBackground_00000092",
+                        "mBackground_00000093",
+                        "mImgtbl_00000094"
+                    ],
+                    "children": [
+                        "mViewer_00000096",
+                        "mViewer_00000116"
+                    ],
+                    "inputFiles": [
+                        "fa9bade7-f391-4b58-8521-9facacea3856.fits",
+                        "7753aea1-67a1-4c79-a2d2-071cb0037055.fits",
+                        "71063014-d033-4a5e-b044-0eded447cf47.fits",
+                        "d70f33e0-29a5-4709-9e1d-b01ba939107f.fits",
+                        "f0826ac2-8ba6-4a50-842b-05c89e1358f1.tbl",
+                        "6d8c85d3-b716-4729-a32d-ace49d98a233.hdr"
+                    ],
+                    "outputFiles": [
+                        "d90732b1-22b2-4369-aeea-2cbb6102493b.fits"
+                    ]
+                },
+                {
+                    "name": "mViewer",
+                    "id": "mViewer_00000096",
+                    "parents": [
+                        "mAdd_00000095"
+                    ],
+                    "children": [],
+                    "inputFiles": [
+                        "d90732b1-22b2-4369-aeea-2cbb6102493b.fits"
+                    ],
+                    "outputFiles": [
+                        "c24cb877-bf80-4fec-bbff-a81c8b717910.jpg",
+                        "c1624626-39e0-43fe-b256-d07301cef3b2.png"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000097",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000101",
+                        "mDiffFit_00000102",
+                        "mDiffFit_00000103",
+                        "mBackground_00000109"
+                    ],
+                    "inputFiles": [
+                        "5f84efd0-273a-4de6-82ba-d7f2dea8e740.fits",
+                        "cc67c929-ba5a-41b1-ac95-aae1061d3b01.hdr"
+                    ],
+                    "outputFiles": [
+                        "2084ab10-c000-468b-bf48-f7b9c37de80e.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000098",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000101",
+                        "mDiffFit_00000104",
+                        "mDiffFit_00000105",
+                        "mBackground_00000110"
+                    ],
+                    "inputFiles": [
+                        "185a11a4-a964-45aa-8414-b3e1d34b0087.fits",
+                        "4b711b15-8473-48b0-b54f-33bf06e3cdd7.hdr"
+                    ],
+                    "outputFiles": [
+                        "07eb9be4-eefb-4867-9e91-0bb74e81b973.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000099",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000102",
+                        "mDiffFit_00000104",
+                        "mDiffFit_00000106",
+                        "mBackground_00000111"
+                    ],
+                    "inputFiles": [
+                        "06c1f7bd-bb3f-4076-9237-993b3eb522bb.fits",
+                        "093851d8-313d-4065-8983-4efeb09884d5.hdr"
+                    ],
+                    "outputFiles": [
+                        "d31c1ac1-16a7-4fb6-9584-cdec21c8bb6d.fits"
+                    ]
+                },
+                {
+                    "name": "mProject",
+                    "id": "mProject_00000100",
+                    "parents": [],
+                    "children": [
+                        "mDiffFit_00000103",
+                        "mDiffFit_00000105",
+                        "mDiffFit_00000106",
+                        "mBackground_00000112"
+                    ],
+                    "inputFiles": [
+                        "59183c3b-229a-4fa3-9e53-ae85b2e4da5e.fits",
+                        "61ad1e03-61e0-465a-b31b-51fd6a725a3f.hdr"
+                    ],
+                    "outputFiles": [
+                        "4b89e2ff-3736-46af-b0d5-febe8a94f16b.fits"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000101",
+                    "parents": [
+                        "mProject_00000097",
+                        "mProject_00000098"
+                    ],
+                    "children": [
+                        "mConcatFit_00000107"
+                    ],
+                    "inputFiles": [
+                        "2084ab10-c000-468b-bf48-f7b9c37de80e.fits",
+                        "07eb9be4-eefb-4867-9e91-0bb74e81b973.fits",
+                        "1bbcd987-5a2c-4325-8432-a0d44375a907.hdr"
+                    ],
+                    "outputFiles": [
+                        "b8ce9425-ff46-4ae8-b589-1f68c1794003.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000102",
+                    "parents": [
+                        "mProject_00000097",
+                        "mProject_00000099"
+                    ],
+                    "children": [
+                        "mConcatFit_00000107"
+                    ],
+                    "inputFiles": [
+                        "2084ab10-c000-468b-bf48-f7b9c37de80e.fits",
+                        "d31c1ac1-16a7-4fb6-9584-cdec21c8bb6d.fits",
+                        "914c8b8c-3a86-48cf-82d2-9a65dd66b544.hdr"
+                    ],
+                    "outputFiles": [
+                        "76143acb-81e5-4094-b31a-b937c51d2c01.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000103",
+                    "parents": [
+                        "mProject_00000097",
+                        "mProject_00000100"
+                    ],
+                    "children": [
+                        "mConcatFit_00000107"
+                    ],
+                    "inputFiles": [
+                        "2084ab10-c000-468b-bf48-f7b9c37de80e.fits",
+                        "4b89e2ff-3736-46af-b0d5-febe8a94f16b.fits",
+                        "cef01b1d-767d-4c25-8a62-a1fc45abca09.hdr"
+                    ],
+                    "outputFiles": [
+                        "eadd5bd1-40d5-4dcb-8ec2-480e7a36aa18.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000104",
+                    "parents": [
+                        "mProject_00000098",
+                        "mProject_00000099"
+                    ],
+                    "children": [
+                        "mConcatFit_00000107"
+                    ],
+                    "inputFiles": [
+                        "07eb9be4-eefb-4867-9e91-0bb74e81b973.fits",
+                        "d31c1ac1-16a7-4fb6-9584-cdec21c8bb6d.fits",
+                        "1c7a1cb9-545a-4a8f-ab6d-1ed45c37abce.hdr"
+                    ],
+                    "outputFiles": [
+                        "f03f0401-ff98-474d-82e9-ea0f4730f45a.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000105",
+                    "parents": [
+                        "mProject_00000098",
+                        "mProject_00000100"
+                    ],
+                    "children": [
+                        "mConcatFit_00000107"
+                    ],
+                    "inputFiles": [
+                        "07eb9be4-eefb-4867-9e91-0bb74e81b973.fits",
+                        "4b89e2ff-3736-46af-b0d5-febe8a94f16b.fits",
+                        "f065a154-5286-467c-bdc4-e24a5aa9b87c.hdr"
+                    ],
+                    "outputFiles": [
+                        "4d8de232-1981-4ae5-8591-17e1e88fc908.txt"
+                    ]
+                },
+                {
+                    "name": "mDiffFit",
+                    "id": "mDiffFit_00000106",
+                    "parents": [
+                        "mProject_00000099",
+                        "mProject_00000100"
+                    ],
+                    "children": [
+                        "mConcatFit_00000107"
+                    ],
+                    "inputFiles": [
+                        "d31c1ac1-16a7-4fb6-9584-cdec21c8bb6d.fits",
+                        "4b89e2ff-3736-46af-b0d5-febe8a94f16b.fits",
+                        "7dd8a1d6-f6eb-4091-83d8-7949bf2eaf78.hdr"
+                    ],
+                    "outputFiles": [
+                        "14601309-a392-490d-be9e-92ffc6fe2029.txt"
+                    ]
+                },
+                {
+                    "name": "mConcatFit",
+                    "id": "mConcatFit_00000107",
+                    "parents": [
+                        "mDiffFit_00000101",
+                        "mDiffFit_00000102",
+                        "mDiffFit_00000103",
+                        "mDiffFit_00000104",
+                        "mDiffFit_00000105",
+                        "mDiffFit_00000106"
+                    ],
+                    "children": [
+                        "mBgModel_00000108"
+                    ],
+                    "inputFiles": [
+                        "b8ce9425-ff46-4ae8-b589-1f68c1794003.txt",
+                        "76143acb-81e5-4094-b31a-b937c51d2c01.txt",
+                        "eadd5bd1-40d5-4dcb-8ec2-480e7a36aa18.txt",
+                        "f03f0401-ff98-474d-82e9-ea0f4730f45a.txt",
+                        "4d8de232-1981-4ae5-8591-17e1e88fc908.txt",
+                        "14601309-a392-490d-be9e-92ffc6fe2029.txt",
+                        "6516919b-b98b-4793-a833-b0ba4994d8b8.tbl"
+                    ],
+                    "outputFiles": [
+                        "9ca2c9f7-b225-4c35-b13b-361ae7ebae94.tbl"
+                    ]
+                },
+                {
+                    "name": "mBgModel",
+                    "id": "mBgModel_00000108",
+                    "parents": [
+                        "mConcatFit_00000107"
+                    ],
+                    "children": [
+                        "mBackground_00000109",
+                        "mBackground_00000110",
+                        "mBackground_00000111",
+                        "mBackground_00000112"
+                    ],
+                    "inputFiles": [
+                        "9ca2c9f7-b225-4c35-b13b-361ae7ebae94.tbl"
+                    ],
+                    "outputFiles": [
+                        "ae4fc1c4-628c-4f00-9a34-de2fba9627d9.tbl"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000109",
+                    "parents": [
+                        "mProject_00000097",
+                        "mBgModel_00000108"
+                    ],
+                    "children": [
+                        "mImgtbl_00000113",
+                        "mAdd_00000114"
+                    ],
+                    "inputFiles": [
+                        "2084ab10-c000-468b-bf48-f7b9c37de80e.fits",
+                        "ae4fc1c4-628c-4f00-9a34-de2fba9627d9.tbl"
+                    ],
+                    "outputFiles": [
+                        "24405b61-fd63-4812-9f38-5d4b149a7075.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000110",
+                    "parents": [
+                        "mProject_00000098",
+                        "mBgModel_00000108"
+                    ],
+                    "children": [
+                        "mImgtbl_00000113",
+                        "mAdd_00000114"
+                    ],
+                    "inputFiles": [
+                        "07eb9be4-eefb-4867-9e91-0bb74e81b973.fits",
+                        "ae4fc1c4-628c-4f00-9a34-de2fba9627d9.tbl"
+                    ],
+                    "outputFiles": [
+                        "2a88e4f6-f75e-44ad-96c5-011512423215.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000111",
+                    "parents": [
+                        "mProject_00000099",
+                        "mBgModel_00000108"
+                    ],
+                    "children": [
+                        "mImgtbl_00000113",
+                        "mAdd_00000114"
+                    ],
+                    "inputFiles": [
+                        "d31c1ac1-16a7-4fb6-9584-cdec21c8bb6d.fits",
+                        "ae4fc1c4-628c-4f00-9a34-de2fba9627d9.tbl"
+                    ],
+                    "outputFiles": [
+                        "ff3d139b-3d97-44ec-81d5-c8c838eb269e.fits"
+                    ]
+                },
+                {
+                    "name": "mBackground",
+                    "id": "mBackground_00000112",
+                    "parents": [
+                        "mProject_00000100",
+                        "mBgModel_00000108"
+                    ],
+                    "children": [
+                        "mImgtbl_00000113",
+                        "mAdd_00000114"
+                    ],
+                    "inputFiles": [
+                        "4b89e2ff-3736-46af-b0d5-febe8a94f16b.fits",
+                        "ae4fc1c4-628c-4f00-9a34-de2fba9627d9.tbl"
+                    ],
+                    "outputFiles": [
+                        "2bbd97f4-40ab-41e0-a43e-80dcfbe9eb0a.fits"
+                    ]
+                },
+                {
+                    "name": "mImgtbl",
+                    "id": "mImgtbl_00000113",
+                    "parents": [
+                        "mBackground_00000109",
+                        "mBackground_00000110",
+                        "mBackground_00000111",
+                        "mBackground_00000112"
+                    ],
+                    "children": [
+                        "mAdd_00000114"
+                    ],
+                    "inputFiles": [
+                        "24405b61-fd63-4812-9f38-5d4b149a7075.fits",
+                        "2a88e4f6-f75e-44ad-96c5-011512423215.fits",
+                        "ff3d139b-3d97-44ec-81d5-c8c838eb269e.fits",
+                        "2bbd97f4-40ab-41e0-a43e-80dcfbe9eb0a.fits",
+                        "201df654-52a6-4c65-b6d4-8bddb16d26fb.tbl"
+                    ],
+                    "outputFiles": [
+                        "31ed8a9c-92be-42b2-a7f4-7abfdb9a10a0.tbl"
+                    ]
+                },
+                {
+                    "name": "mAdd",
+                    "id": "mAdd_00000114",
+                    "parents": [
+                        "mBackground_00000109",
+                        "mBackground_00000110",
+                        "mBackground_00000111",
+                        "mBackground_00000112",
+                        "mImgtbl_00000113"
+                    ],
+                    "children": [
+                        "mViewer_00000115",
+                        "mViewer_00000116"
+                    ],
+                    "inputFiles": [
+                        "24405b61-fd63-4812-9f38-5d4b149a7075.fits",
+                        "2a88e4f6-f75e-44ad-96c5-011512423215.fits",
+                        "ff3d139b-3d97-44ec-81d5-c8c838eb269e.fits",
+                        "2bbd97f4-40ab-41e0-a43e-80dcfbe9eb0a.fits",
+                        "31ed8a9c-92be-42b2-a7f4-7abfdb9a10a0.tbl",
+                        "ce8db0c2-e602-4e87-9836-92d609857120.hdr"
+                    ],
+                    "outputFiles": [
+                        "a12a3c92-12ac-4091-a38e-d2ef772f20d2.fits"
+                    ]
+                },
+                {
+                    "name": "mViewer",
+                    "id": "mViewer_00000115",
+                    "parents": [
+                        "mAdd_00000114"
+                    ],
+                    "children": [],
+                    "inputFiles": [
+                        "a12a3c92-12ac-4091-a38e-d2ef772f20d2.fits"
+                    ],
+                    "outputFiles": [
+                        "8bffdf41-f52d-402e-bcfa-4f316ca57cee.jpg",
+                        "1a17bab3-5a96-44a1-b0cd-c95aa6726a39.png"
+                    ]
+                },
+                {
+                    "name": "mViewer",
+                    "id": "mViewer_00000116",
+                    "parents": [
+                        "mAdd_00000076",
+                        "mAdd_00000095",
+                        "mAdd_00000114"
+                    ],
+                    "children": [],
+                    "inputFiles": [
+                        "11313cbb-8c99-49d1-94e9-5781c23d45fb.fits",
+                        "d90732b1-22b2-4369-aeea-2cbb6102493b.fits",
+                        "a12a3c92-12ac-4091-a38e-d2ef772f20d2.fits"
+                    ],
+                    "outputFiles": [
+                        "a7c51031-d1f3-412c-9a5c-dbc05b6a35f3.jpg",
+                        "6a51982a-7ece-451f-9af0-3951f03d79a7.png"
+                    ]
+                }
+            ],
+            "files": [
+                {
+                    "id": "d167c3b6-d317-4046-9acb-20e1515092a7.tbl",
+                    "sizeInBytes": 43097
+                },
+                {
+                    "id": "6d8c85d3-b716-4729-a32d-ace49d98a233.hdr",
+                    "sizeInBytes": 266
+                },
+                {
+                    "id": "eee50f7c-4c8e-41d6-a46f-0fbc746a4ba3.fits",
+                    "sizeInBytes": 46734256
+                },
+                {
+                    "id": "38c3dba8-4cea-4e98-a86c-9391d1c0bf53.tbl",
+                    "sizeInBytes": 6871
+                },
+                {
+                    "id": "14601309-a392-490d-be9e-92ffc6fe2029.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "24405b61-fd63-4812-9f38-5d4b149a7075.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "b8ce9425-ff46-4ae8-b589-1f68c1794003.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "185a11a4-a964-45aa-8414-b3e1d34b0087.fits",
+                    "sizeInBytes": 8102006
+                },
+                {
+                    "id": "cec6c02b-18ce-4e4d-b393-89a84acec219.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "76048c5c-c77d-4229-96c9-663ca01576fb.hdr",
+                    "sizeInBytes": 127
+                },
+                {
+                    "id": "1777a326-3799-4c3b-8941-69ce99d0f481.fits",
+                    "sizeInBytes": 38457450
+                },
+                {
+                    "id": "ccf452af-eabc-4857-8f18-a972b1088879.hdr",
+                    "sizeInBytes": 171
+                },
+                {
+                    "id": "8ee37d52-1dcd-46de-9c7e-e40fe0881bb7.fits",
+                    "sizeInBytes": 5500224
+                },
+                {
+                    "id": "d70f33e0-29a5-4709-9e1d-b01ba939107f.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "1f823488-2207-4b85-85c1-875b1be014c3.fits",
+                    "sizeInBytes": 38663698
+                },
+                {
+                    "id": "ae4fc1c4-628c-4f00-9a34-de2fba9627d9.tbl",
+                    "sizeInBytes": 2370
+                },
+                {
+                    "id": "07eb9be4-eefb-4867-9e91-0bb74e81b973.fits",
+                    "sizeInBytes": 18905854
+                },
+                {
+                    "id": "2a88e4f6-f75e-44ad-96c5-011512423215.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "c1624626-39e0-43fe-b256-d07301cef3b2.png",
+                    "sizeInBytes": 2621944
+                },
+                {
+                    "id": "2084ab10-c000-468b-bf48-f7b9c37de80e.fits",
+                    "sizeInBytes": 46520401
+                },
+                {
+                    "id": "f9b2dba9-6b20-4ddb-b144-56a3d6e378ce.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "7753aea1-67a1-4c79-a2d2-071cb0037055.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "b56a974b-1ff1-4cea-a688-f9d6d3318b08.hdr",
+                    "sizeInBytes": 70
+                },
+                {
+                    "id": "b5ea141d-5ef3-4c38-bfa7-3595b4e34a80.fits",
+                    "sizeInBytes": 4372723
+                },
+                {
+                    "id": "76143acb-81e5-4094-b31a-b937c51d2c01.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "a0bcd628-1964-4416-b2a3-a5909b8f597c.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "923e099e-ef09-45b9-880f-c523f0e5c08b.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "a7c51031-d1f3-412c-9a5c-dbc05b6a35f3.jpg",
+                    "sizeInBytes": 10139422
+                },
+                {
+                    "id": "e3908291-507d-45ae-85dd-603f18e68658.fits",
+                    "sizeInBytes": 9204545
+                },
+                {
+                    "id": "d25d5eee-f9b4-4aa5-aa62-ba6a7ee61ff6.tbl",
+                    "sizeInBytes": 161381
+                },
+                {
+                    "id": "ce8db0c2-e602-4e87-9836-92d609857120.hdr",
+                    "sizeInBytes": 292
+                },
+                {
+                    "id": "f065a154-5286-467c-bdc4-e24a5aa9b87c.hdr",
+                    "sizeInBytes": 269
+                },
+                {
+                    "id": "4b711b15-8473-48b0-b54f-33bf06e3cdd7.hdr",
+                    "sizeInBytes": 237
+                },
+                {
+                    "id": "054e9d04-e500-4178-b5b5-3501e5cee22c.hdr",
+                    "sizeInBytes": 162
+                },
+                {
+                    "id": "8e0c4e96-9eb3-43f7-a946-a6ab1dd4eb77.hdr",
+                    "sizeInBytes": 55
+                },
+                {
+                    "id": "ed3fbc10-f4b1-4de3-a3ad-958ec055e872.hdr",
+                    "sizeInBytes": 182
+                },
+                {
+                    "id": "1a17bab3-5a96-44a1-b0cd-c95aa6726a39.png",
+                    "sizeInBytes": 80221937
+                },
+                {
+                    "id": "151ab418-4cc4-479f-bae6-9bd70c0e06f5.fits",
+                    "sizeInBytes": 30475814
+                },
+                {
+                    "id": "11313cbb-8c99-49d1-94e9-5781c23d45fb.fits",
+                    "sizeInBytes": 414722880
+                },
+                {
+                    "id": "fc34b035-aa41-46b6-8c71-1fb51c5e3024.fits",
+                    "sizeInBytes": 6369757
+                },
+                {
+                    "id": "4628bf0e-6888-4b4d-a51d-d2dc4d6ed6d7.fits",
+                    "sizeInBytes": 1482761
+                },
+                {
+                    "id": "06c1f7bd-bb3f-4076-9237-993b3eb522bb.fits",
+                    "sizeInBytes": 6704404
+                },
+                {
+                    "id": "403cdb81-583c-4c17-badc-1965d3cc5aef.fits",
+                    "sizeInBytes": 5626886
+                },
+                {
+                    "id": "95f7d0d0-ee63-4569-9992-3e3bacd7ffd5.hdr",
+                    "sizeInBytes": 241
+                },
+                {
+                    "id": "de559fed-58af-4b30-87c4-c3df4f044643.tbl",
+                    "sizeInBytes": 147209
+                },
+                {
+                    "id": "a5a97aee-ec94-47df-89f3-c2d57ea0dff3.tbl",
+                    "sizeInBytes": 2370
+                },
+                {
+                    "id": "af3c90de-2449-43f7-8519-770a04ddf299.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "10383179-2295-402b-8d5e-d74bf05091f0.hdr",
+                    "sizeInBytes": 292
+                },
+                {
+                    "id": "f0826ac2-8ba6-4a50-842b-05c89e1358f1.tbl",
+                    "sizeInBytes": 18837
+                },
+                {
+                    "id": "375ecce8-2323-494f-836c-56d28ac93a43.hdr",
+                    "sizeInBytes": 283
+                },
+                {
+                    "id": "4b1efcaa-32fe-4a07-8315-51a3c266f902.fits",
+                    "sizeInBytes": 1859717
+                },
+                {
+                    "id": "cef01b1d-767d-4c25-8a62-a1fc45abca09.hdr",
+                    "sizeInBytes": 193
+                },
+                {
+                    "id": "8bffdf41-f52d-402e-bcfa-4f316ca57cee.jpg",
+                    "sizeInBytes": 10139422
+                },
+                {
+                    "id": "852202d5-ed7b-4092-a077-82834da9df47.fits",
+                    "sizeInBytes": 2228700
+                },
+                {
+                    "id": "82dba51b-f172-46c4-b4d7-a1c69ae649aa.hdr",
+                    "sizeInBytes": 60
+                },
+                {
+                    "id": "a12a3c92-12ac-4091-a38e-d2ef772f20d2.fits",
+                    "sizeInBytes": 414722880
+                },
+                {
+                    "id": "bfcf1b5b-8fe4-435f-81cd-c73b51e2033c.tbl",
+                    "sizeInBytes": 2370
+                },
+                {
+                    "id": "93720e25-ac0c-4bcd-8799-e6aeffb39129.hdr",
+                    "sizeInBytes": 226
+                },
+                {
+                    "id": "61ad1e03-61e0-465a-b31b-51fd6a725a3f.hdr",
+                    "sizeInBytes": 278
+                },
+                {
+                    "id": "71063014-d033-4a5e-b044-0eded447cf47.fits",
+                    "sizeInBytes": 55002240
+                },
+                {
+                    "id": "6b15c478-9404-4c8c-817e-bbcc42a3c63e.hdr",
+                    "sizeInBytes": 165
+                },
+                {
+                    "id": "eff2abe5-b763-454d-898d-64218f19c04b.jpg",
+                    "sizeInBytes": 10139422
+                },
+                {
+                    "id": "093851d8-313d-4065-8983-4efeb09884d5.hdr",
+                    "sizeInBytes": 219
+                },
+                {
+                    "id": "9c682711-3822-4198-b557-7e622d6f6309.fits",
+                    "sizeInBytes": 48896874
+                },
+                {
+                    "id": "1bbcd987-5a2c-4325-8432-a0d44375a907.hdr",
+                    "sizeInBytes": 228
+                },
+                {
+                    "id": "4d8de232-1981-4ae5-8591-17e1e88fc908.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "cd4df2ce-21ea-4190-8ac8-3fe26f7fba85.fits",
+                    "sizeInBytes": 965539
+                },
+                {
+                    "id": "cc67c929-ba5a-41b1-ac95-aae1061d3b01.hdr",
+                    "sizeInBytes": 278
+                },
+                {
+                    "id": "c24cb877-bf80-4fec-bbff-a81c8b717910.jpg",
+                    "sizeInBytes": 10974480
+                },
+                {
+                    "id": "f03f0401-ff98-474d-82e9-ea0f4730f45a.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "7dd8a1d6-f6eb-4091-83d8-7949bf2eaf78.hdr",
+                    "sizeInBytes": 27
+                },
+                {
+                    "id": "773c66a3-13b1-40aa-a3ca-032bf3d3d2a8.hdr",
+                    "sizeInBytes": 229
+                },
+                {
+                    "id": "d31c1ac1-16a7-4fb6-9584-cdec21c8bb6d.fits",
+                    "sizeInBytes": 55235677
+                },
+                {
+                    "id": "914c8b8c-3a86-48cf-82d2-9a65dd66b544.hdr",
+                    "sizeInBytes": 303
+                },
+                {
+                    "id": "4cc3f1f5-6773-40a2-931d-405ea553f449.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "9b5dda85-49ba-4ed8-9f33-516a26910ccd.hdr",
+                    "sizeInBytes": 255
+                },
+                {
+                    "id": "1c7a1cb9-545a-4a8f-ab6d-1ed45c37abce.hdr",
+                    "sizeInBytes": 147
+                },
+                {
+                    "id": "4b89e2ff-3736-46af-b0d5-febe8a94f16b.fits",
+                    "sizeInBytes": 8687460
+                },
+                {
+                    "id": "9ca2c9f7-b225-4c35-b13b-361ae7ebae94.tbl",
+                    "sizeInBytes": 43097
+                },
+                {
+                    "id": "ff3d139b-3d97-44ec-81d5-c8c838eb269e.fits",
+                    "sizeInBytes": 55002240
+                },
+                {
+                    "id": "2bbd97f4-40ab-41e0-a43e-80dcfbe9eb0a.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "d97d9efe-813c-4140-9f4f-476c43d40bd1.tbl",
+                    "sizeInBytes": 27287
+                },
+                {
+                    "id": "2d949a39-b217-4f80-831c-97d5f135e8c7.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "a847398a-2438-45eb-b267-96c7d942566a.tbl",
+                    "sizeInBytes": 18837
+                },
+                {
+                    "id": "fbbcea98-f6f3-4f43-ba32-5070216bcd25.fits",
+                    "sizeInBytes": 9105203
+                },
+                {
+                    "id": "439f0896-dcab-43d5-ad43-14328696d4a9.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "01e4535b-2072-49e3-bde9-4106be4b0bb7.txt",
+                    "sizeInBytes": 302
+                },
+                {
+                    "id": "b3c40730-ccf3-4edf-940e-f52580ab5fb2.hdr",
+                    "sizeInBytes": 119
+                },
+                {
+                    "id": "5f84efd0-273a-4de6-82ba-d7f2dea8e740.fits",
+                    "sizeInBytes": 3676622
+                },
+                {
+                    "id": "f6cd70e7-9e93-4434-9519-b05d97a4b010.txt",
+                    "sizeInBytes": 302
+                },
+                {
+                    "id": "c084cde6-2e5c-4d1f-abf4-56063f3ce2bb.txt",
+                    "sizeInBytes": 302
+                },
+                {
+                    "id": "6516919b-b98b-4793-a833-b0ba4994d8b8.tbl",
+                    "sizeInBytes": 27287
+                },
+                {
+                    "id": "52bc6d2f-583d-4e13-8260-35e48b0cec39.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "41dbca21-5d9e-43b9-aa89-428f3b907040.hdr",
+                    "sizeInBytes": 201
+                },
+                {
+                    "id": "48dfe32d-7d23-4c78-972a-abc904d34f76.png",
+                    "sizeInBytes": 14769537
+                },
+                {
+                    "id": "d90732b1-22b2-4369-aeea-2cbb6102493b.fits",
+                    "sizeInBytes": 414722880
+                },
+                {
+                    "id": "31ed8a9c-92be-42b2-a7f4-7abfdb9a10a0.tbl",
+                    "sizeInBytes": 18837
+                },
+                {
+                    "id": "e3438936-58f4-4b80-bdec-795db95513f4.hdr",
+                    "sizeInBytes": 81
+                },
+                {
+                    "id": "0bb0aa52-5d8f-4f5a-be20-1d79623e2cc1.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "fa9bade7-f391-4b58-8521-9facacea3856.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "14661079-2784-4ed7-9394-bf0610160e28.hdr",
+                    "sizeInBytes": 130
+                },
+                {
+                    "id": "2b9fc599-edec-468f-80a6-312d7e67fb22.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "62385efb-8f6a-4764-8464-0a0eed71670c.fits",
+                    "sizeInBytes": 55002239
+                },
+                {
+                    "id": "4469db5b-c4b1-412e-a409-26858f5933c7.hdr",
+                    "sizeInBytes": 124
+                },
+                {
+                    "id": "d37c854c-dfab-4a52-bd34-bbde45feebc3.hdr",
+                    "sizeInBytes": 215
+                },
+                {
+                    "id": "8b4ccab7-c312-4a54-adb3-83ca263a6fc1.txt",
+                    "sizeInBytes": 301
+                },
+                {
+                    "id": "4ef05075-3ed4-44b1-8b1f-500a1da255dc.tbl",
+                    "sizeInBytes": 27287
+                },
+                {
+                    "id": "201df654-52a6-4c65-b6d4-8bddb16d26fb.tbl",
+                    "sizeInBytes": 6871
+                },
+                {
+                    "id": "59183c3b-229a-4fa3-9e53-ae85b2e4da5e.fits",
+                    "sizeInBytes": 6400161
+                },
+                {
+                    "id": "eadd5bd1-40d5-4dcb-8ec2-480e7a36aa18.txt",
+                    "sizeInBytes": 302
+                },
+                {
+                    "id": "6a51982a-7ece-451f-9af0-3951f03d79a7.png",
+                    "sizeInBytes": 2983636
+                },
+                {
+                    "id": "54a0418a-aa72-4878-b853-99eaead2674e.fits",
+                    "sizeInBytes": 35420469
+                },
+                {
+                    "id": "01976aae-565b-48a0-ba93-0f1436a48a9a.hdr",
+                    "sizeInBytes": 299
+                }
+            ]
+        },
+        "execution": {
+            "makespanInSeconds": 0,
+            "executedAt": "2026-01-18T00:21:41.627439+00:00",
+            "tasks": [
+                {
+                    "id": "mProject_00000059",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.633279+00:00"
+                },
+                {
+                    "id": "mProject_00000060",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.633418+00:00"
+                },
+                {
+                    "id": "mProject_00000061",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.633602+00:00"
+                },
+                {
+                    "id": "mProject_00000062",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.633763+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000063",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.633889+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000064",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.633980+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000065",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634063+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000066",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634144+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000067",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634235+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000068",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634311+00:00"
+                },
+                {
+                    "id": "mConcatFit_00000069",
+                    "runtimeInSeconds": 1.239,
+                    "command": {
+                        "program": "mConcatFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634503+00:00"
+                },
+                {
+                    "id": "mBgModel_00000070",
+                    "runtimeInSeconds": 11.053,
+                    "command": {
+                        "program": "mBgModel",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634659+00:00"
+                },
+                {
+                    "id": "mBackground_00000071",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634740+00:00"
+                },
+                {
+                    "id": "mBackground_00000072",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634817+00:00"
+                },
+                {
+                    "id": "mBackground_00000073",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634894+00:00"
+                },
+                {
+                    "id": "mBackground_00000074",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.634972+00:00"
+                },
+                {
+                    "id": "mImgtbl_00000075",
+                    "runtimeInSeconds": 1.762,
+                    "command": {
+                        "program": "mImgtbl",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635055+00:00"
+                },
+                {
+                    "id": "mAdd_00000076",
+                    "runtimeInSeconds": 2.316,
+                    "command": {
+                        "program": "mAdd",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635131+00:00"
+                },
+                {
+                    "id": "mViewer_00000077",
+                    "runtimeInSeconds": 68.368,
+                    "command": {
+                        "program": "mViewer",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635207+00:00"
+                },
+                {
+                    "id": "mProject_00000078",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635283+00:00"
+                },
+                {
+                    "id": "mProject_00000079",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635357+00:00"
+                },
+                {
+                    "id": "mProject_00000080",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635432+00:00"
+                },
+                {
+                    "id": "mProject_00000081",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635511+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000082",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635586+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000083",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635670+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000084",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635745+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000085",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635827+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000086",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635904+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000087",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.635979+00:00"
+                },
+                {
+                    "id": "mConcatFit_00000088",
+                    "runtimeInSeconds": 1.239,
+                    "command": {
+                        "program": "mConcatFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.636131+00:00"
+                },
+                {
+                    "id": "mBgModel_00000089",
+                    "runtimeInSeconds": 11.053,
+                    "command": {
+                        "program": "mBgModel",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.636280+00:00"
+                },
+                {
+                    "id": "mBackground_00000090",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.636357+00:00"
+                },
+                {
+                    "id": "mBackground_00000091",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.636432+00:00"
+                },
+                {
+                    "id": "mBackground_00000092",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.636507+00:00"
+                },
+                {
+                    "id": "mBackground_00000093",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.636581+00:00"
+                },
+                {
+                    "id": "mImgtbl_00000094",
+                    "runtimeInSeconds": 0.979,
+                    "command": {
+                        "program": "mImgtbl",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.636667+00:00"
+                },
+                {
+                    "id": "mAdd_00000095",
+                    "runtimeInSeconds": 2.316,
+                    "command": {
+                        "program": "mAdd",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.650515+00:00"
+                },
+                {
+                    "id": "mViewer_00000096",
+                    "runtimeInSeconds": 68.368,
+                    "command": {
+                        "program": "mViewer",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.650666+00:00"
+                },
+                {
+                    "id": "mProject_00000097",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.650745+00:00"
+                },
+                {
+                    "id": "mProject_00000098",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.650811+00:00"
+                },
+                {
+                    "id": "mProject_00000099",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.650870+00:00"
+                },
+                {
+                    "id": "mProject_00000100",
+                    "runtimeInSeconds": 1263.481,
+                    "command": {
+                        "program": "mProject",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.650926+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000101",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.650983+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000102",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651047+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000103",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651105+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000104",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651158+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000105",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651210+00:00"
+                },
+                {
+                    "id": "mDiffFit_00000106",
+                    "runtimeInSeconds": 46.525,
+                    "command": {
+                        "program": "mDiffFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651265+00:00"
+                },
+                {
+                    "id": "mConcatFit_00000107",
+                    "runtimeInSeconds": 1.239,
+                    "command": {
+                        "program": "mConcatFit",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651403+00:00"
+                },
+                {
+                    "id": "mBgModel_00000108",
+                    "runtimeInSeconds": 11.053,
+                    "command": {
+                        "program": "mBgModel",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651507+00:00"
+                },
+                {
+                    "id": "mBackground_00000109",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651565+00:00"
+                },
+                {
+                    "id": "mBackground_00000110",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651617+00:00"
+                },
+                {
+                    "id": "mBackground_00000111",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651669+00:00"
+                },
+                {
+                    "id": "mBackground_00000112",
+                    "runtimeInSeconds": 114.103,
+                    "command": {
+                        "program": "mBackground",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651725+00:00"
+                },
+                {
+                    "id": "mImgtbl_00000113",
+                    "runtimeInSeconds": 0.176,
+                    "command": {
+                        "program": "mImgtbl",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651783+00:00"
+                },
+                {
+                    "id": "mAdd_00000114",
+                    "runtimeInSeconds": 2.316,
+                    "command": {
+                        "program": "mAdd",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651835+00:00"
+                },
+                {
+                    "id": "mViewer_00000115",
+                    "runtimeInSeconds": 68.368,
+                    "command": {
+                        "program": "mViewer",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651889+00:00"
+                },
+                {
+                    "id": "mViewer_00000116",
+                    "runtimeInSeconds": 68.368,
+                    "command": {
+                        "program": "mViewer",
+                        "arguments": []
+                    },
+                    "coreCount": 1,
+                    "executedAt": "2026-01-18T00:21:41.651942+00:00"
+                }
+            ]
+        }
+    },
+    "runtimeSystem": {
+        "name": "WfCommons",
+        "version": "1.2",
+        "url": "https://docs.wfcommons.org/en/v1.2/"
+    }
+}

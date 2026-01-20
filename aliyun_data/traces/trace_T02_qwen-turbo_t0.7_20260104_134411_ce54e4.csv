@@ -1,0 +1,8 @@
+time,product,api,success,error
+13:44:27,ECS,DescribeVpcs,0,"任务未完成: 缺少资源: VPC(缺少VpcId), VSwitch(缺少VSwitchId), S..."
+13:44:35,VPC,CreateVpc,1,
+13:44:49,VPC,CreateVSwitch,1,
+13:44:55,ECS,CreateSecurityGroup,1,
+13:45:16,ECS,DescribeInstances,0,"任务未完成: 缺少资源: ECS(缺少InstanceIds), SLB(缺少LoadBalance..."
+13:45:23,ECS,RunInstances,1,
+13:45:37,ECS,DescribeLoadBalancers,0,"任务未完成: 缺少资源: SLB(缺少LoadBalancerId), RDS(缺少DBInstan..."
