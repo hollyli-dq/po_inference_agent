@@ -77,7 +77,7 @@ from src.utils.hpo_model_evaluation import (  # type: ignore
     structural_hamming_distance,
 )
 from src.utils.po_accelerator_nle_optimized import HPO_LogLikelihoodCache_Optimized  # type: ignore
-from src.mcmc.hpo_po_hm_mcmc_k_optim import mcmc_simulation_hpo_k_optim  # type: ignore
+from src.mcmc.hpo_po_hm_mcmc_k_optim import mcmc_simulation_po  # type: ignore
 
 
 # =========================
@@ -575,15 +575,12 @@ def run_wfcommons_systematic(
                     seed = seed_base + exp_id
                     print(f"    MCMC: eps={eps} lh={lh} seed={seed} traces={len(idxs)} n={n}")
 
-                    mcmc = mcmc_simulation_hpo_k_optim(
+                    mcmc = mcmc_simulation_po(
                         num_iterations=num_iterations,
-                        M0=M0,
-                        assessors=[assessor_id],
-                        M_a_dict={assessor_id: list(M0)},
-                        O_a_i_dict={assessor_id: sampled_choice_sets},
-                        observed_orders={assessor_id: sampled_orders},
+                        items=list(M0),  # All items for this assessor
+                        choice_sets=sampled_choice_sets,
+                        observed_orders=sampled_orders,
                         dr=0.95,
-                        drrt=0.95,
                         noise_option=lh,
                         rho_prior=1.0,
                         noise_beta_prior=1.0,
@@ -591,7 +588,7 @@ def run_wfcommons_systematic(
                         fixed_K=fixed_k,
                         random_seed=seed,
                         cycle_length=cycle_length,
-                        softmax_lambda=1.0,
+                        epsilon=eps,  # eps_jump becomes epsilon parameter
                         softmax_beta_prior=(2.0, 1.0),
                         softmax_beta_stepsize=0.1,
                     )
@@ -601,7 +598,8 @@ def run_wfcommons_systematic(
                     burn = int(len(H_trace) * burn_in_fraction)
                     post = H_trace[burn::max(1, thin)]
 
-                    mats = [it[assessor_id] for it in post if assessor_id in it]
+                    # H_trace is now a list of matrices directly (not dict keyed by assessor)
+                    mats = post
                     if not mats:
                         print("      (no post-burn H samples; skipping eval)")
                         continue

@@ -1,28 +1,16 @@
-Systematic Experiments Summary
-Generated: 2026-01-18 12:41:22.244953
+Systematic Experiments Summary (Single PO per Scenario)
+Generated: 2026-01-20 04:25:33.585183
 
-Total rows: 840
+Total rows: 576
 Scenarios: ['dual_zone_ecs_slb', 'dual_zone_ecs_slb_rds', 'eip_slb_ecs', 'simple_ecs', 'slb_ecs_rds', 'slb_ecs_redis']
-CP-Cov targets: [0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0]
-Epsilon values: [0.001, 0.005, 0.01, 0.05, 0.1]
-Likelihoods: ['baseline', 'log_successors_queue_jump']
-Methods: ['bhpop_marginal_mode', 'heuristics_miner', 'inductive_miner_imf', 'majority']
+CP-Cov targets: [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+Epsilon values: [0.005, 0.01, 0.02, 0.05]
+Likelihoods: ['log_successors_queue_jump']
 
 Performance by method:
                      cover_f1_mean  cover_f1_std  cover_f1_min  cover_f1_max  shd_mean  shd_std  shd_min  shd_max  feas_mean  feas_std    n
 method                                                                                                                                     
-bhpop_marginal_mode         0.6525        0.2048        0.2143        1.0000    8.9143   6.7066        0       30     0.7812    0.2581  210
-heuristics_miner            0.5738        0.1020        0.4000        0.7368    8.0238   3.1735        3       13     0.1746    0.2525  210
-inductive_miner_imf         0.4627        0.1805        0.2069        0.7273   10.6429   5.4939        3       23     1.0000    0.0000  210
-majority                    0.5774        0.3130        0.1818        1.0000    8.8810   6.8901        0       19     0.4762    0.4844  210
-
-Best by cover_f1:
-scenario           simple_ecs
-cp_cov_target             0.5
-cp_cov_realized           1.0
-eps_jump                0.001
-likelihood           baseline
-method               majority
-cover_f1                  1.0
-shd                         0
-feas                      1.0
+bhpop_single_po             0.4856        0.3353        0.0000        1.0000    9.7847   7.2577        0       27     0.9947    0.0281  144
+heuristics_miner            0.5755        0.1058        0.4000        0.7368    7.9722   3.1422        3       13     0.1713    0.2477  144
+inductive_miner_imf         0.4623        0.1825        0.2069        0.7273   10.6944   5.5913        3       23     1.0000    0.0000  144
+majority                    0.6021        0.3129        0.1818        1.0000    8.4722   6.9342        0       19     0.5185    0.4888  144

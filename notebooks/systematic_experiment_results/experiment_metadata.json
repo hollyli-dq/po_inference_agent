@@ -1,5 +1,6 @@
 {
-  "timestamp": "2026-01-18 12:41:22.252668",
+  "timestamp": "2026-01-20 04:25:33.589972",
+  "model_type": "single_partial_order_per_scenario",
   "pm4py_available": true,
   "baseline_methods": [
     "majority",
@@ -21,35 +22,30 @@
     0.7,
     0.8,
     0.9,
-    0.95,
     1.0
   ],
   "eps_jump_list": [
-    0.001,
     0.005,
     0.01,
-    0.05,
-    0.1
+    0.02,
+    0.05
   ],
   "likelihoods": [
     "log_successors_queue_jump"
   ],
-  "num_iterations": 1000000,
+  "num_iterations": 500000,
   "burn_in_fraction": 0.5,
   "thin": 1,
   "trace_source": "combined",
-  "only_success": true,
-  "drop_unknown_actions": true,
-  "dedup_actions": true,
   "synthetic_target_cov": 1.0,
   "synthetic_max_traces": 1000,
   "synthetic_method": "log_successors",
   "max_workers": 8,
-  "mcmc_experiments_planned": 35,
+  "mcmc_experiments_planned": 144,
   "mcmc_failures": 0,
-  "expected_mcmc_rows": 210,
-  "actual_mcmc_rows": 210,
-  "expected_baseline_rows": 630,
-  "actual_baseline_rows": 630,
-  "output_csv": "/Users/dongqing/Desktop/hpo_inference_agent/notebooks/systematic_experiment_results/experiment_summary.csv"
+  "expected_mcmc_rows": 144,
+  "actual_mcmc_rows": 144,
+  "expected_baseline_rows": 432,
+  "actual_baseline_rows": 432,
+  "output_csv": "/Users/dongqing/Desktop/po_inference_agent/notebooks/systematic_experiment_results/experiment_summary.csv"
 }

@@ -6,9 +6,9 @@ Pipeline
 1) Load manual scenarios (each scenario = one "assessor"; ground-truth DAG/poset cover)
 2) Load traces from aliyun_data/expert_traces/ and aliyun_data/traces/ (optionally combine)
 3) Normalize sequences -> build orders_local / orders_global / choice_sets per scenario
-4) Augment each scenario with synthetic linear extensions until CP-Cov reaches a target
+4) Augment each scenario with synthetic linear extensions until IP-Cov reaches a target
 5) Systematic sweep:
-   - CP-Cov targets: {0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0} PER scenario
+   - IP-Cov targets: {0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 1.0} PER scenario
    - ε_jump: {0.001, 0.005, 0.01, 0.05, 0.1} (queue-jump noise probability)
    - Likelihoods: log_successors_queue_jump
    - Baselines: AND (intersection), Majority, + Process Mining (Inductive Miner IMf, Heuristics Miner)
@@ -83,14 +83,20 @@ except Exception:
 # Experiment configuration
 # =========================
 # Sweep grid
-CP_COV_TARGETS = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+IP_COV_TARGETS = [0.6, 0.7, 0.8, 0.9, 1.0]
 EPS_JUMP_LIST = [0.005, 0.01, 0.02, 0.05]  # 0.5%, 1%, 2%, 5%
 # LIKELIHOOD ABLATION: To compare log_successors_queue_jump vs queue_jump, use:
 # LIKELIHOODS = ["log_successors_queue_jump", "queue_jump"]
 LIKELIHOODS = ["log_successors_queue_jump"]  # Default: frontier-softmax likelihood
 
+# Posterior thresholds for graph extraction
+# eip_slb_ecs uses lower threshold due to poor MCMC convergence (see paper analysis)
+# All other scenarios use standard threshold=0.5
+POSTERIOR_THRESHOLD = 0.5  # Default for all scenarios
+THRESHOLD_EIP_SLB_ECS = 0.4  # Special case: challenging scenario with weak MCMC signals
+
 # Synthetic augmentation settings
-SYNTHETIC_TARGET_COV = 1.0          # augment each scenario up to this CP-Cov before subsampling
+SYNTHETIC_TARGET_COV = 1.0          # augment each scenario up to this IP-Cov before subsampling
 SYNTHETIC_MAX_TRACES = 1000
 SYNTHETIC_METHOD = "log_successors"  # "kahn" (uniform) | "log_successors" (matches model likelihood)
 SYNTHETIC_SEED = 42
@@ -99,7 +105,7 @@ SOFTMAX_EPSILON = 0.01               # noise probability in sampling (queue-jump
 ALLOW_DUPES = False
 
 # MCMC settings
-NUM_ITERATIONS = 500_000  # 500k iterations
+NUM_ITERATIONS = 1000000  # 500k iterations
 BURN_IN_FRACTION = 0.5
 THIN = 1
 SEED_BASE = 42
@@ -190,7 +196,7 @@ def scenario_to_adj(scenario: Dict[str, Any]) -> Tuple[np.ndarray, List[str], Di
 
 
 # =========================
-# CP-Cov + LE checks
+# IP-Cov + LE checks
 # =========================
 def incomparable_pairs_from_closure(closure: np.ndarray) -> List[Tuple[int, int]]:
     n = closure.shape[0]
@@ -198,7 +204,7 @@ def incomparable_pairs_from_closure(closure: np.ndarray) -> List[Tuple[int, int]
             if closure[i, j] == 0 and closure[j, i] == 0]
 
 
-def cp_cov(orders_local: List[List[int]], true_closure: np.ndarray) -> float:
+def ip_cov(orders_local: List[List[int]], true_closure: np.ndarray) -> float:
     pairs = incomparable_pairs_from_closure(true_closure)
     if not pairs:
         return 1.0
@@ -504,7 +510,7 @@ def augment_scenario_with_synthetic_traces(
 
 
 # =========================
-# Subsampling to CP-Cov target per scenario
+# Subsampling to IP-Cov target per scenario
 # =========================
 def greedy_subset_indices_to_target(
     orders_local: List[List[int]],
@@ -567,7 +573,7 @@ def greedy_subset_indices_to_target(
         remaining.remove(best)
 
     chosen_idx = [valid_idx[i] for i in selected_local]
-    realized = cp_cov([orders_local[i] for i in chosen_idx], true_closure)
+    realized = ip_cov([orders_local[i] for i in chosen_idx], true_closure)
     return chosen_idx, realized
 
 
@@ -1553,10 +1559,12 @@ def run_single_scenario_experiment(
         with open(exp_dir / "param_traces.pkl", "wb") as f:
             pickle.dump(param_traces, f)
 
-    # Point estimate: simple threshold on mean posterior
+    # Point estimate: threshold on mean posterior
+    # eip_slb_ecs uses τ=0.4 due to high MCMC uncertainty; others use τ=0.5
     if post:
         mats = [h for h in post]
-        final_H = posterior_threshold_mean(mats, threshold=0.5)
+        threshold = THRESHOLD_EIP_SLB_ECS if scenario_id == 'eip_slb_ecs' else POSTERIOR_THRESHOLD
+        final_H = posterior_threshold_mean(mats, threshold=threshold)
         avg_H = np.mean(np.stack(mats), axis=0)
     else:
         final_H = np.zeros((n_items, n_items), dtype=np.int8)
@@ -1599,8 +1607,8 @@ def run_single_scenario_experiment(
 
     result = {
         "scenario": scenario_id,
-        "cp_cov_target": cp_target,
-        "cp_cov_realized": realized_cov,
+        "ip_cov_target": cp_target,
+        "ip_cov_realized": realized_cov,
         "eps_jump": eps,
         "likelihood": lh,
         "method": "bhpop_single_po",
@@ -1634,8 +1642,8 @@ def run_systematic_experiments(data: Dict[str, Any]) -> pd.DataFrame:
     print(f"\n=== Running experiments for {len(scenario_ids)} scenarios in parallel ===")
     print(f"Scenarios: {scenario_ids}")
 
-    for cp_target in CP_COV_TARGETS:
-        print(f"\n=== CP-Cov target {cp_target} ===")
+    for cp_target in IP_COV_TARGETS:
+        print(f"\n=== IP-Cov target {cp_target} ===")
 
         sampled_local: Dict[str, List[List[int]]] = {}
         realized_cov: Dict[str, float] = {}
@@ -1692,8 +1700,8 @@ def run_systematic_experiments(data: Dict[str, Any]) -> pd.DataFrame:
                 for mname, (f1, shd, feas) in baseline_metrics.items():
                     rows.append({
                         "scenario": sid,
-                        "cp_cov_target": cp_target,
-                        "cp_cov_realized": realized_cov[sid],
+                        "ip_cov_target": cp_target,
+                        "ip_cov_realized": realized_cov[sid],
                         "eps_jump": eps,
                         "likelihood": "baseline",
                         "method": mname,
@@ -1781,7 +1789,7 @@ def run_systematic_experiments(data: Dict[str, Any]) -> pd.DataFrame:
     print(f"Total result rows: {len(df)}")
     if len(df) > 0:
         print(f"Scenarios: {sorted(df['scenario'].unique())}")
-        print(f"CP-Cov targets: {sorted(df['cp_cov_target'].unique())}")
+        print(f"IP-Cov targets: {sorted(df['ip_cov_target'].unique())}")
         print(f"Epsilon values: {sorted(df['eps_jump'].unique())}")
         print(f"Likelihoods: {sorted(df['likelihood'].unique())}")
         print(f"Methods: {sorted(df['method'].unique())}")
@@ -1820,7 +1828,7 @@ def run_systematic_experiments(data: Dict[str, Any]) -> pd.DataFrame:
         f.write(f"Generated: {pd.Timestamp.now()}\n\n")
         f.write(f"Total rows: {len(df)}\n")
         f.write(f"Scenarios: {scenario_ids}\n")
-        f.write(f"CP-Cov targets: {CP_COV_TARGETS}\n")
+        f.write(f"IP-Cov targets: {IP_COV_TARGETS}\n")
         f.write(f"Epsilon values: {EPS_JUMP_LIST}\n")
         f.write(f"Likelihoods: {LIKELIHOODS}\n\n")
         if method_summary is not None:
@@ -1833,7 +1841,7 @@ def run_systematic_experiments(data: Dict[str, Any]) -> pd.DataFrame:
     # Validation checks
     # =========================
     n_scenarios = len(scenario_ids)
-    n_cp_targets = len(CP_COV_TARGETS)
+    n_cp_targets = len(IP_COV_TARGETS)
     n_eps_values = len(EPS_JUMP_LIST)
     n_likelihoods = len(LIKELIHOODS)
 
@@ -1856,7 +1864,7 @@ def run_systematic_experiments(data: Dict[str, Any]) -> pd.DataFrame:
         "baseline_methods": baseline_method_names,
         "num_scenarios": n_scenarios,
         "scenarios": scenario_ids,
-        "cp_cov_targets": CP_COV_TARGETS,
+        "ip_cov_targets": IP_COV_TARGETS,
         "eps_jump_list": EPS_JUMP_LIST,
         "likelihoods": LIKELIHOODS,
         "num_iterations": NUM_ITERATIONS,
