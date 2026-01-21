@@ -109,4 +109,6 @@ aliyun_data/
 data/real_osworld_traces/
 data/parsed_real_analysis/
 notebooks/systematic_experiment_results/
+# But allow summary.json files
+!notebooks/systematic_experiment_results/**/summary.json
 *.log

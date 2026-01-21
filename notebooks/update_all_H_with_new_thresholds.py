@@ -2,7 +2,7 @@
 """
 Recompute ALL final_H graphs using new thresholds WITHOUT re-running MCMC.
 - eip_slb_ecs: τ=0.4
-- All others: τ=0.5
+- All others: τ=0.4
 """
 import sys
 from pathlib import Path
@@ -20,7 +20,40 @@ from src.utils.po_fun import BasicUtils
 
 # Thresholds
 THRESHOLD_EIP = 0.4
-THRESHOLD_DEFAULT = 0.5
+THRESHOLD_DEFAULT = 0.4
+
+# Workaround for numpy version mismatch in pickle files
+def load_pickle_with_numpy_fix(path):
+    """Load pickle file with workaround for numpy._core vs numpy.core issue."""
+    import sys
+    
+    # Preemptively set up aliases for numpy version compatibility
+    try:
+        import numpy.core
+        # If numpy.core exists but pickle expects numpy._core, create alias
+        if 'numpy._core' not in sys.modules:
+            sys.modules['numpy._core'] = numpy.core
+            # Also handle submodules that might be referenced
+            try:
+                sys.modules['numpy._core._multiarray_umath'] = numpy.core.multiarray
+            except:
+                pass
+    except ImportError:
+        pass
+    
+    # Try loading with different strategies
+    try:
+        with open(path, 'rb') as f:
+            return pickle.load(f)
+    except (ImportError, ModuleNotFoundError) as e:
+        if 'numpy._core' in str(e) or 'numpy.core' in str(e):
+            # Try with latin1 encoding which is more forgiving
+            try:
+                with open(path, 'rb') as f:
+                    return pickle.load(f, encoding='latin1')
+            except Exception:
+                raise
+        raise
 
 
 def load_true_cover(scenario_name: str, data_root: Path) -> np.ndarray:
@@ -105,8 +138,7 @@ def main():
                 if not avg_H_path.exists():
                     continue
                 
-                with open(avg_H_path, "rb") as f:
-                    avg_H = pickle.load(f)
+                avg_H = load_pickle_with_numpy_fix(avg_H_path)
                 
                 # Apply threshold
                 H_new = (avg_H >= threshold).astype(np.int8)
@@ -126,8 +158,8 @@ def main():
                     
                     bhpop_rows_new.append({
                         'scenario': scenario,
-                        'cp_cov_target': orig_row['cp_cov_target'],
-                        'cp_cov_realized': orig_row['cp_cov_realized'],
+                        'ip_cov_target': orig_row['ip_cov_target'],
+                        'ip_cov_realized': orig_row['ip_cov_realized'],
                         'eps_jump': orig_row['eps_jump'],
                         'likelihood': orig_row['likelihood'],
                         'method': 'bhpop_single_po',
@@ -168,22 +200,26 @@ def main():
     print(f"{'Scenario':25s} {'τ':>6s} {'F1_new':>9s} {'F1_old':>9s} {'Δ':>9s}")
     print("-"*70)
     
-    for scenario in sorted(df_combined['scenario'].unique()):
-        new_data = df_bhpop_new[df_bhpop_new['scenario'] == scenario]
-        old_data = df_original[
-            (df_original['scenario'] == scenario) & 
-            (df_original['method'] == 'bhpop_single_po')
-        ]
-        
-        if len(new_data) > 0 and len(old_data) > 0:
-            f1_new = new_data['cover_f1'].mean()
-            f1_old = old_data['cover_f1'].mean()
-            improvement = f1_new - f1_old
+    # Only do comparison if we have BHPOP data
+    if len(df_bhpop_new) > 0:
+        for scenario in sorted(df_combined['scenario'].unique()):
+            new_data = df_bhpop_new[df_bhpop_new['scenario'] == scenario]
+            old_data = df_original[
+                (df_original['scenario'] == scenario) & 
+                (df_original['method'] == 'bhpop_single_po')
+            ]
             
-            threshold = THRESHOLD_EIP if scenario == 'eip_slb_ecs' else THRESHOLD_DEFAULT
-            marker = '✓✓' if improvement > 0.1 else ('✓' if abs(improvement) > 0.01 else '≈')
-            
-            print(f"{scenario:25s} {threshold:6.2f} {f1_new:9.3f} {f1_old:9.3f} {improvement:+9.3f} {marker}")
+            if len(new_data) > 0 and len(old_data) > 0:
+                f1_new = new_data['cover_f1'].mean()
+                f1_old = old_data['cover_f1'].mean()
+                improvement = f1_new - f1_old
+                
+                threshold = THRESHOLD_EIP if scenario == 'eip_slb_ecs' else THRESHOLD_DEFAULT
+                marker = '✓✓' if improvement > 0.1 else ('✓' if abs(improvement) > 0.01 else '≈')
+                
+                print(f"{scenario:25s} {threshold:6.2f} {f1_new:9.3f} {f1_old:9.3f} {improvement:+9.3f} {marker}")
+    else:
+        print("No BHPOP rows were processed - cannot compare.")
     
     print()
     print("="*70)

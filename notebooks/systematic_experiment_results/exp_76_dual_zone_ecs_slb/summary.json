@@ -3,11 +3,11 @@
   "experiment_name": "exp_76_dual_zone_ecs_slb",
   "scenario_name": "dual_zone_ecs_slb",
   "configuration": {
-    "ip_cov_target": 0.5,
+    "ip_cov_target": 0.6,
     "ip_cov_realized": 0.8,
-    "eps_jump": 0.02,
+    "eps_jump": 0.005,
     "likelihood": "log_successors_queue_jump",
-    "num_iterations": 500000,
+    "num_iterations": 1000000,
     "burn_in_fraction": 0.5,
     "thin": 1
   },
@@ -188,6 +188,6 @@
   },
   "metadata": {
     "model_type": "single_partial_order_per_scenario",
-    "timestamp": "2026-01-20 04:25:33.589972"
+    "timestamp": "2026-01-21 05:35:09.779236"
   }
 }

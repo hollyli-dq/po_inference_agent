@@ -37,8 +37,10 @@ def calculate_dimension_proportional_weights(
     """
     # Calculate weighted dimensions for each parameter block
     # Single partial order model - just U, rho, noise, and optionally K
+    # Note: U updates are now coordinate-wise (one coordinate per update)
+    # We'll use a fraction to avoid too many updates per cycle
     weighted_dims = {
-        'U': 1.0 * n_items,              # Update latent utilities (one update per item)
+        'U': 0.3 * n_items,              # Coordinate-wise updates (reduced frequency for speed)
         'rho': 2.0 * 1,                  # Correlation parameter
         'noise': 2.0 * 1,                # Noise parameter
     }
@@ -235,8 +237,23 @@ def mcmc_simulation_po(
     
         Sigma_rho = BasicUtils.build_Sigma_rho(K, rho)
 
-        # Initialize U ~ N(0, Sigma_rho) for each item
+        # Initialize U with data-informed starting point
+        # Count how often each item appears before others in observed orders
+        item_scores = np.zeros(n)
+        for order in observed_orders:
+            for pos, item_id in enumerate(order):
+                if item_id in item_to_index:
+                    idx = item_to_index[item_id]
+                    # Earlier positions get higher scores
+                    item_scores[idx] += (len(order) - pos) / len(order)
+        
+        # Normalize scores and use as mean for initialization
+        if item_scores.sum() > 0:
+            item_scores = (item_scores - item_scores.mean()) / (item_scores.std() + 1e-6)
+        
+        # Initialize U: use item_scores for first dimension, then sample others
         U = rng.multivariate_normal(mean=np.zeros(K), cov=Sigma_rho, size=n)
+        U[:, 0] = item_scores  # Data-informed first dimension
         
         # Build partial order from U
         eta = StatisticalUtils.transform_U_to_eta(U)
@@ -449,26 +466,34 @@ def mcmc_simulation_po(
             update_type_timing = time.time() - upd_start
 
         # ------------------------------------------------
-        # Update: U (latent utilities)
+        # Update: U (latent utilities) - Gibbs-style coordinate proposal
         # ------------------------------------------------
         elif update_category == "U":
             upd_start = time.time()
             
-            # Pick a random row to update
+            # Pick a random row and coordinate
             i = rng.integers(0, n)
-            current_row = U[i, :].copy()
+            c = rng.integers(0, K)
             
-            # Random walk proposal: N(current_row, Sigma_rho)
-            Sigma = BasicUtils.build_Sigma_rho(K, rho)
-            proposed_row = rng.multivariate_normal(mean=current_row, cov=Sigma)
+            # Propose from conditional prior (so prior ratio cancels with proposal ratio)
+            # For equicorrelation Σ_ρ with diag=1, off-diag=ρ:
+            # U[i,c] | U[i,−c] ∼ N(μ_cond, σ²_cond)
+            prior_start = time.time()
+            if K == 1:
+                # Special case: univariate, just N(0, 1)
+                mu_cond = 0.0
+                sigma_cond = 1.0
+            else:
+                sum_other = U[i, :].sum() - U[i, c]
+                mu_cond = (rho / (1.0 + (K - 2) * rho)) * sum_other
+                var_cond = (1.0 - rho) * (1.0 + (K - 1) * rho) / (1.0 + (K - 2) * rho)
+                sigma_cond = math.sqrt(var_cond)
+            
+            u_new = rng.normal(mu_cond, sigma_cond)
+            total_prior_time = time.time() - prior_start
 
             U_prime = U.copy()
-            U_prime[i, :] = proposed_row
-
-            prior_start = time.time()
-            lp_current = StatisticalUtils.log_U_prior_optimized(U, rho, K)
-            lp_proposed = StatisticalUtils.log_U_prior_optimized(U_prime, rho, K)
-            total_prior_time = time.time() - prior_start
+            U_prime[i, c] = u_new
             
             # Build new partial order
             llk_start = time.time()
@@ -488,7 +513,8 @@ def mcmc_simulation_po(
             )
             total_likelihood_time = time.time() - llk_start
 
-            log_accept = (lp_proposed + log_llk_proposed) - (lp_current + log_llk_current)
+            # Prior ratio cancels with proposal ratio → accept based on likelihood only
+            log_accept = log_llk_proposed - log_llk_current
             accept_prob = min(1.0, math.exp(min(log_accept, 700)))
             if rng.random() < accept_prob:
                 U = U_prime
@@ -546,6 +572,9 @@ def mcmc_simulation_po(
                 )
                 total_likelihood_time = time.time() - llk_start
                 
+                # Proposal probability correction for reversible jump
+                # Forward (K→K+1): prob = 1.0 if K=1, else 0.5 (can go up or down)
+                # Backward (K+1→K): prob = 0.5 (can go up or down from K+1)
                 rho_fk = 1.0 if K == 1 else 0.5
                 rho_bk = 0.5
                 log_accept = (lp_proposed + log_llk_proposed) - (lp_current + log_llk_current) + math.log(rho_bk) - math.log(rho_fk)
@@ -595,7 +624,12 @@ def mcmc_simulation_po(
                     )
                     total_likelihood_time = time.time() - llk_start
 
-                    log_accept = (lp_proposed + log_llk_proposed) - (lp_current + log_llk_current)
+                    # Proposal probability correction for reversible jump (reverse of up move)
+                    # Forward (K→K-1): prob = 0.5 (can go up or down from K)
+                    # Backward (K-1→K): prob = 1.0 if K-1=1, else 0.5
+                    rho_fk = 0.5  
+                    rho_bk = 1.0 if K_prime == 1 else 0.5
+                    log_accept = (lp_proposed + log_llk_proposed) - (lp_current + log_llk_current) + math.log(rho_bk) - math.log(rho_fk)
                     accept_prob = min(1.0, math.exp(min(log_accept, 700)))
            
                     if rng.random() < accept_prob:

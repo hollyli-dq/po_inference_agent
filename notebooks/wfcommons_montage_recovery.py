@@ -568,6 +568,7 @@ def run_wfcommons_systematic(
 
             # ---- MCMC sweeps ----
             for eps in eps_jump_list:
+                # Set epsilon for log_successors_queue_jump (must be set before MCMC)
                 HPO_LogLikelihoodCache_Optimized.SOFTMAX_FRONTIER_EPS = float(eps)
 
                 for lh in likelihoods:
@@ -575,11 +576,13 @@ def run_wfcommons_systematic(
                     seed = seed_base + exp_id
                     print(f"    MCMC: eps={eps} lh={lh} seed={seed} traces={len(idxs)} n={n}")
 
-                    mcmc = mcmc_simulation_po(
+                    # Convert single-PO parameters to hierarchical format (single assessor)
+                    assessor_id = inputs.assessors[0]
+                    mcmc = mcmc_simulation_hpo_k_optim(
                         num_iterations=num_iterations,
-                        items=list(M0),  # All items for this assessor
-                        choice_sets=sampled_choice_sets,
-                        observed_orders=sampled_orders,
+                        M_a_dict={assessor_id: list(M0)},
+                        O_a_i_dict={assessor_id: sampled_choice_sets},
+                        observed_orders={assessor_id: sampled_orders},
                         dr=0.95,
                         noise_option=lh,
                         rho_prior=1.0,
@@ -588,7 +591,6 @@ def run_wfcommons_systematic(
                         fixed_K=fixed_k,
                         random_seed=seed,
                         cycle_length=cycle_length,
-                        epsilon=eps,  # eps_jump becomes epsilon parameter
                         softmax_beta_prior=(2.0, 1.0),
                         softmax_beta_stepsize=0.1,
                     )
@@ -598,8 +600,9 @@ def run_wfcommons_systematic(
                     burn = int(len(H_trace) * burn_in_fraction)
                     post = H_trace[burn::max(1, thin)]
 
-                    # H_trace is now a list of matrices directly (not dict keyed by assessor)
-                    mats = post
+                    # H_trace is a list of dicts: [{assessor_id: matrix}, ...]
+                    # Extract matrices for our single assessor
+                    mats = [it[assessor_id] for it in post if assessor_id in it]
                     if not mats:
                         print("      (no post-burn H samples; skipping eval)")
                         continue
