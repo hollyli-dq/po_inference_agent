@@ -1,0 +1,16 @@
+======================================================================
+WfInstances Epigenomics Experiment (PARALLEL)
+======================================================================
+Workers: 4
+
+1. Loading Epigenomics workflow...
+   Workflow: epigenomics-chameleon-hep-1seq-100k-001
+   Tasks: 41
+   Edges (ground truth): 48
+   Incomparable pairs: 576
+   Parallelism: 70.2%
+
+2. Running 4 experiments in PARALLEL (4 workers)...
+   IP-Cov targets: [0.5, 0.7, 0.85, 0.95]
+   Iterations per experiment: 1,000,000
+======================================================================

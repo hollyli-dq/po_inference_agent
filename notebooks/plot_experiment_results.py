@@ -177,6 +177,12 @@ def main():
     
     ip_cov_targets = sorted(df_baselines['ip_cov_target'].dropna().unique())
     
+    # Plot BPOP across IP-Cov targets (plot first to be behind baselines)
+    bpop_grouped = df_bpop.groupby('ip_cov_target')['cover_f1'].agg(['mean', 'std'])
+    ax2.errorbar(bpop_grouped.index, bpop_grouped['mean'], yerr=bpop_grouped['std'],
+                marker=MARKERS['bhpop_single_po'], color=COLORS['bhpop_single_po'],
+                label='BPOP (Ours)', capsize=5, markersize=12, linewidth=2.5, zorder=5)
+    
     # Plot baselines across IP-Cov targets
     for method in baseline_methods:
         method_data = df_baselines[df_baselines['method'] == method]
@@ -184,16 +190,6 @@ def main():
         ax2.errorbar(grouped.index, grouped['mean'], yerr=grouped['std'],
                     marker=MARKERS[method], color=COLORS[method], 
                     label=METHOD_LABELS[method], capsize=3, linewidth=2, markersize=8)
-    
-    # Plot BPOP as a single point at IP-Cov=0.6
-    bpop_mean = df_bpop['cover_f1'].mean()
-    bpop_std = df_bpop['cover_f1'].std()
-    ax2.errorbar([0.6], [bpop_mean], yerr=[bpop_std], marker='*', color=COLORS['bhpop_single_po'],
-                label=f'BPOP (Ours)', capsize=5, markersize=15, linewidth=2)
-    
-    # Add horizontal dashed line for BPOP reference
-    ax2.axhline(y=bpop_mean, color=COLORS['bhpop_single_po'], linestyle='--', alpha=0.4, linewidth=1.5)
-    ax2.text(1.01, bpop_mean, f'BPOP={bpop_mean:.2f}', va='center', fontsize=9, color=COLORS['bhpop_single_po'])
     
     ax2.set_xlabel('IP-Coverage Target', fontsize=12)
     ax2.set_ylabel('Edge F1 Score (Structural Recovery)', fontsize=12)
@@ -208,6 +204,39 @@ def main():
     fig2.savefig(output_dir / 'f1_vs_ipcov.png', dpi=300)
     print(f"Saved: {output_dir / 'f1_vs_ipcov.pdf'}")
     plt.close(fig2)
+    
+    # =====================================================================
+    # FIGURE 2b: Aggregate Feasibility vs IP-Coverage
+    # =====================================================================
+    fig2b, ax2b = plt.subplots(figsize=(8, 5))
+    
+    # Plot BPOP across IP-Cov targets (no error bars)
+    bpop_feas_grouped = df_bpop.groupby('ip_cov_target')['feas'].mean()
+    ax2b.plot(bpop_feas_grouped.index, bpop_feas_grouped.values,
+              marker=MARKERS['bhpop_single_po'], color=COLORS['bhpop_single_po'],
+              label='BPOP (Ours)', markersize=12, linewidth=2.5, zorder=5)
+    
+    # Plot baselines across IP-Cov targets (no error bars)
+    for method in baseline_methods:
+        method_data = df_baselines[df_baselines['method'] == method]
+        grouped = method_data.groupby('ip_cov_target')['feas'].mean()
+        ax2b.plot(grouped.index, grouped.values,
+                  marker=MARKERS[method], color=COLORS[method], 
+                  label=METHOD_LABELS[method], linewidth=2, markersize=8)
+    
+    ax2b.set_xlabel('IP-Coverage Target', fontsize=12)
+    ax2b.set_ylabel('Feasibility', fontsize=12)
+    ax2b.set_title('Feasibility vs Trace Informativeness (Aggregate)', fontweight='bold', fontsize=13)
+    ax2b.set_xlim([0.55, 1.05])
+    ax2b.set_ylim([0, 1.1])
+    ax2b.legend(loc='center right', fontsize=10, frameon=True)
+    ax2b.grid(alpha=0.3)
+    
+    fig2b.tight_layout()
+    fig2b.savefig(output_dir / 'feasibility_vs_ipcov.pdf')
+    fig2b.savefig(output_dir / 'feasibility_vs_ipcov.png', dpi=300)
+    print(f"Saved: {output_dir / 'feasibility_vs_ipcov.pdf'}")
+    plt.close(fig2b)
     
     # =====================================================================
     # FIGURE 3: Edge F1 by Scenario (detailed breakdown)
@@ -294,7 +323,7 @@ def main():
     for idx, scenario in enumerate(scenarios):
         ax = axes5[idx]
         
-        # Baselines across IP-Cov
+        # Baselines across IP-Cov (plot first so BPOP is on top)
         for method in baseline_methods:
             data = df_baselines[(df_baselines['scenario'] == scenario) & 
                                (df_baselines['method'] == method)]
@@ -303,19 +332,25 @@ def main():
                 ax.plot(grouped.index, grouped.values, marker=MARKERS[method],
                        color=COLORS[method], label=METHOD_LABELS[method], linewidth=2, markersize=6)
         
-        # BPOP point at 0.6
+        # BPOP across IP-Cov (plot last so it's on top)
         bpop_data = df_bpop[df_bpop['scenario'] == scenario]
         if len(bpop_data) > 0:
-            bpop_f1 = bpop_data['cover_f1'].mean()
-            ax.scatter([0.6], [bpop_f1], marker='*', s=200, color=COLORS['bhpop_single_po'],
-                      label=f'BPOP ({bpop_f1:.2f})', zorder=5, edgecolors='black', linewidth=0.5)
-            ax.axhline(y=bpop_f1, color=COLORS['bhpop_single_po'], linestyle='--', alpha=0.4)
+            grouped = bpop_data.groupby('ip_cov_target')['cover_f1'].mean()
+            # Add small offset for S1 where BPOP and Majority both = 1.0
+            y_offset = -0.03 if scenario == 'simple_ecs' else 0
+            ax.plot(grouped.index, grouped.values + y_offset, marker=MARKERS['bhpop_single_po'],
+                   color=COLORS['bhpop_single_po'], label=METHOD_LABELS['bhpop_single_po'], 
+                   linewidth=2.5, markersize=12, zorder=10)
+            # Add annotation for S1
+            if scenario == 'simple_ecs':
+                ax.annotate('BPOP=Majority=1.0', xy=(0.8, 1.0), fontsize=8, 
+                           ha='center', va='bottom', color='gray')
         
         ax.set_xlabel('IP-Cov Target')
         ax.set_ylabel('Edge F1')
         ax.set_title(f'{SCENARIO_SHORT[scenario]}: {scenario.replace("_", " ")}', fontweight='bold', fontsize=11)
         ax.set_xlim([0.55, 1.05])
-        ax.set_ylim([0, 1.1])
+        ax.set_ylim([0, 1.15])
         ax.grid(alpha=0.3)
         if idx == 0:
             ax.legend(loc='lower left', fontsize=7, ncol=2)
@@ -336,24 +371,49 @@ def main():
     for idx, scenario in enumerate(scenarios):
         ax = axes6[idx]
         
+        # Get BPOP and baseline data for this scenario
+        bpop_data = df_bpop[df_bpop['scenario'] == scenario]
+        bpop_feas = bpop_data.groupby('ip_cov_target')['feas'].mean() if len(bpop_data) > 0 else None
+        
+        # Baselines (with small offsets for overlapping)
+        offsets = {'majority': -0.02, 'inductive_miner_imf': 0.02, 'heuristics_miner': 0.0}
         for method in baseline_methods:
             data = df_baselines[(df_baselines['scenario'] == scenario) & 
                                (df_baselines['method'] == method)]
             if len(data) > 0:
                 grouped = data.groupby('ip_cov_target')['feas'].mean()
-                ax.plot(grouped.index, grouped.values, marker=MARKERS[method],
+                # Apply offset only when values overlap at 1.0
+                y_vals = grouped.values.copy()
+                if bpop_feas is not None:
+                    for i, ip_cov in enumerate(grouped.index):
+                        if ip_cov in bpop_feas.index:
+                            if abs(y_vals[i] - bpop_feas[ip_cov]) < 0.05:
+                                y_vals[i] += offsets[method]
+                ax.plot(grouped.index, y_vals, marker=MARKERS[method],
                        color=COLORS[method], label=METHOD_LABELS[method], linewidth=2, markersize=6)
+        
+        # BPOP (on top, with slight offset down when all methods = 1.0)
+        if bpop_feas is not None and not bpop_feas.isna().all():
+            y_vals = bpop_feas.values.copy()
+            # For simple_ecs where all are 1.0, shift BPOP down slightly
+            if scenario == 'simple_ecs':
+                y_vals = y_vals - 0.04
+                ax.annotate('BPOP=Maj.=Ind.=1.0', xy=(0.8, 1.0), fontsize=7, 
+                           ha='center', va='bottom', color='gray')
+            ax.plot(bpop_feas.index, y_vals, marker=MARKERS['bhpop_single_po'],
+                   color=COLORS['bhpop_single_po'], label=METHOD_LABELS['bhpop_single_po'], 
+                   linewidth=2.5, markersize=12, zorder=10)
         
         ax.set_xlabel('IP-Cov Target')
         ax.set_ylabel('Feasibility')
         ax.set_title(f'{SCENARIO_SHORT[scenario]}: {scenario.replace("_", " ")}', fontweight='bold', fontsize=11)
         ax.set_xlim([0.55, 1.05])
-        ax.set_ylim([0, 1.1])
+        ax.set_ylim([0, 1.15])
         ax.grid(alpha=0.3)
         if idx == 0:
-            ax.legend(loc='lower left', fontsize=8)
+            ax.legend(loc='lower left', fontsize=7, ncol=2)
     
-    fig6.suptitle('Feasibility vs IP-Coverage by Scenario (Baselines)', fontsize=14, fontweight='bold')
+    fig6.suptitle('Feasibility vs IP-Coverage by Scenario', fontsize=14, fontweight='bold')
     fig6.tight_layout()
     fig6.savefig(output_dir / 'feasibility_by_scenario.pdf')
     fig6.savefig(output_dir / 'feasibility_by_scenario.png', dpi=300)
