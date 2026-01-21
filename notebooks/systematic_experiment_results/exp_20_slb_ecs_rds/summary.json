@@ -1,5 +1,5 @@
 {
-  "experiment_id": "20",
+  "experiment_id": 20,
   "experiment_name": "exp_20_slb_ecs_rds",
   "scenario_name": "slb_ecs_rds",
   "configuration": {

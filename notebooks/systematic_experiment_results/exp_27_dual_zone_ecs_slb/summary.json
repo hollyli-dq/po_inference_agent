@@ -1,11 +1,11 @@
 {
-  "experiment_id": "27",
+  "experiment_id": 27,
   "experiment_name": "exp_27_dual_zone_ecs_slb",
   "scenario_name": "dual_zone_ecs_slb",
   "configuration": {
-    "ip_cov_target": 0.6,
+    "ip_cov_target": 0.7,
     "ip_cov_realized": 0.8,
-    "eps_jump": 0.005,
+    "eps_jump": 0.02,
     "likelihood": "log_successors_queue_jump",
     "num_iterations": 1000000,
     "burn_in_fraction": 0.5,

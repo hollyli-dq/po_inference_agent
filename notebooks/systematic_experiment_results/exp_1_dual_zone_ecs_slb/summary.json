@@ -1,5 +1,5 @@
 {
-  "experiment_id": "1",
+  "experiment_id": 1,
   "experiment_name": "exp_1_dual_zone_ecs_slb",
   "scenario_name": "dual_zone_ecs_slb",
   "configuration": {

@@ -1,5 +1,5 @@
 {
-  "experiment_id": "13",
+  "experiment_id": 13,
   "experiment_name": "exp_13_simple_ecs",
   "scenario_name": "simple_ecs",
   "configuration": {

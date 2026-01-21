@@ -1,10 +1,10 @@
 {
-  "experiment_id": "92",
+  "experiment_id": 92,
   "experiment_name": "exp_92_slb_ecs_rds",
   "scenario_name": "slb_ecs_rds",
   "configuration": {
-    "ip_cov_target": 0.6,
-    "ip_cov_realized": 0.84375,
+    "ip_cov_target": 0.9,
+    "ip_cov_realized": 0.9375,
     "eps_jump": 0.05,
     "likelihood": "log_successors_queue_jump",
     "num_iterations": 1000000,

@@ -27,13 +27,88 @@ RESULTS_DIR = Path(__file__).parent / "systematic_experiment_results"
 BURN_IN_FRACTION = 0.5
 THIN = 1
 
-# Load experiment summary to get configuration
-experiment_summary_path = RESULTS_DIR / "experiment_summary.csv"
-if experiment_summary_path.exists():
-    exp_summary_df = pd.read_csv(experiment_summary_path)
-else:
-    print(f"Warning: {experiment_summary_path} not found")
-    exp_summary_df = None
+# Experiment grid configuration (must match systematic_experiments.py)
+IP_COV_TARGETS = [0.6, 0.7, 0.8, 0.9, 1.0]
+EPS_JUMP_LIST = [0.005, 0.01, 0.02, 0.05]
+SCENARIO_ORDER = [
+    'dual_zone_ecs_slb',
+    'dual_zone_ecs_slb_rds', 
+    'eip_slb_ecs',
+    'simple_ecs',
+    'slb_ecs_rds',
+    'slb_ecs_redis'
+]
+LIKELIHOODS = ['log_successors_queue_jump']
+
+
+def exp_id_to_config(exp_id: int) -> dict:
+    """
+    Derive experiment configuration from exp_id.
+    
+    The experiments are run in nested loops:
+        for ip_cov in IP_COV_TARGETS:      # 5 levels
+            for scenario in SCENARIO_ORDER: # 6 scenarios
+                for eps in EPS_JUMP_LIST:   # 4 values
+                    for lh in LIKELIHOODS:  # 1 value
+                        exp_id += 1
+    
+    So exp_id 1-24 = IP-Cov 0.6, exp_id 25-48 = IP-Cov 0.7, etc.
+    """
+    # exp_id is 1-indexed
+    idx = exp_id - 1
+    
+    n_scenarios = len(SCENARIO_ORDER)
+    n_eps = len(EPS_JUMP_LIST)
+    n_lh = len(LIKELIHOODS)
+    
+    # Number of experiments per IP-Cov level
+    per_ipcov = n_scenarios * n_eps * n_lh  # 6 * 4 * 1 = 24
+    
+    ip_cov_idx = idx // per_ipcov
+    remainder = idx % per_ipcov
+    
+    # Within IP-Cov level: scenarios × eps × likelihood
+    per_scenario = n_eps * n_lh  # 4
+    scenario_idx = remainder // per_scenario
+    remainder2 = remainder % per_scenario
+    
+    eps_idx = remainder2 // n_lh
+    lh_idx = remainder2 % n_lh
+    
+    # Bounds check
+    if ip_cov_idx >= len(IP_COV_TARGETS):
+        return None
+    if scenario_idx >= len(SCENARIO_ORDER):
+        return None
+    
+    return {
+        'ip_cov_target': IP_COV_TARGETS[ip_cov_idx],
+        'scenario': SCENARIO_ORDER[scenario_idx],
+        'eps_jump': EPS_JUMP_LIST[eps_idx],
+        'likelihood': LIKELIHOODS[lh_idx],
+    }
+
+
+# Load ip_cov_realized lookup from baseline data
+# The baseline rows have correct ip_cov_realized computed during the original run
+IP_COV_REALIZED_LOOKUP = {}
+for csv_name in ['experiment_summary_t0.30.csv', 'experiment_summary_t0.33.csv', 'experiment_summary_t0.40.csv']:
+    csv_path = RESULTS_DIR / csv_name
+    if csv_path.exists():
+        try:
+            df = pd.read_csv(csv_path)
+            baselines = df[df['method'] == 'majority']
+            for _, row in baselines.iterrows():
+                key = (row['scenario'], row['ip_cov_target'])
+                if key not in IP_COV_REALIZED_LOOKUP:
+                    IP_COV_REALIZED_LOOKUP[key] = row['ip_cov_realized']
+            print(f"Loaded {len(IP_COV_REALIZED_LOOKUP)} ip_cov_realized values from {csv_name}")
+            break
+        except Exception as e:
+            print(f"Warning: Could not load {csv_name}: {e}")
+
+if not IP_COV_REALIZED_LOOKUP:
+    print("Warning: Could not load ip_cov_realized lookup table")
 
 # Load global metadata
 metadata_path = RESULTS_DIR / "experiment_metadata.json"
@@ -141,8 +216,14 @@ def process_experiment(exp_dir: Path):
         print(f"  Warning: Cannot parse experiment name: {exp_name}")
         return None
     
-    exp_id = parts[1]
+    exp_id_str = parts[1]
     scenario_id = parts[2]
+    
+    try:
+        exp_id = int(exp_id_str)
+    except ValueError:
+        print(f"  Warning: Invalid exp_id: {exp_id_str}")
+        return None
     
     # Load H_trace
     h_trace_path = exp_dir / "H_trace.pkl"
@@ -167,24 +248,27 @@ def process_experiment(exp_dir: Path):
         except Exception as e:
             print(f"  Warning: Could not load param_traces.pkl: {e}")
     
-    # Get configuration from experiment summary
-    config = {}
-    if exp_summary_df is not None:
-        # Find matching row in summary (method='bhpop_single_po' for MCMC experiments)
-        matching_rows = exp_summary_df[
-            (exp_summary_df['scenario'] == scenario_id) & 
-            (exp_summary_df['method'] == 'bhpop_single_po')
-        ]
+    # Get configuration from exp_id (derived from experiment loop structure)
+    derived_config = exp_id_to_config(exp_id)
+    if derived_config is None:
+        print(f"  Warning: Could not derive config for exp_id={exp_id}")
+        config = {}
+    else:
+        # Verify scenario matches
+        if derived_config['scenario'] != scenario_id:
+            print(f"  Warning: Scenario mismatch for exp_{exp_id}: expected {derived_config['scenario']}, got {scenario_id}")
         
-        if len(matching_rows) > 0:
-            # Use first matching row (there might be multiple with different eps values)
-            row = matching_rows.iloc[0]
-            config = {
-                "ip_cov_target": float(row.get('ip_cov_target', 0)),
-                "ip_cov_realized": float(row.get('ip_cov_realized', 0)),
-                "eps_jump": float(row.get('eps_jump', 0)),
-                "likelihood": str(row.get('likelihood', '')),
-            }
+        # Look up actual ip_cov_realized from baseline data
+        ip_cov_target = derived_config['ip_cov_target']
+        lookup_key = (scenario_id, ip_cov_target)
+        ip_cov_realized = IP_COV_REALIZED_LOOKUP.get(lookup_key, ip_cov_target)
+        
+        config = {
+            "ip_cov_target": ip_cov_target,
+            "ip_cov_realized": ip_cov_realized,
+            "eps_jump": derived_config['eps_jump'],
+            "likelihood": derived_config['likelihood'],
+        }
     
     # Get scenario metadata
     # If we don't have task names, we'll infer from H_trace dimensions

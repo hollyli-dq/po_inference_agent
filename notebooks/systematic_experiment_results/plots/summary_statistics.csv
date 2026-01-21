@@ -1,5 +1,0 @@
-method,cover_f1_mean,cover_f1_std,cover_f1_max,shd_mean,shd_std,shd_min,feas_mean,feas_std
-BPOP (Ours),0.719,0.282,1.0,6.56,7.608,0,,
-Heuristics Miner,0.58,0.114,0.737,7.96,3.499,3,0.207,0.261
-Inductive Miner,0.491,0.185,0.727,10.68,6.342,3,1.0,0.0
-Majority,0.571,0.317,1.0,9.32,7.268,0,0.427,0.479

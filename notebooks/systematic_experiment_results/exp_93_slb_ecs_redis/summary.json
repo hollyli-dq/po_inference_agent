@@ -1,10 +1,10 @@
 {
-  "experiment_id": "93",
+  "experiment_id": 93,
   "experiment_name": "exp_93_slb_ecs_redis",
   "scenario_name": "slb_ecs_redis",
   "configuration": {
-    "ip_cov_target": 0.6,
-    "ip_cov_realized": 0.7333333333333333,
+    "ip_cov_target": 0.9,
+    "ip_cov_realized": 0.9333333333333332,
     "eps_jump": 0.005,
     "likelihood": "log_successors_queue_jump",
     "num_iterations": 1000000,

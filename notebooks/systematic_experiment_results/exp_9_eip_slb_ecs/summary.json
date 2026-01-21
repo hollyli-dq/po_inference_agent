@@ -1,5 +1,5 @@
 {
-  "experiment_id": "9",
+  "experiment_id": 9,
   "experiment_name": "exp_9_eip_slb_ecs",
   "scenario_name": "eip_slb_ecs",
   "configuration": {
