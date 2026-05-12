@@ -26,4 +26,4 @@ analysis:
   plot_figsize_global: [20, 15]
   plot_figsize_assessor: [18, 13]
   enable_profiling: true
-  output_dir: notebooks/outputs/hpo_agent_trace_analysis
+  output_dir: results/cloud_iac/agent_trace_analysis

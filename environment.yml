@@ -12,6 +12,7 @@ dependencies:
   - scipy
   - scikit-learn
   - numba
+  - numexpr>=2.10.2
   - xarray
   
   # MCMC and statistical modeling
@@ -23,6 +24,7 @@ dependencies:
   # Data handling and configuration
   - pyyaml
   - pip
+  - openpyxl
   - pyreadr>=0.4.0
   - netcdf4
   - hdf5
@@ -33,6 +35,7 @@ dependencies:
   - networkx
   - graphviz
   - pygraphviz
+  - pm4py
   
   # Jupyter environment
   - jupyter

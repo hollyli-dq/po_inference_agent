@@ -1,6 +1,0 @@
-time,product,api,success,error
-13:42:35,VPC,CreateVpc,1,
-13:42:38,VPC,CreateVSwitch,1,
-13:42:47,ECS,DescribeSecurityGroups,0,"任务未完成: 缺少资源: SecurityGroup(缺少SecurityGroupId), ECS..."
-13:42:51,ECS,CreateSecurityGroup,1,
-13:42:56,ECS,RunInstances,1,

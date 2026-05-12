@@ -1,6 +1,3 @@
-import os
-import sys
-import copy
 import time
 import math
 import random
@@ -11,6 +8,8 @@ from typing import Optional, Dict, List, Any
 
 from src.utils.po_fun import BasicUtils, StatisticalUtils
 from src.utils.po_accelerator_nle_optimized import HPO_LogLikelihoodCache_Optimized
+
+SOFTMAX_NOISE_OPTIONS = ("log_successors_queue_jump", "frontier_softmax_uni_utility")
 
 
 def calculate_dimension_proportional_weights(
@@ -121,7 +120,7 @@ def mcmc_simulation_po(
     dr : float
         Multiplicative step size for rho proposals
     noise_option : str
-        Noise model: "queue_jump", "weighted_queue_jump", "log_successors_queue_jump"
+        Noise model: "queue_jump", "weighted_queue_jump", "log_successors_queue_jump", "frontier_softmax_uni_utility"
     rho_prior : float
         Prior parameter for rho (Beta distribution)
     noise_beta_prior : float
@@ -143,6 +142,7 @@ def mcmc_simulation_po(
     rng = np.random.default_rng(random_seed)
     random.seed(random_seed)
     update_K = fixed_K is None
+    is_softmax_noise_model = noise_option in SOFTMAX_NOISE_OPTIONS
     softmax_beta = None
     epsilon_val = epsilon  # Fixed trembling-hand epsilon
     softmax_beta_trace = []
@@ -180,7 +180,7 @@ def mcmc_simulation_po(
         rho = init_state["rho_final"]
         
         # Restore noise parameters
-        if noise_option == "log_successors_queue_jump":
+        if is_softmax_noise_model:
             # For softmax: epsilon_val is fixed, softmax_beta is restored/initialized
             softmax_beta = init_state.get("softmax_beta_final")
             if softmax_beta is None:
@@ -225,8 +225,8 @@ def mcmc_simulation_po(
         K = fixed_K if fixed_K is not None else K_prior
         
         # Noise model specific parameters
-        if noise_option == "log_successors_queue_jump":
-            # For softmax: epsilon_val is fixed, softmax_beta is updated
+        if is_softmax_noise_model:
+            # For softmax: epsilon_val is fixed, softmax_beta is updated (or ignored for uni_utility)
             softmax_beta = rng.gamma(softmax_beta_prior[0], 1.0 / softmax_beta_prior[1])
             prob_noise = None  # Not used for softmax
         else:
@@ -297,30 +297,46 @@ def mcmc_simulation_po(
     def prepare_softmax_params(noise_opt, softmax_beta_val, epsilon_val):
         if noise_opt == "log_successors_queue_jump":
             return {"beta": softmax_beta_val, "epsilon": epsilon_val}
+        elif noise_opt == "frontier_softmax_uni_utility":
+            # For uniform utility, beta has no effect (Q=0), but we pass it for API consistency
+            return {"beta": 1.0, "epsilon": epsilon_val}
         return None
 
     # Determine which noise parameter to use
     # For softmax: use fixed epsilon_val
     # For queue_jump: use sampled prob_noise
     def get_noise_param():
-        if noise_option == "log_successors_queue_jump":
+        if is_softmax_noise_model:
             return epsilon_val
         else:
             return prob_noise
+
+    def compute_log_likelihood(
+        U_input: np.ndarray,
+        h_input: np.ndarray,
+        noise_param_override: Optional[float] = None,
+        softmax_beta_override: Optional[float] = None,
+    ) -> float:
+        effective_noise_param = (
+            get_noise_param() if noise_param_override is None else noise_param_override
+        )
+        effective_softmax_beta = (
+            softmax_beta if softmax_beta_override is None else softmax_beta_override
+        )
+        return HPO_LogLikelihoodCache_Optimized.calculate_log_likelihood_po_optimized(
+            U=U_input,
+            h=h_input,
+            observed_orders=observed_orders,
+            choice_sets=choice_sets,
+            items=items,
+            item_to_index=item_to_index,
+            prob_noise=effective_noise_param,
+            softmax_params=prepare_softmax_params(noise_option, effective_softmax_beta, epsilon_val),
+            noise_option=noise_option,
+        )
     
     # Calculate initial likelihood
-    noise_param = get_noise_param()
-    log_llk_current = HPO_LogLikelihoodCache_Optimized.calculate_log_likelihood_po_optimized(
-        U=U,
-        h=h,
-        observed_orders=observed_orders,
-        choice_sets=choice_sets,
-        items=items,
-        item_to_index=item_to_index,
-        prob_noise=noise_param,
-        softmax_params=prepare_softmax_params(noise_option, softmax_beta, epsilon_val),
-        noise_option=noise_option,
-    )
+    log_llk_current = compute_log_likelihood(U, h)
 
     for iteration in range(iteration_start + 1, target_iterations + 1):
         iteration_list.append(iteration)
@@ -395,6 +411,8 @@ def mcmc_simulation_po(
                 )
                 total_likelihood_time = time.time() - llk_start
 
+                # Likelihood-only MH ratio: proposal draws prob_noise from its prior,
+                # so prior and proposal terms cancel in the acceptance ratio.
                 log_accept = (log_llk_proposed - log_llk_current)
                 accept_prob = min(1.0, math.exp(min(log_accept, 700)))
                 if rng.random() < accept_prob:
@@ -595,7 +613,12 @@ def mcmc_simulation_po(
                     )
                     total_likelihood_time = time.time() - llk_start
 
-                    log_accept = (lp_proposed + log_llk_proposed) - (lp_current + log_llk_current)
+                    # Proposal probability correction for reversible jump (reverse of up move)
+                    # Forward (K→K-1): prob = 0.5 (can go up or down from K)
+                    # Backward (K-1→K): prob = 1.0 if K-1=1, else 0.5
+                    rho_fk = 0.5  
+                    rho_bk = 1.0 if K_prime == 1 else 0.5
+                    log_accept = (lp_proposed + log_llk_proposed) - (lp_current + log_llk_current) + math.log(rho_bk) - math.log(rho_fk)
                     accept_prob = min(1.0, math.exp(min(log_accept, 700)))
            
                     if rng.random() < accept_prob:
@@ -718,3 +741,112 @@ def mcmc_simulation_po(
         "iteration": target_iterations,
     }
     return result_dict
+
+
+def mcmc_simulation_hpo_k_optim(
+    num_iterations: int,
+    M0: Optional[List[int]] = None,
+    assessors: Optional[List[Any]] = None,
+    M_a_dict: Optional[Dict[Any, List[int]]] = None,
+    O_a_i_dict: Optional[Dict[Any, List[List[int]]]] = None,
+    observed_orders: Optional[Dict[Any, List[List[int]]]] = None,
+    dr: float = 0.95,
+    drrt: Optional[float] = None,
+    noise_option: str = "queue_jump",
+    rho_prior: float = 1.0,
+    noise_beta_prior: float = 1.0,
+    K_prior: int = 2,
+    fixed_K: Optional[int] = None,
+    random_seed: int = 42,
+    cycle_length: int = 1000,
+    epsilon: float = 0.01,
+    softmax_lambda: Optional[float] = None,
+    softmax_beta_prior: tuple = (2.0, 2.0),
+    softmax_beta_stepsize: float = 0.3,
+    init_state: Optional[Dict[str, Any]] = None,
+    checkpoint_interval: Optional[int] = None,
+    checkpoint_callback=None,
+) -> Dict[str, Any]:
+    """
+    Backward-compatible wrapper for the pre-refactor hierarchical API.
+
+    The current codebase uses `mcmc_simulation_po`, which infers a single partial order.
+    Old notebooks still import `mcmc_simulation_hpo_k_optim` and pass a one-assessor
+    hierarchical payload. This wrapper accepts that older call shape, unwraps the single
+    assessor, runs the single-PO sampler, then repacks `U_trace`/`H_trace` and the final
+    matrices into the old dict-of-assessor format expected by the notebooks.
+
+    Notes:
+    - Only the single-assessor case is supported.
+    - `drrt` and `softmax_lambda` are accepted for compatibility but ignored.
+    """
+    del drrt, softmax_lambda
+
+    if M_a_dict is None or O_a_i_dict is None or observed_orders is None:
+        raise ValueError(
+            "Compatibility wrapper requires M_a_dict, O_a_i_dict, and observed_orders."
+        )
+
+    if assessors is None:
+        assessors = list(M_a_dict.keys())
+
+    if len(assessors) != 1:
+        raise NotImplementedError(
+            "mcmc_simulation_hpo_k_optim compatibility wrapper only supports a single assessor. "
+            "Use mcmc_simulation_po directly for the current single-PO workflow."
+        )
+
+    assessor_id = assessors[0]
+    if assessor_id not in M_a_dict or assessor_id not in O_a_i_dict or assessor_id not in observed_orders:
+        raise KeyError(f"Assessor {assessor_id!r} missing from compatibility-wrapper inputs.")
+
+    po_init_state = None
+    if init_state is not None:
+        po_init_state = dict(init_state)
+        if "U_trace" in po_init_state:
+            po_init_state["U_trace"] = [
+                entry[assessor_id] if isinstance(entry, dict) else entry
+                for entry in po_init_state["U_trace"]
+            ]
+        if "H_trace" in po_init_state:
+            po_init_state["H_trace"] = [
+                entry[assessor_id] if isinstance(entry, dict) else entry
+                for entry in po_init_state["H_trace"]
+            ]
+        if isinstance(po_init_state.get("U_final"), dict):
+            po_init_state["U_final"] = po_init_state["U_final"][assessor_id]
+        if isinstance(po_init_state.get("H_final"), dict):
+            po_init_state["H_final"] = po_init_state["H_final"][assessor_id]
+
+    result = mcmc_simulation_po(
+        num_iterations=num_iterations,
+        items=list(M_a_dict[assessor_id]),
+        choice_sets=O_a_i_dict[assessor_id],
+        observed_orders=observed_orders[assessor_id],
+        dr=dr,
+        noise_option=noise_option,
+        rho_prior=rho_prior,
+        noise_beta_prior=noise_beta_prior,
+        K_prior=K_prior,
+        fixed_K=fixed_K,
+        random_seed=random_seed,
+        cycle_length=cycle_length,
+        epsilon=epsilon,
+        softmax_beta_prior=softmax_beta_prior,
+        softmax_beta_stepsize=softmax_beta_stepsize,
+        init_state=po_init_state,
+        checkpoint_interval=checkpoint_interval,
+        checkpoint_callback=checkpoint_callback,
+    )
+
+    compat = dict(result)
+    compat["M0"] = M0
+    compat["assessors"] = list(assessors)
+    compat["M_a_dict"] = M_a_dict
+    compat["O_a_i_dict"] = O_a_i_dict
+    compat["observed_orders"] = observed_orders
+    compat["U_trace"] = [{assessor_id: U} for U in result.get("U_trace", [])]
+    compat["H_trace"] = [{assessor_id: H} for H in result.get("H_trace", [])]
+    compat["U_final"] = {assessor_id: result.get("U_final")}
+    compat["H_final"] = {assessor_id: result.get("H_final")}
+    return compat

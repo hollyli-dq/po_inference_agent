@@ -17,6 +17,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import yaml
 
+from src.utils.result_paths import WORKARENA_RESULTS_DIR
+
 
 def _slugify(text: str) -> str:
     return "".join(ch.lower() if ch.isalnum() else "_" for ch in text).strip("_")
@@ -136,7 +138,7 @@ def main() -> None:
     parser.add_argument("--data-path", required=True, help="Path to WorkArena++ trace JSON/JSONL or directory.")
     parser.add_argument("--action-map", default="config/workarena_action_map.yaml", help="YAML action abstraction map.")
     parser.add_argument("--config", default="config/hpo_mcmc_configuration.yaml", help="MCMC config YAML.")
-    parser.add_argument("--output-dir", default="notebooks/outputs/workarena_bhpop", help="Output directory.")
+    parser.add_argument("--output-dir", default=str(WORKARENA_RESULTS_DIR), help="Output directory.")
     parser.add_argument("--tasks", nargs="*", default=[], help="Task IDs/names to run.")
     parser.add_argument("--top-k", type=int, default=3, help="Number of top tasks (by traces) to run if none selected.")
     parser.add_argument("--min-traces-per-agent", type=int, default=2, help="Minimum successful traces per agent.")

@@ -1,5 +1,0 @@
-time,product,api,success,error
-13:42:09,VPC,CreateVpc,1,
-13:42:14,VPC,CreateVSwitch,1,
-13:42:18,ECS,CreateSecurityGroup,1,
-13:42:25,ECS,RunInstances,1,

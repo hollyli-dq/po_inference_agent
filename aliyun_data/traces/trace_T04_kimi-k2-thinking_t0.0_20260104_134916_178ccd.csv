@@ -1,9 +1,0 @@
-time,product,api,success,error
-13:49:41,VPC,CreateVpc,1,
-13:49:57,VPC,CreateVSwitch,1,
-13:50:12,ECS,CreateSecurityGroup,1,
-13:50:32,ECS,RunInstances,1,
-13:51:51,ECS,DescribeLoadBalancers,0,"任务未完成: 缺少资源: SLB(缺少LoadBalancerId), EIP(缺少Allocati..."
-13:52:11,SLB,CreateLoadBalancer,1,
-13:52:26,EIP,AllocateEipAddress,1,
-13:52:45,EIP,AssociateEipAddress,1,

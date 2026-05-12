@@ -1,8 +1,0 @@
-time,product,api,success,error
-13:44:06,VPC,CreateVpc,1,
-13:44:08,VPC,CreateVSwitch,1,
-13:44:10,ECS,CreateSecurityGroup,1,
-13:44:13,ECS,RunInstances,1,
-13:44:16,SLB,CreateLoadBalancer,1,
-13:44:19,SLB,AddBackendServers,1,
-13:44:22,RDS,CreateDBInstance,1,

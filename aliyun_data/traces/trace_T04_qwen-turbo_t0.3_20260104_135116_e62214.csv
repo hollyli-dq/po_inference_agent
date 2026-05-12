@@ -1,9 +1,0 @@
-time,product,api,success,error
-13:51:25,VPC,CreateVpc,1,
-13:51:28,VPC,CreateVSwitch,1,
-13:51:31,ECS,CreateSecurityGroup,1,
-13:51:35,ECS,RunInstances,1,
-13:51:39,SLB,CreateLoadBalancer,1,
-13:51:47,ECS,DescribeEipAddresses,0,任务未完成: 缺少资源: EIP(缺少AllocationId)
-13:51:50,EIP,AllocateEipAddress,1,
-13:51:53,EIP,AssociateEipAddress,1,
