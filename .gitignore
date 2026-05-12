@@ -112,3 +112,8 @@ notebooks/systematic_experiment_results/
 # But allow summary.json files
 !notebooks/systematic_experiment_results/**/summary.json
 *.log
+
+# Local paper-writing assets
+paper/
+paper_drafts/
+single_bayesian_bpop_writing/
