@@ -316,7 +316,7 @@ pytest tests/aliyun_gym/test_validator_enhanced.py::TestApiValidatorEnhanced::te
 ## 7. 当前支持的 API
 
 完整的已实现 API 列表请参考文件：
-[implemented_apis.json](file:///Users/chengzheqiao/Documents/phd/bhpop/src/aliyun_gym/knowledge/implemented_apis.json)
+[implemented_apis.json](../../execution/aliyun_gym/knowledge/implemented_apis.json)
 
 主要覆盖产品：
 - **ECS**: 实例生命周期管理、安全组、镜像等。
