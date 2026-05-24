@@ -1,0 +1,38 @@
+[
+  {
+    "intent_type": "simple_ecs",
+    "query": "在杭州可用区H创建一个VPC和VSwitch，并创建一个安全组，授权允许访问，最后启动一台2核4G的ECS实例。",
+    "repeat": 1,
+    "expected_coverage": ["CreateVpc", "CreateVSwitch", "CreateSecurityGroup", "AuthorizeSecurityGroup", "RunInstances"]
+  },
+  {
+    "intent_type": "slb_ecs_rds",
+    "query": "部署全栈Web应用：1. 创建VPC网络环境；2. 创建SLB负载均衡并配置HTTP 80监听器，启动监听；3. 创建ECS实例作为后端服务器；4. 将ECS挂载到SLB后端；5. 创建RDS MySQL实例，创建数据库账号，并修改RDS白名单以允许ECS访问。",
+    "repeat": 1,
+    "expected_coverage": ["CreateLoadBalancerHTTPListener", "StartLoadBalancerListener", "AddBackendServers", "CreateAccount", "ModifySecurityIps"]
+  },
+  {
+    "intent_type": "slb_ecs_redis",
+    "query": "部署带缓存的Web服务：创建VPC环境，部署SLB和ECS实例，配置SLB后端挂载；同时创建一个Redis缓存实例，并查询其详细属性信息。",
+    "repeat": 1,
+    "expected_coverage": ["CreateInstance (Redis)", "DescribeInstanceAttribute"]
+  },
+  {
+    "intent_type": "eip_slb_ecs",
+    "query": "搭建公网Web服务：创建VPC、SLB和ECS；配置SLB挂载ECS；申请一个弹性公网IP (EIP)，并将其绑定到SLB实例上以提供公网访问。",
+    "repeat": 1,
+    "expected_coverage": ["AllocateEipAddress", "AssociateEipAddress"]
+  },
+  {
+    "intent_type": "dual_zone_ecs_slb",
+    "query": "在杭州的可用区B和可用区H各创建一台ECS实例（双可用区容灾），创建一个SLB负载均衡，并将这两台位于不同可用区的ECS都添加为后端服务器。",
+    "repeat": 1,
+    "expected_coverage": ["RunInstances (x2)", "AddBackendServers"]
+  },
+  {
+    "intent_type": "dual_zone_ecs_slb_rds",
+    "query": "部署高可用生产环境：1. 在双可用区创建ECS集群；2. 配置SLB负载均衡并挂载所有ECS；3. 创建高可用版RDS数据库，配置账号，并设置白名单允许集群访问。",
+    "repeat": 1,
+    "expected_coverage": ["CreateDBInstance", "CreateAccount", "ModifySecurityIps"]
+  }
+]

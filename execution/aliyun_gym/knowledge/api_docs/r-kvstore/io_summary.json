@@ -1,0 +1,1119 @@
+{
+  "CreateInstance": {
+    "name": "",
+    "summary": "创建一个Redis开源版或Tair内存型经典版实例。若要创建云原生型的Tair实例，请使用CreateTairInstance接口。",
+    "description": "请确保在使用该接口前，已充分了解云数据库 Tair（兼容 Redis）产品的收费方式和[价格](~~54532~~)。\n\n本接口可创建Redis开源版实例、Tair内存型经典版实例，如需创建Tair云原生版实例，请调用[CreateTairInstance](~~473770~~)接口。\n\n> 该API对应的控制台操作方法和选型建议，请参见[创建Redis实例](~~26351~~)。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "地域ID，可调用[DescribeRegions](~~473763~~)查询，使用此参数指定要创建实例的地域。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "Token",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于保证请求的幂等性。由客户端生成该参数值，要保证在不同请求间唯一，大小写敏感、不超过64个ASCII字符。",
+        "example": "ETnLKlblzczshOTUbOCz****"
+      },
+      {
+        "name": "InstanceName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例名称。 名称为2~80个字符，以大小写字母或中文开头，不支持字符`@/:=”<>{[]}`和空格。",
+        "example": "apitest"
+      },
+      {
+        "name": "Password",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例密码。 长度为8－32位，需包含大写字母、小写字母、特殊字符和数字中的至少三种，允许的特殊字符包括`!@#$%^&*()_+-=`。",
+        "example": "Pass!123456"
+      },
+      {
+        "name": "Capacity",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "实例的存储容量，单位为MB。\n\n> 调用此接口需至少传递**Capacity**或**InstanceClass**中的一个参数。",
+        "example": "16384"
+      },
+      {
+        "name": "InstanceClass",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的规格，例如redis.master.small.default为社区版（经典版）标准架构双副本1GB实例，详细信息请参见[规格查询导航](~~26350~~)。 \n\n> 调用此接口需至少传递**Capacity**或**InstanceClass**中的一个参数。",
+        "example": "redis.master.small.default"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "主可用区ID，可调用[DescribeRegions](~~473763~~)查询，使用此参数指定要创建实例的可用区。\n> 您也可以再传入SecondaryZoneId参数指定备可用区，主备节点将分别部署在指定的主可用区和备可用区，实现同城双中心主备架构。例如指定ZoneId参数为\"cn-hangzhou-h\"，指定SecondaryZoneId参数为\"cn-hangzhou-g\"。",
+        "example": "cn-hangzhou-h"
+      },
+      {
+        "name": "SecondaryZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "备可用区ID，可调用[DescribeZones](~~473764~~)接口查询。\n> 本参数和ZoneId参数传入的值不能相同，且不可传入多可用区对应的ID。",
+        "example": "cn-hangzhou-g"
+      },
+      {
+        "name": "ChargeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "付费类型，取值：\n* **PrePaid**：预付费。\n* **PostPaid**（默认）：按量付费。",
+        "example": "PostPaid"
+      },
+      {
+        "name": "NodeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "节点类型，取值：\n* **MASTER_SLAVE**：高可用（双副本）\n* **STAND_ALONE**：单副本\n* **double**：双副本\n* **single**：单副本\n> 云原生版实例请选择**MASTER_SLAVE**或**STAND_ALONE**，经典版实例请选择**double**或**single**。",
+        "example": "STAND_ALONE"
+      },
+      {
+        "name": "NetworkType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "网络类型，取值：\n* **VPC**：专有网络，默认值。",
+        "example": "VPC"
+      },
+      {
+        "name": "VpcId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "VPC网络的ID。",
+        "example": "vpc-bp1nme44gek34slfc****"
+      },
+      {
+        "name": "VSwitchId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "虚拟交换机的ID。",
+        "example": "vsw-bp1e7clcw529l773d****"
+      },
+      {
+        "name": "Period",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "付费周期，单位为月，取值：**1**~**9**、**12**、**24**、**36**、**60**  。\n\n> **ChargeType**取值为**PrePaid**时，本参数才可用且必须传入。",
+        "example": "12"
+      },
+      {
+        "name": "BusinessInfo",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "活动ID、业务信息。",
+        "example": "000000000"
+      },
+      {
+        "name": "CouponNo",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "优惠码，默认值为：`default`。",
+        "example": "youhuiquan_promotion_option_id_for_blank"
+      },
+      {
+        "name": "SrcDBInstanceId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "如需基于某个实例的备份集创建新实例，请先在此参数中指定源实例ID。\n> 然后通过**BackupId**、**ClusterBackupId**（云原生集群架构建议使用ClusterBackupId）或**RestoreTime**参数指定需要使用的备份集或指定时间点，本参数需要与上述3个中的任意一个参数组合使用。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "BackupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "您可在此参数中指定源实例的备份集ID，系统将使用该备份集中保存的数据创建新实例。通过调用[DescribeBackups](~~473823~~)可查询BackupId。如果源实例是集群实例，则此处需要填写源实例各个分片的备份集id，并且通过逗号隔开，例如\"10**,11**,15**\"。\n> 若您的实例是云原生架构实例，并且是集群实例，则建议您使用[DescribeClusterBackupList](~~2679168~~)查询出集群备份集id，例如\"cb-xx\"，然后填入ClusterBackupId请求参数来达到克隆集群实例的目的，免去您输入各个分片备份集id的烦恼。",
+        "example": "111111111"
+      },
+      {
+        "name": "InstanceType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例类型，取值：\n* **Redis**（默认）\n* **Memcache**",
+        "example": "Redis"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "Redis**经典版本**，版本号取值：\n* **2.8**（不推荐，[计划停止全面支持](~~2674657~~)）\n* **4.0**（不推荐）\n* **5.0**\n\nRedis**云原生版本**，版本号取值：\n* **5.0**\n* **6.0**（推荐）\n* **7.0**\n\n> 默认值为**5.0**。",
+        "example": "5.0"
+      },
+      {
+        "name": "PrivateIpAddress",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定新实例的内网IP地址。\n\n> 内网IP需在实例所属的交换机网段内。",
+        "example": "172.16.0.***"
+      },
+      {
+        "name": "AutoUseCoupon",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否使用代金券，取值：\n* **true**：使用代金券。\n* **false**（默认）：不使用代金券。",
+        "example": "false"
+      },
+      {
+        "name": "AutoRenew",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启自动续费，取值：\n* **true**：开启。\n* **false**（默认）：不开启。",
+        "example": "true"
+      },
+      {
+        "name": "AutoRenewPeriod",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "自动续费周期，单位为月，取值：**1**、**2**、**3**、**6**、**12**。\n\n> 当**AutoRenew**取值为**true**时，本参数必须传入。",
+        "example": "3"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "资源组ID。",
+        "example": "rg-resourcegroupid1"
+      },
+      {
+        "name": "RestoreTime",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "若源实例已开启数据闪回，您可在此参数中指定源实例备份保留周期内的任意时间点，系统将使用源实例在该时间点的备份数据创建新实例。格式为<i>yyyy-MM-dd</i>T<i>HH:mm:ss</i>Z（UTC时间）。",
+        "example": "2019-06-19T16:00:00Z"
+      },
+      {
+        "name": "DedicatedHostGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群ID，在专属集群内创建Redis实例时需传入本参数。",
+        "example": "dhg-uv4fnk6r7zff****"
+      },
+      {
+        "name": "ShardCount",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "分片数，本参数仅适用于创建云原生版集群架构实例，您可以通过该参数实现自定义分片数量。",
+        "example": "4"
+      },
+      {
+        "name": "ReplicaCount",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "主可用区的备节点，本参数仅适用于创建云原生版集群多副本实例，您可以通过该参数实现自定义备节点数量，取值：1~4。\n\n> 若创建多可用区实例，您可以通过该参数与SlaveReplicaCount参数自定义主、备可用区的备节点数量。同时，该参数与SlaveReplicaCount参数的总和不能超过4。",
+        "example": "2"
+      },
+      {
+        "name": "SlaveReplicaCount",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "备可用区的备节点数量。",
+        "example": "2"
+      },
+      {
+        "name": "ReadOnlyCount",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "主可用区的只读节点数，本参数仅适用于创建云原生读写分离实例。\n* 若实例为标准架构，取值为1~9。\n* 若实例为集群架构，取值为1-4，表示每数据分片的只读节点数。\n> 若创建多可用区实例，您可以通过该参数和SlaveReadOnlyCount参数自定义主备可用区的只读节点数量。\n> - 若实例为标准架构，该参数与SlaveReadOnlyCount的总和不能大于9。\n> - 若实例为集群架构，该参数与SlaveReadOnlyCount的总和不能大于4。",
+        "example": "2"
+      },
+      {
+        "name": "SlaveReadOnlyCount",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "备可用区的只读节点数量。",
+        "example": "2"
+      },
+      {
+        "name": "GlobalInstanceId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "分布式实例ID，本参数仅适用于中国站。\n\n<props=\"china\"> 如需将新创建的Redis实例追加为分布式实例中的新子实例，本参数才可用且必须传入。相关说明与控制台操作，请参见[为分布式实例添加子实例](~~106885~~)。</props>\n",
+        "example": "gr-bp14rkqrhac****"
+      },
+      {
+        "name": "GlobalInstance",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否将本次新建的实例作为分布式实例中的第一个子实例，通过该方式可创建分布实例，取值：\n\n* **true**：作为第一个子实例。\n* **false**（默认）：不作为第一个子实例。\n\n> * 如需传入**true**，本次新建的实例需为Tair内存型，引擎版本为5.0。\n> * 本参数仅适用于中国站。",
+        "example": "false"
+      },
+      {
+        "name": "Port",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的服务端口，取值范围：**1**~**65535**，默认值为**6379**。",
+        "example": "6379"
+      },
+      {
+        "name": "DryRun",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否对本次创建实例的操作执行预检查，取值：\n* **true**：执行预检查操作，不创建实例。检查项目包含请求参数、请求格式、业务限制和库存。如果检查不通过，则返回对应错误。如果检查通过，则返回错误码`DryRunOperation`。\n* **false**（默认）：发送正常请求，通过检查后直接创建实例。",
+        "example": "false"
+      },
+      {
+        "name": "GlobalSecurityGroupIds",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的全局IP白名单模板，多个IP白名单模板请用英文逗号（,）分隔，不可重复。\n><notice>该参数仅适用于云原生实例，经典版实例不支持白名单模板功能。></notice>",
+        "example": "g-zsldxfiwjmti0kcm****"
+      },
+      {
+        "name": "Appendonly",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定新创建实例的AOF参数配置，取值：\n- **yes**（默认）：开启AOF持久化。\n- **no**：关闭AOF持久化。\n> 该参数适用于经典版实例，云原生版实例暂不支持指定AOF参数。",
+        "example": "yes"
+      },
+      {
+        "name": "ConnectionStringPrefix",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "连接地址的前缀，需由小写英文字母与数字组成，以小写字母开头，长度为8~40个字符。\n\n> \n> 连接地址格式为：<前缀>.redis.rds.aliyuncs.com。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "ParamGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "参数模板ID，全局唯一。",
+        "example": "rpg-test**"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "实例的标签信息。",
+        "example": ""
+      },
+      {
+        "name": "ClusterBackupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "部分新集群架构支持集群备份集ID，您可以通过[DescribeClusterBackupList](~~2679168~~)接口获取。\n* 若支持，可输入指定的集群备份集ID即可，无需再填写**BackupId**参数。\n* 若不支持，请在BackupId参数中填写为原实例各个分片下的备份集ID，通过逗号隔开，例如\"2158\\*\\*\\*\\*20,2158\\*\\*\\*\\*22\"等。",
+        "example": "cb-hyxdof5x9kqb****"
+      },
+      {
+        "name": "RecoverConfigMode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "使用指定备份集创建实例时，是否从原备份集中恢复账号（account）、内核参数（config）、白名单（whitelist）信息。例如需恢复账号信息，则取值为`{\"account\":true}`。\n\n默认为空，表示不从原备份集中恢复账号、内核参数、白名单信息。\n> 本参数仅适用于云原生版实例，且需要原备份集中已保存了账号、内核参数、白名单信息。您可以通过[DescribeBackups](~~473823~~)接口查询指定备份集中的RecoverConfigMode参数是否包含上述信息。",
+        "example": "{\"whitelist\":true,\"config\":true,\"account\":true}"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "VpcId",
+        "type": "string",
+        "description": "专有网络（VPC）的ID。"
+      },
+      {
+        "name": "QPS",
+        "type": "integer",
+        "description": "每秒访问次数，此处为当前规格实例的理论值。"
+      },
+      {
+        "name": "Capacity",
+        "type": "integer",
+        "description": "实例的存储容量，单位：MB。"
+      },
+      {
+        "name": "ConnectionDomain",
+        "type": "string",
+        "description": "Redis实例的内网连接地址。"
+      },
+      {
+        "name": "ChargeType",
+        "type": "string",
+        "description": "付费类型，返回值：\n* **PrePaid**：预付费。\n* **PostPaid**：按量付费。"
+      },
+      {
+        "name": "NetworkType",
+        "type": "string",
+        "description": "网络类型，返回值：\n* **CLASSIC**：经典网络。\n* **VPC**：专有网络。"
+      },
+      {
+        "name": "InstanceId",
+        "type": "string",
+        "description": "实例ID（全局唯一）。"
+      },
+      {
+        "name": "Port",
+        "type": "integer",
+        "description": "Redis服务端口。"
+      },
+      {
+        "name": "Config",
+        "type": "string",
+        "description": "实例的详细配置。"
+      },
+      {
+        "name": "RegionId",
+        "type": "string",
+        "description": "实例所在地域。"
+      },
+      {
+        "name": "EndTime",
+        "type": "string",
+        "description": "预付费实例到期时间，格式为<i>yyyy-MM-dd</i>T<i>HH:mm:ss</i>Z（UTC时间）。"
+      },
+      {
+        "name": "VSwitchId",
+        "type": "string",
+        "description": "虚拟交换机ID。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "NodeType",
+        "type": "string",
+        "description": "节点类型，返回值：\n* **STAND_ALONE**：单副本。\n* **MASTER_SLAVE**：双副本。"
+      },
+      {
+        "name": "Connections",
+        "type": "integer",
+        "description": "实例连接数限制。"
+      },
+      {
+        "name": "Bandwidth",
+        "type": "integer",
+        "description": "实例带宽限制，单位：MB/s。"
+      },
+      {
+        "name": "InstanceName",
+        "type": "string",
+        "description": "实例名称。"
+      },
+      {
+        "name": "ZoneId",
+        "type": "string",
+        "description": "实例所属的可用区的ID。"
+      },
+      {
+        "name": "InstanceStatus",
+        "type": "string",
+        "description": "实例的当前状态，返回值固定为Creating（创建中）。"
+      },
+      {
+        "name": "PrivateIpAddr",
+        "type": "string",
+        "description": "实例的内网IP地址。"
+      },
+      {
+        "name": "UserName",
+        "type": "string",
+        "description": "连接Redis的账号，默认包含一个以实例ID命名的账号。"
+      },
+      {
+        "name": "OrderId",
+        "type": "integer",
+        "description": "订单id。"
+      }
+    ]
+  },
+  "AllocateInstancePublicConnection": {
+    "name": "",
+    "summary": "为云数据库 Tair（兼容 Redis）实例申请公网连接地址。",
+    "description": "该API对应的控制台操作请参见[申请公网连接地址](~~124920~~)。",
+    "parameters": [
+      {
+        "name": "InstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "ConnectionStringPrefix",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "公网连接地址的前缀，需由小写英文字母与数字组成，以小写字母开头，长度为8~40个字符。\n> 公网连接地址格式为：`<前缀>.redis.rds.aliyuncs.com`。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "Port",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例的服务端口号，取值范围：**1024**~**65535**。",
+        "example": "6379"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "DescribeInstances": {
+    "name": "",
+    "summary": "查询一个或多个云数据库 Tair（兼容 Redis）实例的信息。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例所属的地域ID。\n\n> 调用本接口时，如果传入了**Tag**参数，则本参数必须传入。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "InstanceIds",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "需要查询的实例ID。\n> 如需传入多个实例ID时，使用英文逗号（,）分隔实例ID，最多一个请求传入 30 个实例ID。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "InstanceStatus",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例状态，取值：\n* **Normal**：正常。\n* **Creating**：创建中。\n* **Changing**：修改中。\n* **Inactive**：被禁用。\n* **Flushing**：清除中。\n* **Released**：已释放。\n* **Transforming**：转换中。\n* **Migrating**：迁移中。\n* **BackupRecovering**：备份恢复中。\n* **MinorVersionUpgrading**：小版本升级中。\n* **NetworkModifying**：网络变更中。\n* **SSLModifying**：SSL变更中。\n* **MajorVersionUpgrading**：大版本升级中，可正常访问。\n\n> 更多实例状态及详细信息，请参见[实例状态与影响](~~200740~~)。",
+        "example": "Normal"
+      },
+      {
+        "name": "ChargeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "付费类型，取值：\n* **PrePaid**：预付费，即包年包月。\n* **PostPaid**：后付费，即按量付费。",
+        "example": "PostPaid"
+      },
+      {
+        "name": "NetworkType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "网络类型，取值：\n* **CLASSIC**：经典网络。\n* **VPC**：专有网络。",
+        "example": "CLASSIC"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例兼容Redis的版本，取值：**2.8**、**4.0**、**5.0**、**6.0**或**7.0**。",
+        "example": "4.0"
+      },
+      {
+        "name": "InstanceClass",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例规格，请参见[实例规格表](~~107984~~)。 ",
+        "example": "redis.master.small.default"
+      },
+      {
+        "name": "VpcId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专有网络ID。",
+        "example": "vpc-bp1nme44gek34slfc****"
+      },
+      {
+        "name": "VSwitchId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "虚拟交换机ID。",
+        "example": "vsw-bp1e7clcw529l773d****"
+      },
+      {
+        "name": "PageNumber",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "实例列表的页码，起始值为**1**，默认值为**1**。",
+        "example": "1"
+      },
+      {
+        "name": "PageSize",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "每页最多可显示的行数，最大值为**50**，默认值为**30**。",
+        "example": "30"
+      },
+      {
+        "name": "InstanceType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例类型，取值：\n* **Tair**：Tair（企业版）\n* **Redis**：Redis开源版\n* **Memcache**",
+        "example": "Redis"
+      },
+      {
+        "name": "SearchKey",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "支持模糊搜索实例名称或实例ID。",
+        "example": "apitest"
+      },
+      {
+        "name": "ArchitectureType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "架构类型，取值：\n* **cluster**：集群版。\n* **standard**：标准版。\n* **rwsplit**：读写分离版。",
+        "example": "standard"
+      },
+      {
+        "name": "Expired",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的过期状态，取值：\n\n* **true**：已过期。\n* **false**：未过期。",
+        "example": "false"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "可用区ID。",
+        "example": "cn-hongkong-b"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "资源组ID。\n> 您可以通过调用[ListResourceGroups](~~158855~~)接口或通过控制台获取资源组ID列表。相关操作，请参见[查看资源组基本信息](~~151181~~)。",
+        "example": "rg-acfmyiu4ekp****"
+      },
+      {
+        "name": "GlobalInstance",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "返回的实例列表中，是否过滤分布式实例中的子实例，取值：\n* **true**：只返回子实例信息。\n* **false**：不返回子实例信息。",
+        "example": "true"
+      },
+      {
+        "name": "EditionType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例类型，取值：\n* **Community**：Redis开源版。\n* **Enterprise**：Tair企业版。",
+        "example": "Enterprise"
+      },
+      {
+        "name": "PrivateIp",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专有网络IP地址。",
+        "example": "172.16.49.***"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "实例的标签信息。",
+        "example": ""
+      },
+      {
+        "name": "NodeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "节点类型，取值：\n* **MASTER_SLAVE**：高可用（双副本）\n* **STAND_ALONE**：单副本\n* **double**：双副本\n* **single**：单副本\n> 云原生版实例请选择**MASTER_SLAVE**或**STAND_ALONE**，经典版实例请选择**double**或**single**。",
+        "example": "MASTER_SLAVE"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "PageNumber",
+        "type": "integer",
+        "description": "实例列表的页码。"
+      },
+      {
+        "name": "PageSize",
+        "type": "integer",
+        "description": "输入时设置的每页行数。"
+      },
+      {
+        "name": "TotalCount",
+        "type": "integer",
+        "description": "实例总个数。"
+      },
+      {
+        "name": "Instances",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribeAvailableResource": {
+    "name": "",
+    "summary": "查询指定可用区内可创建的实例规格。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "地域ID，您可以调用[DescribeRegions](~~473763~~)查询。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "可用区ID，您可以调用[DescribeZones](~~473764~~)查询。",
+        "example": "cn-hangzhou-h"
+      },
+      {
+        "name": "InstanceChargeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "付费类型，取值：\n* **PrePaid**（默认）：包年包月。\n* **PostPaid**：按量付费。",
+        "example": "PrePaid"
+      },
+      {
+        "name": "OrderType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "订单类型，取值：\n* **BUY**（默认）：新购。\n* **UPGRADE**：升级实例规格配置。\n* **DOWNGRADE**：降级实例规格配置。",
+        "example": "BUY"
+      },
+      {
+        "name": "Engine",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "引擎类型，取值：\n* **Redis**。\n* **Memcache**。",
+        "example": "Redis"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "资源组ID。您可以通过调用[ListResourceGroups](~~158855~~)接口获取资源组ID。\n> 您也可以通过控制台获取资源组ID，相关操作，请参见[查看资源组基本信息](~~151181~~)。",
+        "example": "rg-acfmyiu4e******"
+      },
+      {
+        "name": "InstanceId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例ID。\n> 当**OrderType**取值为**UPGRADE**或**DOWNGRADE**时，本参数才可用且必须传入。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "AcceptLanguage",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "返回值的语言，取值：\n* **zh-CN**：中文，默认值。\n* **en-US**：英文。",
+        "example": "zh-CN"
+      },
+      {
+        "name": "ProductType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "产品类型，取值（默认值为 Local）：\n- **Local**：Redis开源版实例（经典版）或内存型（经典版）。\n- **Tair_rdb**：内存型（云原生版）。\n- **Tair_scm**：持久内存型。\n- **Tair_essd**：磁盘型。\n- **OnECS**：Redis开源版实例（云原生版）。\n> 该参数默认值为 Local，如果需要查云盘资源，需要传入所需云盘资源对应的产品类型。",
+        "example": "Local"
+      },
+      {
+        "name": "NodeId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "数据节点ID，可调用[DescribeLogicInstanceTopology](~~473786~~)获取。对于获取到的数据节点ID，需要去除井号（`#`）及其后面的内容，例如仅保留r-bp10noxlhcoim2****-db-0。\n> 传入本参数前，您还需要传入**InstanceId**参数，且要求实例为集群或读写分离架构。",
+        "example": "r-bp1zxszhcgatnx****-db-0"
+      },
+      {
+        "name": "InstanceScene",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "产品系列，取值如下：\n- **professional**：标准版，支持单副本、主备、读写分离、集群四种架构，扩展性强。\n <props=\"china\">\n-  **economical**：仅支持主备架构，具有价格优势，更多信息请参见[倚天版实例](~~2489678~~)。</props>",
+        "example": "professional"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "AvailableZones",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribeDBInstanceNetInfo": {
+    "name": "",
+    "summary": "查看云数据库 Tair（兼容 Redis）实例的网络信息。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "InstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "NetType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "",
+        "example": ""
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "InstanceNetworkType",
+        "type": "string",
+        "description": "网络类型，返回值：\n* **CLASSIC**：经典网络。\n* **VPC**：专有网络。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "NetInfoItems",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribePrice": {
+    "name": "",
+    "summary": "查询创建、升级配置或续费云数据库 Tair（兼容 Redis）实例等操作产生的费用。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "地域ID，可调用[DescribeRegions](~~473763~~)查询。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "Capacity",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "使用实例的存储容量指定规格，单位为MB。本参数仅查询Redis开源版经典部署模式的实例，推荐您使用**InstanceClass**参数精确地指定一个规格。\n> 指定**InstanceClass**参数后，无需再指定本参数。",
+        "example": "1024"
+      },
+      {
+        "name": "InstanceClass",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "使用**InstanceClass**编码指定实例规格。**InstanceClass**查询步骤：\n1.  在[规格查询导航](~~26350~~)中，根据需要选择实例类型，点击其**架构类型**列以打开规格文档。\n2. 在规格文档的实例规格表中，选择需要的实例规格，并找到其**InstanceClass**列的编码。\n\n> 以查询新购场景为例，除其他关键参数以外，您至少需要传入如下参数：\n> * 查询经典版实例：请传入本参数。\n> * 查询云原生版标准架构实例：请传入本参数。\n> * 查询云原生版集群架构实例：请传入本参数与**ShardCount**参数。\n> * 查询云原生版读写分离架构实例：请传入本参数，并传入**Instances**参数。\n> * 查询多个不同规格的实例，或需查询Tair ESSD型实例（自定义存储类型和存储空间）：请传入Instances参数（无需传入本参数）。",
+        "example": "redis.master.small.default"
+      },
+      {
+        "name": "OrderType",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "订单类型，取值：\n* **BUY**：新购。\n* **UPGRADE**：变更配置。\n* **RENEW**：续费。\n* **CONVERT**：转换付费类型。",
+        "example": "BUY"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "可用区ID，可调用[DescribeZones](~~473764~~)查询。",
+        "example": "cn-hangzhou-e"
+      },
+      {
+        "name": "SecondaryZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "备可用区ID，可调用[DescribeZones](~~473764~~)接口查询。\n> 本参数和ZoneId参数传入的值不能相同。",
+        "example": "cn-hangzhou-g"
+      },
+      {
+        "name": "ChargeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "付费类型，取值：\n* **PostPaid**（默认）：按量付费。\n* **PrePaid**：包年包月。",
+        "example": "PostPaid"
+      },
+      {
+        "name": "NodeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "节点类型，取值：\n- **STAND_ALONE**：单副本。\n- **MASTER_SLAVE**（默认）：高可用（双副本）。",
+        "example": "MASTER_SLAVE"
+      },
+      {
+        "name": "Period",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "包年包月时长，单位为月。取值范围：**1**~**9**、**12**、**24**、**36**。",
+        "example": "3"
+      },
+      {
+        "name": "Quantity",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "购买实例的数量，取值范围：**1**~**30**，默认值为**1**。",
+        "example": "1"
+      },
+      {
+        "name": "InstanceId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例ID。\n> 当**OrderType**为**UPGRADE**或**RENEW**时必传。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "Instances",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "当您需要查询云原生版读写分离架构、Tair ESSD型实例或多个不同规格的实例时，需要传入本参数，为JSON格式字符串，更多信息请参见下方的**Instances参数补充说明**。",
+        "example": "[{\"RegionId\": \"cn-hangzhou\",\"ZoneId\": \"cn-hangzhou-b\",\"ShardClass\": \"tair.scm.with.proxy.standard.2m.8d\",\"ShardCount\": \"3\",\"Period\": \"1\",\"Quantity\": \"1\"}]"
+      },
+      {
+        "name": "BusinessInfo",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "活动ID、业务信息等扩展信息。",
+        "example": "000000000000"
+      },
+      {
+        "name": "CouponNo",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "优惠码，默认值：youhuiquan_promotion_option_id_for_blank，表示无优惠码。",
+        "example": "youhuiquan_promotion_option_id_for_blank"
+      },
+      {
+        "name": "ForceUpgrade",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否强制变配，取值：\n* **false**：是。\n* **true**（默认）：否。",
+        "example": "true"
+      },
+      {
+        "name": "OrderParamOut",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否返回订单参数，可选值：\n* **false**（默认）：不返回。\n* **true**：返回。",
+        "example": "true"
+      },
+      {
+        "name": "ShardCount",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "云原生集群实例中的数据分片节点的数量。",
+        "example": "2"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "<props=\"china\">Redis实例的引擎版本，取值：**2.8**、**4.0**、**5.0**或**6.0**。</props>\n\n<props=\"intl\">Redis实例的引擎版本，取值：**2.8**、**4.0**或**5.0**。</props>\n\n<props=\"partner\">Redis实例的引擎版本，取值：**2.8**、**4.0**或**5.0**。</props>",
+        "example": "5.0"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "OrderParams",
+        "type": "string",
+        "description": "订单参数，当OrderParamOut为`true`时返回。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "Order",
+        "type": "object",
+        "description": "订单信息。"
+      },
+      {
+        "name": "Rules",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "SubOrders",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribeSecurityIps": {
+    "name": "",
+    "summary": "查询云数据库 Tair（兼容 Redis）实例的IP白名单。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "InstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。",
+        "example": "r-bp1zxszhcgatnx****"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "SecurityIpGroups",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "ModifySecurityIps": {
+    "name": "",
+    "summary": "设置云数据库 Tair（兼容 Redis）实例的IP白名单。",
+    "description": "该API对应的控制台操作请参见[设置IP白名单](~~56464~~)。",
+    "parameters": [
+      {
+        "name": "InstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。",
+        "example": "r-bp1zxszhcgatnx****"
+      },
+      {
+        "name": "SecurityIps",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "IP白名单分组下的IP列表，最多1000个。IP之间以逗号隔开，格式如下：0.0.0.0/0,10.23.12.24，或者10.23.12.24/24（CIDR模式，无类域间路由，/24表示地址中前缀的长度，范围1-32）。",
+        "example": "100.64.***.0/24,10.101.11.***"
+      },
+      {
+        "name": "SecurityIpGroupName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "IP白名单分组的名称。\n<warning>不可修改系统生成白名单分组。如果不传此字段，将默认修改 default 分组的白名单</warning>",
+        "example": "default"
+      },
+      {
+        "name": "SecurityIpGroupAttribute",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "默认为空。用于区分不同的属性值，控制台将不显示该值为**hidden**的白名单分组。 ",
+        "example": "hidden"
+      },
+      {
+        "name": "ModifyMode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "修改方式，取值：\n* **Cover**（默认）：覆盖原白名单。\n* **Append**：追加白名单。\n* **Delete**：删除该白名单。",
+        "example": "Append"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  }
+}

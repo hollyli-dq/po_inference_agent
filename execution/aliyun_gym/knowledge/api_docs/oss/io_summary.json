@@ -1,0 +1,136 @@
+{
+  "ListBuckets": {
+    "name": "",
+    "summary": "列举请求者拥有的所有存储空间（Bucket）。",
+    "description": "- 您也可以通过设置prefix、marker或者max-keys参数列举满足指定条件的存储空间。\n- 要列举存储空间，您必须有oss:GetService (ListBuckets)权限。具体操作，请参见[为RAM用户授权自定义的权限策略](https://help.aliyun.com/document_detail/199058.htm?spm=a2c4g.11186623.0.0.48be7590hCA8LI#section-ucu-jv0-zip)。\n- 调用接口时，如果所有Bucket已返回，则返回参数的XML中不包含Prefix、Marker、MaxKeys、IsTruncated和NextMarker响应元素。",
+    "parameters": [
+      {
+        "name": "prefix",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "限定返回的Bucket名称必须以prefix作为前缀。如果不设定，则不过滤前缀信息。\n默认值：无",
+        "example": "my"
+      },
+      {
+        "name": "marker",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "设定结果从marker之后按字母排序的第一个开始返回。如果不设定，则从头开始返回数据。\n默认值：无",
+        "example": "mybucket10"
+      },
+      {
+        "name": "max-keys",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "限定此次返回Bucket的最大个数。\n取值范围：1~1000\n默认值：100",
+        "example": "100"
+      },
+      {
+        "name": "x-oss-resource-group-id",
+        "in": "header",
+        "required": false,
+        "type": "string",
+        "description": "Bucket所属资源组Id",
+        "example": ""
+      },
+      {
+        "name": "tag-key",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定Bucket标签键。列举结果中仅会包含那些打上了对应标签的Bucket。",
+        "example": "test-key"
+      },
+      {
+        "name": "tag-value",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定Bucket标签值。如果请求指定了该参数，那么必须同时指定tag-value，列举结果中仅会包含那些打上了对应标签键值对的Bucket。",
+        "example": "test-value"
+      },
+      {
+        "name": "tagging",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定标签列表。如：\"k1\":\"v1\",\"k2\":\"v2\"，只有Bucket匹配列表中所有的标签键值对，才会出现在列举结果中。\ntagging参数与tag-key和tag-value两个参数不能同时存在。",
+        "example": "\"test-key\":\"test-value\""
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "ListAllMyBucketsResult",
+        "type": "object",
+        "description": "保存ListBuckets（GetService）请求结果的容器。"
+      }
+    ]
+  },
+  "PutBucket": {
+    "name": "",
+    "summary": "创建一个存储空间（Bucket）。",
+    "description": "- 同一阿里云账号在同一地域（Region）内最多支持创建100个Bucket。\n- 每个地域都有对应的访问域名（Endpoint）。关于地域与访问域名对应关系的更多信息，请参见[访问域名和数据中心](~~31837~~)。",
+    "parameters": [
+      {
+        "name": "bucket",
+        "in": "host",
+        "required": true,
+        "type": "string",
+        "description": "Bucket名称。存储空间的命名规范如下：\n\n- 只能包括小写字母、数字和短划线（-）。\n- 必须以小写字母或者数字开头和结尾。\n- 长度必须在3~63字符之间。",
+        "example": "examplebucket"
+      },
+      {
+        "name": "x-oss-acl",
+        "in": "header",
+        "required": false,
+        "type": "string",
+        "description": "指定Bucket的访问权限ACL。包含如下三种访问权限：\n\n- public-read-write：公共读写\n\n- public-read：公共读\n\n- private：私有（默认值）\n\n关于Bucket访问权限ACL的更多信息，请参见[设置存储空间访问权限ACL](~~31843~~)。",
+        "example": ""
+      },
+      {
+        "name": "x-oss-resource-group-id",
+        "in": "header",
+        "required": false,
+        "type": "string",
+        "description": "指定资源组ID。\n- 如果在请求中携带该请求头并指定资源组ID，则创建的存储空间属于该资源组。当指定的资源组ID为rg-default-id时，创建的存储空间属于默认资源组。\n- 如果在请求中未携带该请求头，则创建的存储空间属于默认资源组。\n\n您可以通过资源管理的控制台或ListResourceGroups接口获取资源组ID。具体操作，请分别参见[查看资源组基本信息](~~151181~~)和[ListResourceGroups](~~158855~~)。\n> 创建无地域属性Bucket时不支持配置资源组。",
+        "example": ""
+      },
+      {
+        "name": "x-oss-bucket-tagging",
+        "in": "header",
+        "required": false,
+        "type": "string",
+        "description": "指定Bucket标签，如 k1=v1&k2=v2。",
+        "example": "k1=v1&k2=v2"
+      },
+      {
+        "name": "body",
+        "in": "body",
+        "required": false,
+        "type": "object",
+        "description": "存储创建Bucket信息的容器。",
+        "example": ""
+      }
+    ],
+    "response_properties": []
+  },
+  "DeleteBucket": {
+    "name": "",
+    "summary": "删除存储空间（Bucket）。",
+    "description": "- 只有Bucket的拥有者才有权限删除该Bucket。\n- 为了防止误删除的发生，OSS不支持删除一个非空的Bucket。",
+    "parameters": [
+      {
+        "name": "bucket",
+        "in": "host",
+        "required": true,
+        "type": "string",
+        "description": "Bucket名称。",
+        "example": "examplebucket"
+      }
+    ],
+    "response_properties": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "name": "EIP + SLB + ECS",
+  "description": "Public Facing Web: EIP bound to SLB with ECS backend.",
+  "edges": [
+    [
+      "CreateVpc",
+      "CreateVSwitch"
+    ],
+    [
+      "CreateVpc",
+      "CreateSecurityGroup"
+    ],
+    [
+      "CreateSecurityGroup",
+      "AuthorizeSecurityGroup"
+    ],
+    [
+      "CreateVSwitch",
+      "RunInstances"
+    ],
+    [
+      "AuthorizeSecurityGroup",
+      "RunInstances"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateLoadBalancer"
+    ],
+    [
+      "RunInstances",
+      "AddBackendServers"
+    ],
+    [
+      "CreateLoadBalancer",
+      "AddBackendServers"
+    ],
+    [
+      "CreateLoadBalancer",
+      "AssociateEipAddress"
+    ],
+    [
+      "AllocateEipAddress",
+      "AssociateEipAddress"
+    ]
+  ]
+}

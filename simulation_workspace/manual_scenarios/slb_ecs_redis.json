@@ -1,0 +1,46 @@
+{
+  "name": "SLB + ECS + Redis",
+  "description": "Web App with Cache: SLB, ECS, and Redis.",
+  "edges": [
+    [
+      "CreateVpc",
+      "CreateVSwitch"
+    ],
+    [
+      "CreateVpc",
+      "CreateSecurityGroup"
+    ],
+    [
+      "CreateSecurityGroup",
+      "AuthorizeSecurityGroup"
+    ],
+    [
+      "CreateVSwitch",
+      "RunInstances"
+    ],
+    [
+      "AuthorizeSecurityGroup",
+      "RunInstances"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateLoadBalancer"
+    ],
+    [
+      "RunInstances",
+      "AddBackendServers"
+    ],
+    [
+      "CreateLoadBalancer",
+      "AddBackendServers"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateInstance"
+    ],
+    [
+      "CreateInstance",
+      "DescribeInstanceAttribute"
+    ]
+  ]
+}

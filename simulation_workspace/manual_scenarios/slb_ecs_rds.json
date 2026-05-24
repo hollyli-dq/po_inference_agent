@@ -1,0 +1,62 @@
+{
+  "name": "SLB + ECS + RDS",
+  "description": "Full Stack: SLB load balancer, ECS application, and RDS database.",
+  "edges": [
+    [
+      "CreateVpc",
+      "CreateVSwitch"
+    ],
+    [
+      "CreateVpc",
+      "CreateSecurityGroup"
+    ],
+    [
+      "CreateSecurityGroup",
+      "AuthorizeSecurityGroup"
+    ],
+    [
+      "CreateVSwitch",
+      "RunInstances"
+    ],
+    [
+      "AuthorizeSecurityGroup",
+      "RunInstances"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateLoadBalancer"
+    ],
+    [
+      "CreateLoadBalancer",
+      "CreateLoadBalancerHTTPListener"
+    ],
+    [
+      "CreateLoadBalancerHTTPListener",
+      "StartLoadBalancerListener"
+    ],
+    [
+      "RunInstances",
+      "AddBackendServers"
+    ],
+    [
+      "CreateLoadBalancer",
+      "AddBackendServers"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateDBInstance"
+    ],
+    [
+      "CreateDBInstance",
+      "CreateAccount"
+    ],
+    [
+      "CreateDBInstance",
+      "ModifySecurityIps"
+    ],
+    [
+      "RunInstances",
+      "ModifySecurityIps"
+    ]
+  ]
+}

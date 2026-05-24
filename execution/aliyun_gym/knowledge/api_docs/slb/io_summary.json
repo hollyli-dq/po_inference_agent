@@ -1,0 +1,1963 @@
+{
+  "CreateLoadBalancer": {
+    "name": "",
+    "summary": "创建负载均衡实例。",
+    "description": "<props=\"china\">\n\n> - CLB包年包月实例2024年12月01日00:00:00起停止新购。详细信息请参见[传统型负载均衡CLB包年包月停售公告](~~2839979~~)。\n> - 实例创建前，请调用[DescribeAvailableResource](~~117645~~)查询可用区支持的资源售卖情况。\n> - 实例创建后，会产生费用。\n> - 按量付费模式支持创建按使用量计费实例和按规格计费实例。\n\n</props>\n\n<props=\"intl\">\n\n> - 实例创建前，请调用[DescribeAvailableResource](~~117645~~)查询可用区支持的资源售卖情况。\n> - 实例创建后，会产生费用。\n> - 按量付费模式只支持创建按使用量计费实例，按规格计费实例已于2025年06月01日00:00:00（北京时间，UTC+8）停止售卖。详情请参见[传统型负载均衡CLB按规格计费实例停售公告](~~2872003~~)。\n\n</props>",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "传统型负载均衡实例的地域ID。\n\n您可以通过调用[DescribeRegions](~~2401682~~)接口查询地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "AddressType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的网络类型。取值：\n\n- **internet**：创建公网负载均衡实例后，系统会分配一个公网IP地址，可以转发公网请求。\n- **intranet**：创建专有网络类型的负载均衡实例后，系统会分配一个内网IP地址，仅可转发内网请求。",
+        "example": "internet"
+      },
+      {
+        "name": "InternetChargeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "公网类型实例的付费方式。取值：\n\n- **paybytraffic**（默认值）：按使用流量计费。\n- **paybybandwidth**：按固定带宽计费。\n\n\n>- 当**PayType**取值**PayOnDemand**且**InstanceChargeType**取值**PayByCLCU**时，该参数仅支持取值**paybytraffic**。\n>- 如果选择了**paybytraffic**，无需设置**Bandwidth**的值；如您设置了**Bandwidth**值，该值也不会生效。",
+        "example": "paybytraffic"
+      },
+      {
+        "name": "Bandwidth",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "实例的带宽峰值，单位：Mbps。\n    \n取值范围：**1**～**5000**。\n\n> 仅 **AddressType**取值为**internet**，且**InternetChargeType**取值为**paybybandwidth**时，该参数生效。",
+        "example": "10"
+      },
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "客户端Token，用于保证请求的幂等性。\n\n由客户端生成该参数值，要保证在不同请求间唯一。\n\n> 若您未指定，则系统自动使用API请求的**RequestId**作为**ClientToken**标识。每次API请求的**RequestId**不一样。",
+        "example": "593B0448-D13E-4C56-AC0D-FDF0FDE0E9A3"
+      },
+      {
+        "name": "LoadBalancerName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的名称。\n\n长度为1～80个英文或中文字符，必须以大小写字母或中文开头，可包含数字、半角句号（.）、下划线（_）和短划线（-）。\n\n不指定该参数时，默认由系统分配一个实例名称。",
+        "example": "lb-bp1o94dp5i6ea****"
+      },
+      {
+        "name": "VpcId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的所属的VPC ID。",
+        "example": "vpc-bp1aevy8sofi8mh1****"
+      },
+      {
+        "name": "VSwitchId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专有网络实例的所属的交换机ID。\n\n创建专有网络类型的负载均衡实例，必须指定该参数。如果指定了该参数，**AddressType**参数的值会默认被设置为**intranet**。\n\n> 请确保该**VSwitchId**所在可用区与主可用区一致。",
+        "example": "vsw-bp12mw1f8k3jgy****"
+      },
+      {
+        "name": "MasterZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的主可用区ID。\n\n您可以通过调用[DescribeZone](~~27585~~)接口可查到相应地域下的主备可用区信息。\n\n> 请确保该主可用区与**VSwitchId**所在可用区一致。",
+        "example": "cn-hangzhou-b"
+      },
+      {
+        "name": "SlaveZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的备可用区ID。\n\n您可以通过调用[DescribeZone](~~27585~~)接口查询相应地域下的主备可用区信息。",
+        "example": "cn-hangzhou-d"
+      },
+      {
+        "name": "LoadBalancerSpec",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的规格。取值：\n\n- **slb.s1.small**\n- **slb.s2.small**\n- **slb.s2.medium**\n- **slb.s3.small**\n- **slb.s3.medium**\n- **slb.s3.large**\n\n<props=\"china\">\n\n>- 当**InstanceChargeType**取值为**PayByCLCU**，该参数不生效，您无需配置该参数。\n>- 若不指定规格，则创建性能共享型实例。目前，共享型实例已停止售卖，请指定实例规格。\n\n</props>\n\n<props=\"intl\">\n\n>- 当**InstanceChargeType**取值为**PayByCLCU**，该参数不生效，您无需配置该参数。\n>- CLB按规格计费实例已于2025年06月01日00:00:00（北京时间，UTC+8）停止售卖。详情请参见[传统型负载均衡CLB按规格计费实例停售公告](~~2872003~~)。\n\n\n</props>",
+        "example": "slb.s1.small"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "企业资源组ID。",
+        "example": "rg-atstuj3rtopt****"
+      },
+      {
+        "name": "PayType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的计费类型，取值：\n\n- **PayOnDemand**：按量付费。",
+        "example": "PayOnDemand"
+      },
+      {
+        "name": "PricingCycle",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "预付费公网实例的计费周期，取值：\n- **month**：月。\n- **year**：年。\n\n>该参数仅适用于中国站且仅对包年包月实例有效。",
+        "example": "month"
+      },
+      {
+        "name": "Duration",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "预付费公网实例的购买时长，取值：\n  \n* 如果**PricingCycle**为**month**，取值为**1～9**。\n* 如果**PricingCycle**为**year**，取值为**1～5**。\n\n> 该参数仅适用于中国站且仅对包年包月实例有效。",
+        "example": "1"
+      },
+      {
+        "name": "AutoPay",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否是自动支付预付费公网实例的账单。取值：\n\n- **true**：自动支付。调用API后，立即生成SLB实例。\n- **false**（默认值）：调用API后SLB的订单创建成功，但是未支付。您可以在控制台看到未支付订单。由于订单未支付，SLB实例不会被创建出来。\n\n> 该参数仅适用于中国站且仅对包年包月实例有效。",
+        "example": "true"
+      },
+      {
+        "name": "AddressIPVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的IP版本，取值：**ipv4**或**ipv6**。\n",
+        "example": "ipv4"
+      },
+      {
+        "name": "Address",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定实例的私网IP地址，该地址必须包含在交换机的目标网段下。",
+        "example": "192.168.XX.XX"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "标签列表。",
+        "example": ""
+      },
+      {
+        "name": "DeleteProtection",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启实例删除保护。取值：\n- **on**：是。\n- **off**：否。",
+        "example": "on"
+      },
+      {
+        "name": "ModificationProtectionStatus",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡修改保护状态：\n\n- **NonProtection**：不限制修改保护，设置后会清空之前设置的**ModificationProtectionReason**。\n- **ConsoleProtection**：实例控制台修改保护状态。\n\n> 当取值为**ConsoleProtection**，即开启修改保护后，用户不能通过负载均衡控制台修改实例配置，但可以通过调用API修改实例配置。",
+        "example": "ConsoleProtection"
+      },
+      {
+        "name": "ModificationProtectionReason",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "设置修改保护状态的原因，长度为1～80个字符，必须以字母或中文开头，支持数字、半角句号（.）、下划线（_）和短划线（-）。\n\n> 仅在**ModificationProtectionStatus**为**ConsoleProtection**时有效。",
+        "example": "Managed instance"
+      },
+      {
+        "name": "InstanceChargeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "<props=\"china\">\n\n实例计费方式。取值：\n- **PayBySpec**（默认值）：按规格计费。\n- **PayByCLCU**：按使用量计费。\n\n>仅当**PayType**（实例付费模式）取值为**PayOnDemand**（按量付费）时，该参数生效。\n\n</props>\n\n<props=\"intl\">\n\n实例计费方式。\n\n取值：**PayByCLCU**：按使用量计费。\n\n> - 仅当**PayType**（实例付费模式）取值为**PayOnDemand**（按量付费）时，该参数生效。\n> - CLB按规格计费实例已于2025年06月01日00:00:00（北京时间，UTC+8）停止售卖。详情请参见[传统型负载均衡CLB按规格计费实例停售公告](~~2872003~~)。\n\n\n</props>",
+        "example": "PayBySpec"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "VpcId",
+        "type": "string",
+        "description": "传统型负载均衡实例的所属专有网络的ID。"
+      },
+      {
+        "name": "AddressIPVersion",
+        "type": "string",
+        "description": "传统型负载均衡实例的IP地址类型。"
+      },
+      {
+        "name": "VSwitchId",
+        "type": "string",
+        "description": "传统型负载均衡实例的所属交换机的ID。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "LoadBalancerName",
+        "type": "string",
+        "description": "传统型负载均衡实例的名称。"
+      },
+      {
+        "name": "LoadBalancerId",
+        "type": "string",
+        "description": "传统型负载均衡实例的ID。"
+      },
+      {
+        "name": "ResourceGroupId",
+        "type": "string",
+        "description": "资源组ID。"
+      },
+      {
+        "name": "Address",
+        "type": "string",
+        "description": "分配的负载均衡实例的IP地址。"
+      },
+      {
+        "name": "NetworkType",
+        "type": "string",
+        "description": "传统型负载均衡实例的网络类型，取值：\n\n* **vpc**：专有网络类型。\n* **classic**：经典网络类型。"
+      },
+      {
+        "name": "OrderId",
+        "type": "integer",
+        "description": "预付费实例的订单ID。"
+      }
+    ]
+  },
+  "CreateLoadBalancerHTTPListener": {
+    "name": "",
+    "summary": "创建HTTP监听。",
+    "description": "### 注意事项\n\n 新建的监听的状态为**stopped**。创建完成后，调用[StartLoadBalancerListener](~~27597~~)接口启动监听来转发流量。\n\n### 前提条件\n\n您已经创建传统型负载均衡，具体操作，请参见[CreateLoadBalancer](~~27577~~)。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的地域ID。\n\n您可以从[地域和可用区](~~40654~~)列表或通过调用[DescribeRegions](~~27584~~)接口获取地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "传统型负载均衡实例ID。",
+        "example": "lb-bp1c9vixxjh92q83tw*****"
+      },
+      {
+        "name": "Bandwidth",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "监听的带宽峰值，单位：Mbps。取值：\n\n<props=\"intl\">**-1**：不限制带宽峰值。</props>\n\n<props=\"china\">\n\n- **-1**：不限制带宽峰值。\n\n- **1**~**5120**：监听的带宽峰值，所有监听的带宽峰值之和不能超过实例的带宽峰值。\n\n</props>",
+        "example": "-1"
+      },
+      {
+        "name": "ListenerPort",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "实例前端使用的端口。\n\n取值：**1**~**65535**。",
+        "example": "80"
+      },
+      {
+        "name": "BackendServerPort",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "实例后端使用的端口。\n\n取值：**1**~**65535**。\n\n> 如果不使用虚拟服务器组（不指定VServerGroupId参数），则该参数必选。",
+        "example": "80"
+      },
+      {
+        "name": "XForwardedFor",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启通过`X-Forwarded-For`头字段获取来访客户端IP。取值：\n- **on**（默认值）：是。\n- **off**：否。\n\n",
+        "example": "on"
+      },
+      {
+        "name": "Scheduler",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "调度算法。取值：\n\n- **wrr**（默认值）：权重值越高的后端服务器，被轮询到的概率也越高。\n\n- **rr**：按照访问顺序依次将外部请求依序分发到后端服务器。",
+        "example": "wrr"
+      },
+      {
+        "name": "StickySession",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启会话保持。取值：\n\n- **on**：是。\n\n- **off**（默认值）：否。",
+        "example": "off"
+      },
+      {
+        "name": "StickySessionType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "Cookie处理方式。取值：\n\n- **insert**：植入Cookie。\n\n    客户端第一次访问时，负载均衡会在返回请求中植入Cookie，下次客户端携带此Cookie访问，负载均衡服务会将请求定向转发给之前记录到的后端服务器上。\n\n- **server**：重写Cookie。\n\n  负载均衡发现用户自定义了Cookie，将会对原来的Cookie进行重写，下次客户端携带新的Cookie访问，负载均衡服务会将请求定向转发给之前记录到的后端服务器。\n\n> 当**StickySession**值为**on**时，必须指定该参数。",
+        "example": "insert"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "标签列表。",
+        "example": ""
+      },
+      {
+        "name": "CookieTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "Cookie超时时间。单位：秒。\n\n取值：**1**~**86400**。\n\n> 当**StickySession**为**on**且**StickySessionType**为**insert**时，该参数必选。",
+        "example": "500"
+      },
+      {
+        "name": "Cookie",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "服务器上配置的Cookie。\n\n长度为1~200个字符，只能包含ASCII英文字母和数字字符，不能包含半角逗号（,）、半角分号（;）或空格，也不能以美元符号（$）开头。\n\n>当**StickySession**为**on**且**StickySessionType**为**server**时，该参数必选。",
+        "example": "testCookie"
+      },
+      {
+        "name": "HealthCheck",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "是否开启健康检查。取值：\n\n- **on**：开启健康检查。\n\n- **off**：不开启健康检查。",
+        "example": "on"
+      },
+      {
+        "name": "HealthCheckMethod",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "监听HTTP类型健康检查的健康检查方法。取值：**head**或**get**。\n\n> **HealthCheck**值为**on**时才会有效。",
+        "example": "get"
+      },
+      {
+        "name": "HealthCheckDomain",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于健康检查的域名，取值：\n\n- **$_ip**： 后端服务器的私网IP。当指定了IP或该参数未指定时，负载均衡会使用各后端服务器的私网IP当做健康检查使用的域名。\n\n- **domain**：域名长度为1~80字符，只能包含字母、数字、半角句号（.）和短划线（-）。\n\n>在**HealthCheck**值为**on**时才会有效。",
+        "example": "172.16.*.*/12"
+      },
+      {
+        "name": "HealthCheckURI",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于健康检查的URI。\n\n长度限制为1~80个字符，只能使用字母、数字和短划线（-）、正斜线（/）、半角句号（.）、百分号（%）、半角问号（?）、井号（#）和and（&）这些字符。URI不能只为正斜线（/），但必须以正斜线（/）开头。\n\n>在**HealthCheck**值为**on**时才会有效。",
+        "example": "/test/index.html"
+      },
+      {
+        "name": "HealthyThreshold",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查连续成功多少次后，将后端服务器的健康检查状态由**失败**判定为**成功**。\n\n取值：**2**~**10**。\n\n>在**HealthCheck**值为**on**时才会有效。",
+        "example": "4"
+      },
+      {
+        "name": "UnhealthyThreshold",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查连续失败多少次后，将后端服务器的健康检查状态由**成功**判定为**失败**。\n\n取值：**2**~**10**。\n\n>在**HealthCheck**值为**on**时才会有效。",
+        "example": "4"
+      },
+      {
+        "name": "HealthCheckTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "接收来自运行状况检查的响应需要等待的时间。如果后端ECS在指定的时间内没有正确响应，则判定为健康检查失败。单位：秒。\n\n取值：**1**~**300**。\n\n> 在**HealthCheck**值为**on**时才会有效。",
+        "example": "3"
+      },
+      {
+        "name": "HealthCheckConnectPort",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查的后端服务器的端口。\n\n取值： **1**~**65535**。\n\n> 在**HealthCheck**值为**on**时才会有效。",
+        "example": "80"
+      },
+      {
+        "name": "HealthCheckInterval",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查的时间间隔。单位：秒。\n\n取值： **1**~**50**。\n\n>在**HealthCheck**值为**on**时才会有效。\n",
+        "example": "5"
+      },
+      {
+        "name": "HealthCheckHttpCode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "健康检查正常的HTTP状态码，多个状态码用逗号分隔。\n\n取值：**http\\_2xx**（默认值）、**http\\_3xx**、**http\\_4xx**或**http\\_5xx**。\n\n>在**HealthCheck**值为**on**时才会有效。",
+        "example": "http_2xx"
+      },
+      {
+        "name": "VServerGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "虚拟服务器组ID。",
+        "example": "rsp-cige6j*****"
+      },
+      {
+        "name": "XForwardedFor_SLBIP",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否通过`SLB-IP`头字段获取客户端请求的VIP（Virtual IP address）。取值：\n- **on**：是。\n- **off**（默认值）：否。",
+        "example": "on"
+      },
+      {
+        "name": "XForwardedFor_SLBID",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否通过`SLB-ID`头字段获取负载均衡实例ID。取值：\n- **on**：是。\n- **off**（默认值）：否。",
+        "example": "on"
+      },
+      {
+        "name": "XForwardedFor_proto",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否通过`X-Forwarded-Proto`头字段获取负载均衡实例的监听协议。取值：\n- **on**：是。\n- **off**（默认值）：否。",
+        "example": "on"
+      },
+      {
+        "name": "Gzip",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启`Gzip`压缩，对特定文件类型进行压缩。取值：\n- **on**（默认值）：是。\n- **off**：否。",
+        "example": "on"
+      },
+      {
+        "name": "AclId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "监听绑定的访问策略组ID。\n\n> 当**AclStatus**参数的值为**on**时，该参数必选。",
+        "example": "acl-uf60jw******"
+      },
+      {
+        "name": "AclType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "访问控制类型。取值：\n\n- **white**： 仅转发来自所选访问控制策略组中设置的IP地址或地址段的请求，白名单适用于只允许特定IP访问的场景。设置白名单存在一定业务风险。一旦设置白名单，就只有白名单中的IP可以访问负载均衡监听。\n \n  如果开启了白名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n- **black**： 来自所选访问控制策略组中设置的IP地址或地址段的所有请求都不会转发，黑名单适用于只限制某些特定IP访问的场景。\n\n  如果开启了黑名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n>当**AclStatus**参数的值为**on**时，该参数有效。",
+        "example": "white"
+      },
+      {
+        "name": "AclStatus",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启访问控制功能。取值：\n- **on**：是。\n- **off**（默认值）：否。",
+        "example": "off"
+      },
+      {
+        "name": "Description",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "自定义监听名称。\n\n长度限制为1~256个字符，支持中文、字母、数字、短划线（-）、正斜线（/）、半角句号（.）和下划线（_）。",
+        "example": "HTTP_443"
+      },
+      {
+        "name": "ListenerForward",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启HTTP至HTTPS的转发。取值：\n- **on**：是。\n- **off**（默认值）：否。",
+        "example": "off"
+      },
+      {
+        "name": "ForwardPort",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "HTTP至HTTPS的监听转发端口。\n",
+        "example": "443"
+      },
+      {
+        "name": "IdleTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "指定连接空闲超时时间。单位：秒。\n\n默认值为**15**，取值范围：**1**~**60**。\n\n在超时时间内一直没有访问请求，负载均衡会暂时中断当前连接，直到一下次请求来临时重新建立新的连接。",
+        "example": "3"
+      },
+      {
+        "name": "RequestTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "指定请求超时时间。单位：秒。\n\n默认值为**60**，取值范围为**1**~**180**。\n\n在超时时间内后端服务器一直没有响应，负载均衡将放弃等待，给客户端返回` HTTP 504 `错误码。",
+        "example": "6"
+      },
+      {
+        "name": "XForwardedFor_SLBPORT",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否通过`XForwardedFor_SLBPORT`头字段获取负载均衡实例的监听端口。取值：\n- **on**：是。\n- **off**：否。",
+        "example": "off"
+      },
+      {
+        "name": "XForwardedFor_ClientSrcPort",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否通过`XForwardedFor_ClientSrcPort`头字段获取访问负载均衡实例客户端的端口。取值：\n- **on**：是。\n- **off**：否。",
+        "example": "off"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "CreateLoadBalancerTCPListener": {
+    "name": "",
+    "summary": "创建TCP监听。",
+    "description": "> 新建的监听的状态为**stopped**。创建完成后，调用[StartLoadBalancerListener](~~2401757~~)接口启动监听来转发流量。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的地域ID。\n\n您可以从[地域和可用区](~~40654~~)列表或通过调用[DescribeRegions](~~2401682~~)接口查询地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "传统型负载均衡实例的ID。",
+        "example": "lb-bp1b6c719dfa08ex****"
+      },
+      {
+        "name": "ListenerPort",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "传统型负载均衡实例前端使用的端口。\n\n取值范围：**1**~**65535**。",
+        "example": "80"
+      },
+      {
+        "name": "BackendServerPort",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "传统型负载均衡实例后端使用的端口。\n\n取值范围：**1**~**65535**。\n\n如果不使用服务器组（不指定**vServerGroupId**），则该参数必选。",
+        "example": "80"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "标签列表。",
+        "example": ""
+      },
+      {
+        "name": "Bandwidth",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "监听的带宽峰值，单位：Mbps。取值：\n\n- **-1**：对于按流量计费的公网负载均衡实例，可以将带宽峰值设置为-1，即不限制带宽峰值。\n\n- **1**~**5120**： 对于按带宽计费的公网负载均衡实例，可以设置每个监听的带宽峰值，但所有监听的带宽峰值之和不能超过实例的带宽峰值。\n",
+        "example": "-1"
+      },
+      {
+        "name": "Scheduler",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "调度算法。取值：\n\n- **wrr**（默认值）：权重值越高的后端服务器，被轮询到的次数（概率）也越高。\n\n- **rr**：按照访问顺序依次将外部请求依序分发到后端服务器。\n\n- **sch**：基于源IP地址的一致性hash，相同的源地址会调度到相同的后端服务器。\n\n- **tch**：基于四元组的一致性hash（源IP+目的IP+源端口+目的端口），相同的流会调度到相同的后端服务器。\n\n> 仅性能保障型实例支持**sch**和**tch**一致性hash算法。",
+        "example": "wrr"
+      },
+      {
+        "name": "PersistenceTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "会话保持的超时时间。单位：秒。\n\n取值范围：**0~3600**。\n\n默认值：**0**，表示关闭会话保持。",
+        "example": "0"
+      },
+      {
+        "name": "EstablishedTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "连接超时时间。单位：秒。\n\n取值范围：**10**~**900**。",
+        "example": "500"
+      },
+      {
+        "name": "HealthyThreshold",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查连续成功多少次后，将后端服务器的健康检查状态由**fail**判定为**success**。\n\n取值范围： **2**~**10**。",
+        "example": "4"
+      },
+      {
+        "name": "UnhealthyThreshold",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查连续失败多少次后，将后端服务器的健康检查状态由**success**判定为**fail**。\n\n取值范围：**2**~**10**。",
+        "example": "4"
+      },
+      {
+        "name": "HealthCheckConnectTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "每次健康检查响应的最大超时时间。单位：秒。\n\n取值范围：**1**~**300**。\n\n默认值：**5**。",
+        "example": "100"
+      },
+      {
+        "name": "HealthCheckConnectPort",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查使用的端口。\n\n取值范围：**1**~**65535**。\n\n不设置此参数时，表示使用后端服务端口（**BackendServerPort**）。\n",
+        "example": "80"
+      },
+      {
+        "name": "healthCheckInterval",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "健康检查的时间间隔。单位：秒。\n\n取值范围：**1**~**50**。\n",
+        "example": "3"
+      },
+      {
+        "name": "HealthCheckDomain",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于健康检查的域名。取值：\n\n* **$_ip**： 后端服务器的私网IP。当指定了IP或该参数未指定时，负载均衡会使用各后端服务器的私网IP当做健康检查使用的域名。\n\n* **domain**：域名长度为1~80，只能包含字母、数字、半角句号（.）和短划线（-）。",
+        "example": "172.XX.XX.6"
+      },
+      {
+        "name": "HealthCheckURI",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于健康检查的URI。长度限制为1~80，只能使用字母、数字、短划线（-）、正斜线（/）、半角句号（.）、百分号（%）、井号（#）和and（&）这些字符。 URI不能只为正斜线（/），但必须以正斜线（/）开头。\n\n当TCP监听需要使用HTTP健康检查时可配置此参数，如不配置则按TCP健康检查。",
+        "example": "/test/index.html"
+      },
+      {
+        "name": "HealthCheckHttpCode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "健康检查正常的HTTP状态码，多个状态码用半角逗号（,）分割。取值：\n\n- **http_2xx**（默认值）\n- **http_3xx**\n- **http_4xx**\n- **http_5xx**",
+        "example": "http_2xx,http_3xx"
+      },
+      {
+        "name": "HealthCheckType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "健康检查类型。取值：\n\n- **tcp**（默认值）\n- **http**",
+        "example": "tcp"
+      },
+      {
+        "name": "VServerGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "虚拟服务器组ID。",
+        "example": "rsp-cige6j****"
+      },
+      {
+        "name": "MasterSlaveServerGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "主备服务器组ID。\n\n> 虚拟服务器组ID和主备服务器组ID只能选择一个。",
+        "example": "rsp-0bfucw****"
+      },
+      {
+        "name": "AclId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "监听绑定的访问策略组ID。\n\n> 当**AclStatus**参数的值为**on**时，该参数必选。",
+        "example": "acl-uf60jwfiv6******"
+      },
+      {
+        "name": "AclType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "访问控制类型：\n\n* **white**： 仅转发来自所选访问控制策略组中设置的IP地址或地址段的请求，白名单适用于只允许特定IP访问的场景。\n设置白名单存在一定业务风险。\n \n 一旦设置白名单，就只有白名单中的IP可以访问负载均衡监听。如果开启了白名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n* **black**： 来自所选访问控制策略组中设置的IP地址或地址段的所有请求都不会转发，黑名单适用于只限制某些特定IP访问的场景。\n\n 如果开启了黑名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n> 当**AclStatus**参数的值为**on**时，该参数有效。",
+        "example": "black"
+      },
+      {
+        "name": "AclStatus",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启访问控制功能。取值：\n\n- **on**：开启。\n- **off**（默认值）：不开启。",
+        "example": "off"
+      },
+      {
+        "name": "Description",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "自定义监听名称。\n\n长度限制为1~256个字符，支持中文、字母、数字、短划线（-）、正斜线（/）、半角句号（.）和下划线（_）。",
+        "example": "tcp_80"
+      },
+      {
+        "name": "ConnectionDrain",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启连接优雅中断。取值：\n\n- **on**：开启。\n\n- **off**：不开启。",
+        "example": "off"
+      },
+      {
+        "name": "ConnectionDrainTimeout",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "设置连接优雅中断超时时间。单位：秒。\n\n取值范围：**10**~**900**。\n\n> 当**ConnectionDrain**取值为**on**时，该选项必选。",
+        "example": "300"
+      },
+      {
+        "name": "ProxyProtocolV2Enabled",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否支持通过Proxy Protocol协议携带客户端源地址到后端服务器。取值：\n\n- **true**：是。\n- **false**（默认值）：否。\n",
+        "example": "false"
+      },
+      {
+        "name": "HealthCheckSwitch",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否开启健康检查。取值：\n\n- **on**（默认值）：开启。\n- **off**：不开启。",
+        "example": "on"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "StartLoadBalancerListener": {
+    "name": "",
+    "summary": "启动监听。",
+    "description": "在调用该接口时，注意：\n\n* 监听状态必须为stopped时，才可以调用该接口。\n\n* 接口调用成功后，监听进入starting状态。\n\n* 当监听所属负载均衡实例的状态为locked时，调用此接口会失败。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "负载均衡实例的地域。\n\n您可以通过调用[DescribeRegions](~~27584~~)接口查询地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "负载均衡实例的ID。",
+        "example": "lb-bp13jaf5qli5*********"
+      },
+      {
+        "name": "ListenerPort",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "负载均衡实例前端使用的端口。\n\n取值：**1-65535**。",
+        "example": "80"
+      },
+      {
+        "name": "ListenerProtocol",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "负载均衡实例前端使用的协议。\n\n> 相同端口存在不同协议监听时，此字段必填。",
+        "example": "https"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "AddBackendServers": {
+    "name": "",
+    "summary": "添加后端服务器。",
+    "description": "> 如果一次请求中添加多个相同的ECS实例，只会取第一个，其他相同实例会被忽略。新增后端服务器不能与同监听下已有服务器重复，否则会报错。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "负载均衡实例所属地域的ID。\n\n您可以通过调用[DescribeRegions](~~27584~~)获取地域ID。",
+        "example": "cn-beijing"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "负载均衡实例ID。",
+        "example": "lb-2ze7o5h52g02kkzz******"
+      },
+      {
+        "name": "BackendServers",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "要添加的后端服务器列表，包含以下参数：\n\n- **ServerId**：String类型，必选，后端服务器的实例ID，分为ECS实例ID、ENI实例ID和ECI实例ID，当**ServerId**参数值为ENI实例ID或ECI实例ID时，**Type**参数值必选。\n\n- **Weight**：后端服务器的权重，取值：**0**~**100**。默认值：**100**。\n    \n 如果值为0，则不会将请求转发给该后端服务器。\n\n- **Description**：String类型，非必选，后端服务器描述，长度为1~80个字符，支持中文、字母、数字、短划线（-）、正斜线（/）、半角句号（.）和下划线（_）。\n\n- **Type**：后端服务器类型，取值：\n\n    - **ecs**：ECS实例（默认）。\n    \n    - **eni**：弹性网卡实例。\n\n    - **eci**：弹性容器实例。\n\n> 只有性能保障型实例支持添加eni和eci类型的后端服务器。\n\n*  **ServerIp**：ECS、ENI或者ECI的实例IP。\n\n*  **Port**：用来接收请求的后端端口。\n\n示例说明如下：\n\n* 挂载ECS示例：\n \n `[{ \"ServerId\": \"i-xxxxxxxxx\", \"Weight\": \"100\", \"Type\": \"ecs\",  \"Port\":\"80\",\"Description\":\"test-112\" }]`\n\n* 挂载ENI：\n\n  `[{ \"ServerId\": \"eni-xxxxxxxxx\", \"Weight\": \"100\", \"Type\": \"eni\", \"ServerIp\": \"192.168.**.**\", \"Port\":\"80\",\"Description\":\"test-112\" }]`\n\n*  挂载ENI多IP：\n\n  `[{ \"ServerId\": \"eni-xxxxxxxxx\", \"Weight\": \"100\", \"Type\": \"eni\", \"ServerIp\": \"192.168.**.**\", \"Port\":\"80\",\"Description\":\"test-113\" },{ \"ServerId\": \"eni-xxxxxxxxx\", \"Weight\": \"100\", \"Type\": \"eni\", \"ServerIp\": \"172.166.**.**\", \"Port\":\"80\",\"Description\":\"test-113\" }]`\n\n* 挂载ECI：\n\n  `[{ \"ServerId\": \"eci-xxxxxxxxx\", \"Weight\": \"100\", \"Type\": \"eci\", \"ServerIp\": \"192.168.**.**\", \"Port\":\"80\",\"Description\":\"test-114\" }]`\n\n> 必须是状态为运行中的后端服务器才可以加入负载均衡实例，每次调用最多可添加20个后端服务器。\n\n\n\n\n\n",
+        "example": "[{ \"ServerId\": \"eni-xxxxxxxxx\", \"Weight\": \"100\", \"Type\": \"eni\", \"ServerIp\": \"192.168.**.**\", \"Port\":\"80\",\"Description\":\"test-112\" },{ \"ServerId\": \"eni-xxxxxxxxx\", \"Weight\": \"100\", \"Type\": \"eni\", \"ServerIp\": \"172.166.**.**\", \"Port\":\"80\",\"Description\":\"test-113\" }]"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "LoadBalancerId",
+        "type": "string",
+        "description": "负载均衡实例ID。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "BackendServers",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribeLoadBalancers": {
+    "name": "",
+    "summary": "查询已创建的负载均衡实例。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "传统型负载均衡实例的地域ID。\n\n您可以通过调用[DescribeRegions](~~2401682~~)接口查询地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "ServerId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "添加的后端服务器ID。",
+        "example": "i-2zebcbq******"
+      },
+      {
+        "name": "AddressIPVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "IP版本，可以设置为**ipv4**或者**ipv6**。",
+        "example": "ipv4"
+      },
+      {
+        "name": "LoadBalancerStatus",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例状态。取值：\n\n- **inactive**: 实例已停止，此状态的实例监听不会再转发流量。\n\n- **active**: 实例运行中，实例创建后，默认状态为**active**。\n\n- **locked**: 实例已锁定。当负载均衡实例到期后，但到期时间未超过7天时，负载均衡实例进入锁定状态。此种状态下，您不能对负载均衡实例进行任何操作，并且实例不再会进行流量转发，但会保留实例的IP和其它配置。",
+        "example": "active"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例ID。\n\n支持多值查询，最多可输入10个ID，以半角逗号（,）分隔。",
+        "example": "lb-bp1b6c719dfa****"
+      },
+      {
+        "name": "LoadBalancerName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例名称。\n\n长度为1~80个英文或中文字符，必须以大小字母或中文开头，可包含数字、半角句号（.）、下划线（_）和短划线（-）。\n\n支持多值查询，最多可输入10个名称，以半角逗号（,）分隔。",
+        "example": "test"
+      },
+      {
+        "name": "ServerIntranetAddress",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "添加的后端服务器的内网地址。\n\n支持多值查询，以半角逗号（,）分隔。",
+        "example": "10.XX.XX.102"
+      },
+      {
+        "name": "AddressType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的网络类型。取值：\n\n* **internet**：创建公网负载均衡实例后，系统会分配一个公网IP地址，可以转发公网请求。\n\n* **intranet**：创建内网负载均衡实例后，系统会分配一个内网IP地址，仅可转发内网请求。",
+        "example": "intranet"
+      },
+      {
+        "name": "InternetChargeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "公网计费方式。取值：\n- **paybybandwidth**：按带宽计费。\n\n- **paybytraffic**：按流量计费。\n\n<props=\"china\">当**PayType**参数的值为**PrePay**时，只支持按带宽计费。当**InstanceChargeType**参数的值为**PayByCLCU**时，只支持按流量计费。</props>\n\n",
+        "example": "paybytraffic"
+      },
+      {
+        "name": "VpcId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例所属的VPC ID。",
+        "example": "vpc-bp1aevy8sof****"
+      },
+      {
+        "name": "VSwitchId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例所属的交换机ID。",
+        "example": "vsw-bp12mw1f8k3****"
+      },
+      {
+        "name": "NetworkType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "私网实例的网络类型。取值：\n\n- **vpc**：专有网络类型。 \n\n- **classic**：经典网络类型。",
+        "example": "vpc"
+      },
+      {
+        "name": "Address",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的服务地址。",
+        "example": "192.168.XX.XX"
+      },
+      {
+        "name": "MasterZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "负载均衡实例的主可用区ID。",
+        "example": "cn-hangzhou-b"
+      },
+      {
+        "name": "SlaveZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的备可用区ID。\n\n目前对金融云用户暂时不支持多可用区功能。",
+        "example": "cn-hangzhou-d"
+      },
+      {
+        "name": "Tags",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例绑定的标签列表，其结构是一个JSON dictionary，包含标签键和标签值。\n\n一次请求中，绑定的标签列表中最多支持10个标签。",
+        "example": "[{\"tagKey\":\"Key1\",\"tagValue\":\"Value1\"}]"
+      },
+      {
+        "name": "PayType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例付费模式。取值：\n\n* **PayOnDemand**：按量付费。\n\n<props=\"china\">- **PrePay**：包年包月。</props>",
+        "example": "PayOnDemand"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "企业资源组ID。",
+        "example": "rg-acfmxazb4p****"
+      },
+      {
+        "name": "PageNumber",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "分页查询时的页码。",
+        "example": "1"
+      },
+      {
+        "name": "PageSize",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "分页查询时设置的每页行数。\n\n取值范围：**1**~**100**。\n\n> 如果设置了**PageSize**，则需要同时设置**PageNumber**。\n",
+        "example": "50"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "标签列表。",
+        "example": ""
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "PageNumber",
+        "type": "integer",
+        "description": "实例列表页码。"
+      },
+      {
+        "name": "PageSize",
+        "type": "integer",
+        "description": "当前分页的行数。"
+      },
+      {
+        "name": "TotalCount",
+        "type": "integer",
+        "description": "根据过滤条件得到的实例总个数。"
+      },
+      {
+        "name": "LoadBalancers",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribeLoadBalancerAttribute": {
+    "name": "",
+    "summary": "查询指定负载均衡实例的详细信息。",
+    "description": "> 如果后端服务器设置在虚拟服务器组下面，请调用[DescribeVServerGroupAttribute](~~35224~~)查询。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的地域ID。\n\n您可以通过调用[DescribeRegions](~~25609~~)接口查询地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "传统型负载均衡实例ID。",
+        "example": "lb-bp1b6c719dfa08ex****"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "VpcId",
+        "type": "string",
+        "description": "传统型负载均衡私网实例的专有网络ID。"
+      },
+      {
+        "name": "Tags",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "CreateTimeStamp",
+        "type": "integer",
+        "description": "传统型负载均衡实例创建时间戳。"
+      },
+      {
+        "name": "CreateTime",
+        "type": "string",
+        "description": "传统型负载均衡实例的创建时间。格式为：`YYYY-MM-DDThh:mm:ssZ`。"
+      },
+      {
+        "name": "LoadBalancerId",
+        "type": "string",
+        "description": "传统型负载均衡实例的ID。"
+      },
+      {
+        "name": "PayType",
+        "type": "string",
+        "description": "传统型负载均衡实例付费类型。取值：\n\n<props=\"china\">- **PrePay**：包年包月。</props>\n\n<props=\"china\">- **PayOnDemand**（默认值）：按量付费。</props>\n\n<props=\"intl\">- **PayOnDemand**（默认值）：按量付费。</props>\n\n"
+      },
+      {
+        "name": "AddressType",
+        "type": "string",
+        "description": "传统型负载均衡实例的地址类型。"
+      },
+      {
+        "name": "NetworkType",
+        "type": "string",
+        "description": "传统型负载均衡实例的网络类型。"
+      },
+      {
+        "name": "AddressIPVersion",
+        "type": "string",
+        "description": "IP版本。取值：**ipv4**或**ipv6**。"
+      },
+      {
+        "name": "RenewalCycUnit",
+        "type": "string",
+        "description": "自动续费周期，取值：**Year**或**Month**（默认值）。\n\n>该参数仅适用于中国站包年包月实例，即**PayType**的参数值为**PrePay**且**RenewalStatus**为**AutoRenewal**时有效。\n"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "Bandwidth",
+        "type": "integer",
+        "description": "按带宽计费的公网型实例的带宽峰值。"
+      },
+      {
+        "name": "LoadBalancerName",
+        "type": "string",
+        "description": "传统型负载均衡实例的名称。"
+      },
+      {
+        "name": "Address",
+        "type": "string",
+        "description": "传统型负载均衡实例的服务地址。 "
+      },
+      {
+        "name": "SlaveZoneId",
+        "type": "string",
+        "description": "传统型负载均衡实例的备可用区ID。"
+      },
+      {
+        "name": "EndTimeStamp",
+        "type": "integer",
+        "description": "传统型负载均衡实例结束时间戳。 "
+      },
+      {
+        "name": "MasterZoneId",
+        "type": "string",
+        "description": "传统型负载均衡实例的主可用区ID。"
+      },
+      {
+        "name": "LoadBalancerSpec",
+        "type": "string",
+        "description": "传统型负载均衡实例的性能规格。\n> 按使用量计费的实例无性能规格属性，默认返回 **slb.lcu.elastic**。"
+      },
+      {
+        "name": "AutoReleaseTime",
+        "type": "integer",
+        "description": "释放时间的时间戳。"
+      },
+      {
+        "name": "ModificationProtectionReason",
+        "type": "string",
+        "description": "设置修改保护状态的原因，长度为1~80个字符，必须以字母或中文开头，支持数字、半角句号（.）、下划线（_）和短划线（-）。\n\n> 仅在**ModificationProtectionStatus**为**ConsoleProtection**时有效。"
+      },
+      {
+        "name": "RegionId",
+        "type": "string",
+        "description": "传统型负载均衡实例所在地域ID。 "
+      },
+      {
+        "name": "ModificationProtectionStatus",
+        "type": "string",
+        "description": "传统型负载均衡修改保护状态：\n\n- **NonProtection**：不限制修改保护，设置后会清空之前设置的**ModificationProtectionReason**。\n- **ConsoleProtection**：实例控制台修改保护状态。\n\n> 当取值为**ConsoleProtection**，即开启修改保护后，用户不能通过负载均衡控制台修改实例配置，但可以通过调用API修改实例配置。"
+      },
+      {
+        "name": "EndTime",
+        "type": "string",
+        "description": "传统型负载均衡实例结束时间。 "
+      },
+      {
+        "name": "VSwitchId",
+        "type": "string",
+        "description": "私网实例的交换机ID。"
+      },
+      {
+        "name": "LoadBalancerStatus",
+        "type": "string",
+        "description": "传统型负载均衡实例状态：\n\n- **inactive**：实例已停止，此状态的实例监听不会再转发流量。\n\n- **active**：实例运行中，实例创建后，默认状态为**active**。\n\n- **locked**：实例已锁定，实例已经欠费或被阿里云锁定。\n\t\t"
+      },
+      {
+        "name": "ResourceGroupId",
+        "type": "string",
+        "description": "企业资源组ID。"
+      },
+      {
+        "name": "InternetChargeType",
+        "type": "string",
+        "description": "公网类型实例付费方式。取值：\n\n- **paybytraffic**：按使用流量计费。\n- **paybybandwidth**：按固定带宽计费。"
+      },
+      {
+        "name": "DeleteProtection",
+        "type": "string",
+        "description": "是否开启实例删除保护。\n\n取值：**on**或**off**。"
+      },
+      {
+        "name": "RegionIdAlias",
+        "type": "string",
+        "description": "传统型负载均衡实例所属的地域别名。"
+      },
+      {
+        "name": "RenewalStatus",
+        "type": "string",
+        "description": "续费状态，取值：\n\n- **AutoRenewal**：自动续费。\n- **Normal**：非自动续费，您需要自行续费负载均衡实例。\n- **NotRenewal**：不再续费。返回该值后，系统不再发送到期提醒，只在到期前第三天发送不续费提醒。\n\n> 该参数仅适用于中国站包年包月实例，即**PayType**的参数值为**PrePay**时有效。"
+      },
+      {
+        "name": "RenewalDuration",
+        "type": "integer",
+        "description": "自动续费时长，仅在**RenewalStatus**为**AutoRenewal**时有效。\n\n- **RenewalCycUnit**为**Year**时，取值：**1~5**。\n- **RenewalCycUnit**为**Month**时，取值：**1~9**。\n\n> 该参数仅适用于中国站包年包月实例，即**PayType**的参数值为**PrePay**时有效。"
+      },
+      {
+        "name": "ListenerPorts",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "ListenerPortsAndProtocal",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "ListenerPortsAndProtocol",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "BackendServers",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "InstanceChargeType",
+        "type": "string",
+        "description": "实例计费方式。取值：\n\n- **PayBySpec**：按规格计费。\n- **PayByCLCU**：按使用量计费。"
+      }
+    ]
+  },
+  "DescribeLoadBalancerHTTPListenerAttribute": {
+    "name": "",
+    "summary": "查询HTTP监听配置。",
+    "description": "## 前提条件\n\n- 您已经创建传统型负载均衡，具体操作，请参见[CreateLoadBalancer](~~27577~~)。\n- 您已经创建HTTP监听，具体操作，请参见[CreateLoadBalancerHTTPListener](~~27592~~)。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的地域ID。\n\n您可以调用[DescribeRegions](~~25609~~)接口获取地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "传统型负载均衡实例的ID。",
+        "example": "lb-bp1uaunez0uho0zf0****"
+      },
+      {
+        "name": "ListenerPort",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "实例前端使用的端口。\n\n取值：**1**~**65535**。",
+        "example": "80"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "AclType",
+        "type": "string",
+        "description": "访问控制类型：\n\n- **white**： 仅转发来自所选访问控制策略组中设置的IP地址或地址段的请求，白名单适用于只允许特定IP访问的场景。设置白名单存在一定业务风险。一旦设置白名单，就只有白名单中的IP可以访问负载均衡监听。\n\n 如果开启了白名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n- **black**： 来自所选访问控制策略组中设置的IP地址或地址段的所有请求都不会转发，黑名单适用于只限制某些特定IP访问的场景。\n\n 如果开启了黑名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n> 当**AclStatus**参数的值为**on**时，该参数必选。"
+      },
+      {
+        "name": "VServerGroupId",
+        "type": "string",
+        "description": "绑定的服务器组ID。"
+      },
+      {
+        "name": "Status",
+        "type": "string",
+        "description": "当前监听的状态。取值：\n\n- **running**：表示监听正常运行。\n\n- **stopped**：表示监听停止。"
+      },
+      {
+        "name": "XForwardedFor_ClientSrcPort",
+        "type": "string",
+        "description": "是否通过`XForwardedFor_ClientSrcPort`头字段获取访问负载均衡实例客户端的端口。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "Cookie",
+        "type": "string",
+        "description": "服务器上配置的Cookie。"
+      },
+      {
+        "name": "Gzip",
+        "type": "string",
+        "description": "是否开启`Gzip`压缩，对特定文件类型进行压缩。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "HealthCheckConnectPort",
+        "type": "integer",
+        "description": "健康检查的端口。\n\n > 当**HealthCheck**值为**on**时才会有效。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "Description",
+        "type": "string",
+        "description": "自定义监听名称。"
+      },
+      {
+        "name": "Bandwidth",
+        "type": "integer",
+        "description": "监听的带宽峰值。单位：Mbps。\n\n- **-1**：不限制带宽峰值。\n\n- **1~5120**：监听的带宽峰值，所有监听的带宽峰值之和不能超过实例的带宽峰值。"
+      },
+      {
+        "name": "HealthCheckTimeout",
+        "type": "integer",
+        "description": "每次健康检查响应的超时时间，单位：秒。\n"
+      },
+      {
+        "name": "AclStatus",
+        "type": "string",
+        "description": "是否开启访问控制功能。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "BackendServerPort",
+        "type": "integer",
+        "description": "实例后端使用的端口。"
+      },
+      {
+        "name": "CookieTimeout",
+        "type": "integer",
+        "description": "Cookie超时时间。单位：秒。"
+      },
+      {
+        "name": "HealthCheckDomain",
+        "type": "string",
+        "description": "用于健康检查的域名。"
+      },
+      {
+        "name": "UnhealthyThreshold",
+        "type": "integer",
+        "description": "不健康检查阈值。"
+      },
+      {
+        "name": "ForwardPort",
+        "type": "integer",
+        "description": "HTTP至HTTPS的监听转发端口。\n\n> 如果**ListenerForward**的值为**off**，该参数不显示。"
+      },
+      {
+        "name": "XForwardedFor_SLBID",
+        "type": "string",
+        "description": "是否通过`SLB-ID`头字段获取负载均衡实例ID。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "SecurityStatus",
+        "type": "string",
+        "description": "是否开启安全状态。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "HealthCheckHttpCode",
+        "type": "string",
+        "description": "健康检查正常的HTTP状态码。"
+      },
+      {
+        "name": "ListenerForward",
+        "type": "string",
+        "description": "是否开启HTTP至HTTPS的监听转发。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "XForwardedFor",
+        "type": "string",
+        "description": "是否开启通过`X-Forwarded-For`头字段的方式获取来访者真实IP。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "IdleTimeout",
+        "type": "integer",
+        "description": "指定连接空闲超时时间，单位：秒。\n\n默认值为**15**，取值范围为**1~60**。\n\n在超时时间内一直没有访问请求，负载均衡会暂时中断当前连接，直到下一次请求来临时重新建立新的连接。\n"
+      },
+      {
+        "name": "RequestTimeout",
+        "type": "integer",
+        "description": "指定请求超时时间。单位：秒。\n\n默认值为**60**，取值范围为**1~180**。\n\n在超时时间内后端服务器一直没有响应，负载均衡将放弃等待，给客户端返回HTTP 504错误码。"
+      },
+      {
+        "name": "ListenerPort",
+        "type": "integer",
+        "description": "实例前端使用的端口。"
+      },
+      {
+        "name": "HealthCheckInterval",
+        "type": "integer",
+        "description": "健康检查的时间间隔，单位：秒。\n"
+      },
+      {
+        "name": "XForwardedFor_SLBPORT",
+        "type": "string",
+        "description": "是否通过`XForwardedFor_SLBPORT`头字段获取负载均衡实例的监听端口。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "HealthCheckURI",
+        "type": "string",
+        "description": "用于健康检查的URI。\n\n长度限制为1~80，只能使用字母、数字和短划线（-）、正斜线（/）、半角句号（.）、百分号（%），半角问号（?）、井号（#）和and（&）这些字符。URI不能只为正斜线（/），但必须以正斜线（/）开头。"
+      },
+      {
+        "name": "StickySessionType",
+        "type": "string",
+        "description": "Cookie的处理方式。\n\n取值：**insert**或**server**。\n\n- **insert**：植入Cookie。\n\n  客户端第一次访问时，负载均衡会在返回请求中植入Cookie（即在HTTP或HTTPS响应报文中插入SERVERID），下次客户端携带此Cookie访问，负载均衡服务会将请求定向转发给之前记录到的后端服务器上。\n\n- **server**：重写Cookie。\n\n  负载均衡发现用户自定义了Cookie，将会对原来的Cookie进行重写，下次客户端携带新的Cookie访问，负载均衡服务会将请求定向转发给之前记录到的后端服务器。\n\n>当**StickySession**的值为**on**时，必须指定该参数。"
+      },
+      {
+        "name": "AclId",
+        "type": "string",
+        "description": "监听绑定的访问策略组ID。\n\n> 当**AclStatus**参数的值为**on**时，返回该参数。"
+      },
+      {
+        "name": "Scheduler",
+        "type": "string",
+        "description": "调度算法。取值：\n\n- **wrr**：权重值越高的后端服务器，被轮询到的概率也越高。\n\n- **rr**：按照访问顺序依次将外部请求依序分发到后端服务器。"
+      },
+      {
+        "name": "HealthyThreshold",
+        "type": "integer",
+        "description": "健康检查阈值。"
+      },
+      {
+        "name": "XForwardedFor_proto",
+        "type": "string",
+        "description": "是否通过`X-Forwarded-Proto`头字段获取负载均衡实例的监听协议。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "XForwardedFor_SLBIP",
+        "type": "string",
+        "description": "是否通过`SLB-IP`头字段获取客户端请求的VIP（Virtual IP address）。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "StickySession",
+        "type": "string",
+        "description": "是否开启会话保持。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "HealthCheckMethod",
+        "type": "string",
+        "description": "监听HTTP类型健康检查的健康检查方法。取值：**head**或**get**。\n\n> **HealthCheck**值为**on**时，返回该参数。"
+      },
+      {
+        "name": "HealthCheck",
+        "type": "string",
+        "description": "是否开启健康检查。取值：\n- **on**：是。\n- **off**：否。"
+      },
+      {
+        "name": "AclIds",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "Rules",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "LoadBalancerId",
+        "type": "string",
+        "description": "传统型负载均衡实例ID。"
+      },
+      {
+        "name": "Tags",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribeLoadBalancerTCPListenerAttribute": {
+    "name": "",
+    "summary": "查询TCP监听配置。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例的地域ID。\n\n您可以从[地域和可用区](~~40654~~)列表或通过调用[DescribeRegions](~~25609~~)接口查询地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "传统型负载均衡实例ID。",
+        "example": "lb-bp1ygod3yctvg1y****"
+      },
+      {
+        "name": "ListenerPort",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "传统型负载均衡实例前端使用的端口。\n\n取值：**1**~**65535**。",
+        "example": "80"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "VServerGroupId",
+        "type": "string",
+        "description": "绑定的服务器组ID。"
+      },
+      {
+        "name": "Status",
+        "type": "string",
+        "description": "当前监听的状态。取值：\n\n* **running**：监听正常运行中。\n\n* **stopped**：监听停止。"
+      },
+      {
+        "name": "AclType",
+        "type": "string",
+        "description": "访问控制类型：\n\n* **white**： 仅转发来自所选访问控制策略组中设置的IP地址或地址段的请求，白名单适用于应用只允许特定IP访问的场景。\n设置白名单存在一定业务风险。一旦设置白名单，就只有白名单中的IP可以访问负载均衡监听。\n\n 如果开启了白名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n* **black**： 来自所选访问控制策略组中设置的IP地址或地址段的所有请求都不会转发，黑名单适用于应用只限制某些特定IP访问的场景。\n\n 如果开启了黑名单访问，但访问策略组中没有添加任何IP，则负载均衡监听会转发全部请求。\n\n> 当**AclStatus**参数的值为**on**时，该参数必选。"
+      },
+      {
+        "name": "ConnectionDrainTimeout",
+        "type": "integer",
+        "description": "设置连接优雅中断超时时间。当**ConnectionDrain**取值为**on**时，返回该值。\n\n取值范围：10~900秒。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "HealthCheckConnectPort",
+        "type": "integer",
+        "description": "健康检查使用的端口。取值：**1**~**65535**。不设置此参数时，表示使用后端服务端口（BackendServerPort）。"
+      },
+      {
+        "name": "Description",
+        "type": "string",
+        "description": "自定义监听名称。"
+      },
+      {
+        "name": "Bandwidth",
+        "type": "integer",
+        "description": "监听的带宽峰值，单位Mbps。取值：\n\n- **-1**：对于按流量计费的公网负载均衡实例，可以将带宽峰值设置为-1，即不限制带宽峰值。\n\n- **1**~**5120**：对于按带宽计费的公网负载均衡实例，可以设置每个监听的带宽峰值，但所有监听的带宽峰值之和不能超过实例的带宽峰值。"
+      },
+      {
+        "name": "HealthCheckType",
+        "type": "string",
+        "description": "TCP协议监听的健康检查方式。\n\n取值：**tcp**或**http**。"
+      },
+      {
+        "name": "MasterSlaveServerGroupId",
+        "type": "string",
+        "description": "绑定的主备服务器组ID。\n\t "
+      },
+      {
+        "name": "BackendServerPort",
+        "type": "integer",
+        "description": "传统型负载均衡实例后端使用的端口。\n\n> 当后端服务器组为虚拟服务器组时，该参数不显示。\n"
+      },
+      {
+        "name": "AclStatus",
+        "type": "string",
+        "description": "是否开启访问控制功能。取值：\n\n- **on**：开启。\n- **off**：不开启。"
+      },
+      {
+        "name": "HealthCheckDomain",
+        "type": "string",
+        "description": "用于健康检查的域名。取值：\n\n- **$_ip**：后端服务器的私网IP。当指定了IP或该参数未指定时，负载均衡会使用各后端服务器的私网IP当做健康检查使用的域名。\n\n- **domain**：域名长度为1~80个字符，只能包含字母、数字、半角句号（.）和短划线（-）。"
+      },
+      {
+        "name": "UnhealthyThreshold",
+        "type": "integer",
+        "description": "不健康检查阈值。健康检查连续失败多少次后，将后端服务器的健康检查状态由**成功**判定为**失败**。取值：**2**~**10**。"
+      },
+      {
+        "name": "HealthCheckHttpCode",
+        "type": "string",
+        "description": "健康检查正常的HTTP状态码。"
+      },
+      {
+        "name": "ProxyProtocolV2Enabled",
+        "type": "boolean",
+        "description": "是否支持通过Proxy Protocol协议携带客户端源地址到后端服务器。取值：\n\n- **true**：是。\n- **false**：否。"
+      },
+      {
+        "name": "PersistenceTimeout",
+        "type": "integer",
+        "description": "会话保持的超时时间。\n\n取值：**0**~**3600**秒。默认值：**0**，表示关闭会话保持。"
+      },
+      {
+        "name": "ListenerPort",
+        "type": "integer",
+        "description": "传统型负载均衡实例前端使用的端口。"
+      },
+      {
+        "name": "HealthCheckInterval",
+        "type": "integer",
+        "description": "健康检查的时间间隔，取值：**1**~**50**秒。"
+      },
+      {
+        "name": "HealthCheckURI",
+        "type": "string",
+        "description": "用于健康检查的URL。长度限制为1~80个字符，只能使用字母、数字和短划线（-）、正斜线（/）、半角句号（.）、百分号（%）、半角问号（?）、井号（#）和and（&amp;）这些字符。 URL不能只为正斜线（/），但必须以正斜线（/）开头。"
+      },
+      {
+        "name": "AclId",
+        "type": "string",
+        "description": "监听绑定的访问策略组ID。\n\n当**AclStatus**参数的值为**on**时，该参数必选。"
+      },
+      {
+        "name": "SynProxy",
+        "type": "string",
+        "description": "是否开启负载均衡的攻击防护功能SynProxy。\n\n建议用户一般情况下不要调整这个参数，由负载均衡控制。\n\n* **enable**：开启。\n\n* **disable**：关闭。"
+      },
+      {
+        "name": "Scheduler",
+        "type": "string",
+        "description": "调度算法。取值：\n\n- **wrr**（默认值）：权重值越高的后端服务器，被轮询到的次数（概率）也越高。\n\n-  **rr**：按照访问顺序依次将外部请求依序分发到后端服务器。\n\n\n- **sch**：基于源IP地址的一致性hash，相同的源地址会调度到相同的后端服务器。\n\n- **tch**：基于四元组的一致性hash（源IP+目的IP+源端口+目的端口），相同的流会调度到相同的后端服务器。\n\n> 仅性能保障型实例支持**sch**和**tch**一致性hash算法。"
+      },
+      {
+        "name": "EstablishedTimeout",
+        "type": "integer",
+        "description": "连接超时时间。"
+      },
+      {
+        "name": "HealthCheckConnectTimeout",
+        "type": "integer",
+        "description": "超时时间。"
+      },
+      {
+        "name": "HealthyThreshold",
+        "type": "integer",
+        "description": "健康检查阈值。健康检查连续成功多少次后，将后端服务器的健康检查状态由**失败**判定为**成功**。取值：**2**~**10**。"
+      },
+      {
+        "name": "ConnectionDrain",
+        "type": "string",
+        "description": "是否开启连接优雅中断。当**ConnectionDrain**取值为**on**时，返回该值。取值：\n\n- **on**：开启。\n\n- **off**：未开启。"
+      },
+      {
+        "name": "HealthCheckMethod",
+        "type": "string",
+        "description": "健康检查方式。"
+      },
+      {
+        "name": "HealthCheck",
+        "type": "string",
+        "description": "是否开启健康检查。取值：\n\n- **on**：开启。\n- **off**：关闭。"
+      },
+      {
+        "name": "AclIds",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "LoadBalancerId",
+        "type": "string",
+        "description": "传统型负载均衡实例ID。"
+      },
+      {
+        "name": "Tags",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  },
+  "DescribeLoadBalancerListeners": {
+    "name": "",
+    "summary": "查询负载均衡监听列表详情。",
+    "description": "- 您已经创建了传统型负载均衡实例。具体操作，请参见[CreateLoadBalancer](~~27577~~)。\n- 您已经为创建的传统型负载均衡实例配置了监听。具体操作，请参见：\n\n    - [CreateLoadBalancerUDPListener](~~27595~~)\n    - [CreateLoadBalancerTCPListener](~~27594~~)\n    - [CreateLoadBalancerHTTPListener](~~27592~~)  \n    - [CreateLoadBalancerHTTPSListener](~~27593~~)",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡实例所在的地域ID。\n\n您可以通过调用[DescribeRegions](~~36063~~)接口获取地域ID。\n\n> 当您所选地域的Endpoint（服务地址）为slb.aliyuncs.com时，`RegionId`必填。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "NextToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否拥有下一次查询的令牌（Token）。取值：\n- 第一次查询和没有下一次查询时，均无需填写。\n- 如果有下一次查询，取值为上一次API调用返回的NextToken值。",
+        "example": "FFmyTO70tTpLG6I3FmYAXGKPd****"
+      },
+      {
+        "name": "MaxResults",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "分批次查询时每次显示的条目数。\n\n取值范围：**1**~**100**，入参为空时，默认值：**20**。",
+        "example": "50"
+      },
+      {
+        "name": "ListenerProtocol",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "传统型负载均衡监听协议。取值：\n- **tcp**\n- **udp**\n- **http**\n- **https**\n",
+        "example": "http"
+      },
+      {
+        "name": "LoadBalancerId",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "传统型负载均衡实例的ID列表，最多支持10个实例ID。\n\n\n> 非SDK调用，请使用LoadBalancerId.N形式添加参数。",
+        "example": "lb-123wrwer"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "标签列表。",
+        "example": ""
+      },
+      {
+        "name": "ListenerPort",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "CLB实例使用的监听端口。",
+        "example": "443"
+      },
+      {
+        "name": "Description",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "自定义监听名称。",
+        "example": "HTTPS_443"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "NextToken",
+        "type": "string",
+        "description": "是否拥有下一次查询的令牌（Token）。取值：\n- 如果**NextToken**为空表示没有下一次查询。\n- 如果**NextToken**有返回值，该取值表示下一次查询开始的令牌。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "TotalCount",
+        "type": "integer",
+        "description": "本次请求条件下的数据总量。"
+      },
+      {
+        "name": "MaxResults",
+        "type": "integer",
+        "description": "分批次查询时每次显示的条目数。"
+      },
+      {
+        "name": "Listeners",
+        "type": "array",
+        "description": "返回传统型负载均衡的监听列表。\n\n> 实例未配置监听时，不会返回该参数。"
+      }
+    ]
+  },
+  "CreateAccessControlList": {
+    "name": "",
+    "summary": "创建访问控制策略组。",
+    "description": "您可以创建多个访问控制策略组，每个策略组可包含多个IP地址条目或IP地址段条目。访问控制策略组的限制如下：\n\n- 每个地域单账号最多可创建50个访问控制策略组。\n\n- 单账号每次最多可添加50个IP地址或IP地址段条目。\n\n- 每个访问控制策略组最多可添加300个IP地址或IP地址段条目。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "访问控制策略组的地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "AclName",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "访问控制策略组名称，长度限制为1~80个字符，只支持中文、字母、数字和半角句号（.）、短划线（-）、正斜线（/）和下划线（_）。访问控制策略组名称必须为地域内唯一。",
+        "example": "rule1"
+      },
+      {
+        "name": "AddressIPVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "IP版本，可以设置为**ipv4**或者**ipv6**。",
+        "example": "ipv4"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "访问控制策略组所在的资源组ID。",
+        "example": "rg-atstuj3rt******"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "标签列表。",
+        "example": ""
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "AclId",
+        "type": "string",
+        "description": "访问控制策略组ID。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "AddAccessControlListEntry": {
+    "name": "",
+    "summary": "在访问控制策略组中添加IP条目。",
+    "description": "每个策略组可包含多个IP地址条目或IP地址段条目，访问控制策略组的条目限制如下：\n\n-  单账号每次可添加的IP地址条目个数：50\n\n-  每个访问控制策略组可包含的条目个数：300",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "访问控制策略组的地域ID。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "AclId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "访问控制策略组ID。",
+        "example": "acl-bp1l0kk4gxce43kze*****"
+      },
+      {
+        "name": "AclEntrys",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "设置访问控制策略组。取值：\n\n* **entry**：访问控制策略组中要添加的IP条目，可以指定IP地址段（CIDR block），多个IP地址段之间用半角逗号（,）隔开。\n\n* **comment**：访问控制策略组备注说明。\n\n>每次最多可添加50个条目，如果添加的IP条目重复，则只会添加一条，其余重复条目会被忽略。IP条目必须是IP地址段。",
+        "example": "[{\"entry\":\"10.0.**.**/24\",\"comment\":\"privaterule1\"},{\"entry\":\"192.168.**.**/16\",\"comment\":\"privaterule2\"}]"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "DescribeAvailableResource": {
+    "name": "",
+    "summary": "查询某个Region的可用区支持的资源售卖情况，可用的资源。",
+    "description": "> 只返回支持售卖的可用区及资源类型。",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "地域ID。",
+        "example": "cn-shanghai"
+      },
+      {
+        "name": "AddressType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "网络类型。\n\n取值：\n\n- **vpc**：专有网络的私网负载均衡实例。\n- **classic_internet**：公网负载均衡实例。\n- **classic_intranet**：经典网络的私网负载均衡实例。",
+        "example": "vpc"
+      },
+      {
+        "name": "AddressIPVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "IP地址类型。\n\n取值：\n\n- **ipv4**\n- **ipv6**",
+        "example": "ipv4"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "AvailableResources",
+        "type": "object",
+        "description": ""
+      }
+    ]
+  }
+}

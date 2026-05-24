@@ -1,0 +1,1799 @@
+{
+  "CreateDBInstance": {
+    "name": "",
+    "summary": "该接口用于创建RDS实例。",
+    "description": "### 适用引擎\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB\n\n### 相关功能文档\n><warning>该API操作涉及费用，请仔细阅读相关功能文档后再进行操作。\n调用API时，如有报错信息，可以通过搜索错误信息，查看报错原因。></warning>\n\n- [创建RDS MySQL实例](~~148036~~)\n- [创建RDS MySQL Serverless实例](~~412231~~)\n- [创建RDS PostgreSQL实例](~~148038~~)\n- [创建RDS PostgreSQL Serverless实例](~~607753~~)\n- [创建Babelfish for RDS PostgreSQL实例](~~428615~~)\n- [创建RDS SQL Server实例](~~148037~~)\n- [创建RDS SQL Server Serverless实例](~~603465~~)\n- [创建RDS MariaDB实例](~~148040~~)",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "地域ID。可调用[DescribeRegions](~~610399~~)获取。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "Engine",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "数据库类型。取值：\n* **MySQL**\n* **SQLServer**\n* **PostgreSQL**\n* **MariaDB**",
+        "example": "MySQL"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "数据库版本。取值：\n* 常规实例\n    * MySQL：**5.5**、**5.6**、**5.7**、**8.0**\n    * SQL Server：**08r2_ent_ha**（云盘版，已停售）、**2008r2**（高性能本地盘，已停售）、**2012**（企业版单机）、**2012_ent_ha**、**2012_std_ha**、**2012_web**、**2014_ent_ha**、**2014_std_ha**、**2016_ent_ha**、**2016_std_ha**、**2016_web**、**2017_ent**、**2017_std_ha**、**2017_web**、**2019_ent**、**2019_std_ha**、**2019_web**、**2022_ent**、**2022_std_ha**、**2022_web**\n    * PostgreSQL：**10.0**、**11.0**、**12.0**、**13.0**、**14.0**、**15.0**、**16.0**、**17.0**、**18.0**\n    * MariaDB：**10.3**、**10.6**\n* Serverless实例\n    * MySQL：**5.7**、**8.0**\n    * SQL Server：**2016\\_std\\_sl**、**2017\\_std\\_sl**、**2019\\_std\\_sl**\n    * PostgreSQL：**14.0**、**15.0**、**16.0**、**17.0**、**18.0**\n\n> - MariaDB不支持创建Serverless实例。\n> - SQL Server实例中`_ent`表示企业集群版、`_ent_ha`表示企业版、`_std_ha`表示标准版、`_web`表示Web版。\n> - SQL Server 2014版本实例国际站不支持售卖。\n> - Babelfish for RDS PostgreSQL实例只支持大版本15.0。",
+        "example": "8.0"
+      },
+      {
+        "name": "DBInstanceClass",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例规格。可以指定标准版或倚天版规格，详情请参见[主实例规格表](~~26312~~)。\n\n如需创建Serverless实例，请传入如下取值：\n\n- MySQL基础系列：**mysql.n2.serverless.1c**\n- MySQL高可用系列：**mysql.n2.serverless.2c**\n- SQL Server：**mssql.mem2.serverless.s2**\n- PostgreSQL基础系列：**pg.n2.serverless.1c**\n- PostgreSQL高可用系列：**pg.n2.serverless.2c**",
+        "example": "mysql.n2.medium.2c"
+      },
+      {
+        "name": "DBInstanceStorage",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "实例存储空间，单位为GB。每5 GB进行递增，取值范围请参见[实例规格表](~~26312~~)。",
+        "example": "100"
+      },
+      {
+        "name": "SystemDBCharset",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "弃用参数，无需配置。",
+        "example": "gbk"
+      },
+      {
+        "name": "DBInstanceNetType",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例的网络连接类型。固定配置**Intranet**，表示内网连接。",
+        "example": "Intranet"
+      },
+      {
+        "name": "DBInstanceDescription",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例名称。长度为2~255个字符。以中文、英文字母开头，可以包含数字、中文、英文、短横线（-）。\n>不能以 http:// 和 https:// 开头。",
+        "example": "testInstance"
+      },
+      {
+        "name": "SecurityIPList",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "该实例的[IP白名单](~~43185~~)。多条记录请以半角逗号（,）隔开，不可重复，单个实例最多添加1000个IP地址或IP段。支持如下两种格式：\n* IP地址形式，例如：10.10.XX.XX。\n* CIDR形式，例如：10.10.XX.XX/24（无类域间路由，24表示了地址中前缀的长度，范围为1~32）。",
+        "example": "10.10.XX.XX/24"
+      },
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于保证请求的幂等性，防止重复提交请求。由客户端生成该参数值，要保证在不同请求间唯一，最大值不超过64个ASCII字符，且该参数值中不能包含非ASCII字符。",
+        "example": "ETnLKlblzczshOTUbOCz****"
+      },
+      {
+        "name": "PayType",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例的付费类型，取值：\n- **Postpaid**：后付费（按量付费）。\n- **Prepaid**：预付费（包年包月）。\n- **Serverless**：Serverless付费类型，不支持MariaDB实例。更多信息，请参见[MySQL Serverless实例简介](~~411291~~)、[SQL Server Serverless实例简介](~~604344~~)、[PostgreSQL Serverless实例简介](~~607742~~)。\n>系统会自动生成订单并自动完成支付，无需手动确认支付。",
+        "example": "Postpaid"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "主节点可用区ID。\n\n- 指定了VPC和交换机时，此处必须传入目标交换机所在的可用区ID，否则无法创建成功。\n- 对于高可用系列实例，还需传入**ZoneIdSlave1**，以此决定实例是单可用区部署还是多可用区部署。\n- 对于三节点企业系列实例，还需传入**ZoneIdSlave1**和**ZoneIdSlave2**，以此决定实例是单可用区部署还是多可用区部署。\n- 对于RDS集群系列实例，两节点还需要传入**ZoneIdSlave1**，三节点还需要传入**ZoneIdSlave1**和**ZoneIdSlave2**。",
+        "example": "cn-hangzhou-b"
+      },
+      {
+        "name": "ZoneIdSlave1",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "备节点可用区ID。\n\n- 如果填写**Auto**，则表示多可用区部署并且会自动为备节点选择可用区。\n- 如果和**ZoneId**相同，则为单可用区部署。\n- 如果和**ZoneId**不同，则为多可用区部署。",
+        "example": "cn-hangzhou-c"
+      },
+      {
+        "name": "ZoneIdSlave2",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "RDS MySQL集群系列实例支持在新建实例时，同时创建1~2个备节点。有此需求时，您可通过本参数指定第2个备节点的可用区。",
+        "example": "cn-hangzhou-d"
+      },
+      {
+        "name": "InstanceNetworkType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的网络类型。取值：\n\n* **VPC**：专有网络。\n* **Classic**：经典网络。\n\n> * MySQL云盘实例只支持专有网络，此参数必须配置为**VPC**。\n> * PostgreSQL和MariaDB实例只支持专有网络，此参数必须配置为**VPC**。\n> * SQL Server单机版和Web版实例支持经典网络和专有网络。其余实例只支持专有网络，此参数必须配置为**VPC**。",
+        "example": "VPC"
+      },
+      {
+        "name": "ConnectionMode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的访问模式。取值：\n* **Standard**：标准访问模式。\n* **Safe**：数据库代理模式。\n\n默认为RDS系统分配。\n> SQL Server 2012、2016、2017只支持标准访问模式。",
+        "example": "Standard"
+      },
+      {
+        "name": "VPCId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专有网络（VPC） ID。\n>网络类型**InstanceNetworkType**取值为**VPC**时生效。",
+        "example": "vpc-****"
+      },
+      {
+        "name": "VSwitchId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "虚拟交换机ID。\n\n- **可用区对应关系**：VSwitchId所在的可用区必须与主节点可用区（ZoneId）和备节点可用区（ZoneIdSlave1）相对应；且填写了两个交换机ID时，其顺序需分别与ZoneId和ZoneSlaveId1的顺序一致。\n- **网络类型限制**：网络类型**InstanceNetworkType**必须为**VPC**。\n- **多交换机填写要求**：若您填写了**ZoneSlaveId1**（备节点可用区ID），并且不为**Auto**，此处需填写两个交换机ID，并使用半角逗号（,）隔开。\n- **字符限制**：VSwitchId中不能包含`空格`、`！`、`#`、`￥`、`&`、`%`等特殊字符。",
+        "example": "vsw-****"
+      },
+      {
+        "name": "PrivateIpAddress",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "设置实例的内网IP。需要在指定交换机的IP地址范围内。系统默认通过**VPCId**和**vSwitchId**自动分配。",
+        "example": "172.16.XX.XX"
+      },
+      {
+        "name": "UsedTime",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定购买时长。取值：\n* 当参数**Period**=**Year**时，**UsedTime**取值为**1~5**。\n* 当参数**Period**=**Month**时，**UsedTime**取值为**1~11**。\n\n> 若付费类型为**Prepaid**则该参数必须传入。",
+        "example": "2"
+      },
+      {
+        "name": "Period",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定预付费实例为包年或者包月类型。取值：\n* **Year**：包年。\n* **Month**：包月。\n\n> 若付费类型为**Prepaid**则该参数必须传入。",
+        "example": "Year"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "资源组ID。",
+        "example": "rg-acfmy****"
+      },
+      {
+        "name": "DBInstanceStorageType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例存储类型。取值：\n* **local_ssd**：高性能本地盘（推荐）。\n* **general_essd**：高性能云盘（推荐）。\n* **cloud_essd**：ESSD PL1云盘。\n* **cloud_essd2**：ESSD PL2云盘。\n* **cloud_essd3**：ESSD PL3云盘。\n* **cloud_ssd**：SSD云盘（不推荐，部分地域已经停止售卖）。\n\n本参数的默认值根据**DBInstanceClass**参数中传的规格代码自动判断：\n* 规格代码为高性能本地盘规格：默认值为**local_ssd**。\n* 规格代码为云盘规格：默认值为**cloud_essd**。\n\n> Serverless实例仅支持ESSD PL1云盘和高性能云盘。",
+        "example": "general_essd"
+      },
+      {
+        "name": "BusinessInfo",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "业务扩展参数。",
+        "example": "121436975448952"
+      },
+      {
+        "name": "EncryptionKey",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "同地域内的云盘加密的密钥ID。传入此参数表示开启云盘加密（开启后无法关闭），并且需要传入**RoleARN**。\n\n您可以在密钥管理服务控制台查看密钥ID，也可以创建新的密钥。详情请参见[创建密钥](~~181610~~)。\n\n> - 对于RDS MySQL、RDS PostgreSQL和RDS SQL Server可不传此参数，仅需要传入**RoleARN**即可使用服务密钥创建云盘加密实例。\n> - 支持RAM授权允许子账号创建实例时必须开启云盘加密，若不开启云盘加密，则不允许创建实例，RAM子账号授权配置如下：\n`{\"Version\":\"1\",\"Statement\":[{\"Effect\":\"Deny\",\"Action\":\"rds:CreateDBInstance\",\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"rds:DiskEncryptionRequired\":\"false\"}}}]}`\n><warning>此配置也会同步影响控制台创建实例CreateOrder接口。></warning>",
+        "example": "0d24*****-da7b-4786-b981-9a164dxxxxxx"
+      },
+      {
+        "name": "RoleARN",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "主账号授权RDS云服务账号访问KMS权限的全局资源描述符（ARN）。您可以通过CheckCloudResourceAuthorized接口查看ARN信息。\n><notice>开启云盘加密时，必须传入**RoleARN**。></notice>",
+        "example": "acs:ram::1406****:role/aliyunrdsinstanceencryptiondefaultrole"
+      },
+      {
+        "name": "AutoRenew",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例是否自动续费，仅在创建包年包月实例时传入。取值：\n- **true**\n- **false**\n\n> - 按月购买时，自动续费周期为1个月。\n> - 按年购买时，自动续费周期为1年。",
+        "example": "true"
+      },
+      {
+        "name": "Category",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例系列。取值：\n* 常规实例\n    * **Basic**：基础系列。\n    * **HighAvailability**：高可用系列。\n    * **cluster**：MySQL或PostgreSQL集群系列。\n    * **AlwaysOn**：SQL Server集群系列。\n    * **Finance**：三节点企业系列。\n    > 创建SQL Server企业集群版<props=\"china\">、基础系列标准版</props>和基础系列企业版时，该参数必填。例如： 创建基础系列的2022企业集群版（2022_ent）时，该参数必须传入Basic。\n* Serverless实例\n    * **serverless_basic**：Serverless基础系列。（仅适用MySQL和PostgreSQL）\n    * **serverless_standard**：Serverless高可用系列。（仅适用MySQL和PostgreSQL）\n    * **serverless_ha**：SQL Server Serverless高可用系列。\n\n    > 当PayType=Serverless时，该参数必填。",
+        "example": "HighAvailability"
+      },
+      {
+        "name": "DedicatedHostGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群主机组ID。\n\n在专属集群内创建RDS实例时需要指定。\n\n- 您可以调用DescribeDedicatedHostGroups接口查询RDS主机组信息。\n- 如您还未创建RDS主机组，可以调用CreateDedicatedHostGroup接口创建。",
+        "example": "dhg-4n****"
+      },
+      {
+        "name": "TargetDedicatedHostIdForMaster",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群中主实例的主机ID。\n\n在专属集群内创建RDS实例时需要指定。如不指定该参数，系统默认自动分配主机。\n\n- 您可以调用DescribeDedicatedHosts接口查询RDS主机组内的主机信息。\n- 如您还没有主机，可以调用CreateDedicatedHost接口添加。",
+        "example": "i-bp****"
+      },
+      {
+        "name": "TargetDedicatedHostIdForSlave",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群中备实例的主机ID。\n\n在专属集群内创建RDS高可用系列或三节点企业系列实例时需要指定。如不指定该参数，系统默认自动分配主机。\n\n- 您可以调用DescribeDedicatedHosts接口查询RDS专属集群内的主机信息。\n- 如您还没有主机，可以调用CreateDedicatedHost接口添加。",
+        "example": "i-bp****"
+      },
+      {
+        "name": "TargetDedicatedHostIdForLog",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群中日志实例的主机ID。\n\n在专属集群内创建RDS三节点企业系列实例时需要指定。如不指定该参数，系统默认自动分配主机。\n\n- 您可以调用DescribeDedicatedHosts接口查询RDS专属集群内的主机信息。\n- 如您还没有主机，可以调用CreateDedicatedHost接口添加。",
+        "example": "i-bp****"
+      },
+      {
+        "name": "DBParamGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "参数模板ID。可调用DescribeParameterGroups查询。\n> 仅MySQL和PostgreSQL支持此参数，如不配置，将采用系统默认参数模板，您也可以自定义参数模板后，在此处使用。",
+        "example": "rpg-sys-****"
+      },
+      {
+        "name": "DBTimeZone",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "设置实例的时区，仅在**Engine**为**MySQL**或**PostgreSQL**时生效。\n\n- **Engine**为**MySQL**：\n    - 此参数配置UTC时区。取值范围为**-12:59** ~ **+13:00**。\n    - 高性能本地盘实例可以使用命名时区，例如Asia/Hong_Kong。命名时区的详细信息，请参见[命名时区参考](~~297356~~)。\n- **Engine**为**PostgreSQL**：\n    - 此参数配置命名时区，不支持UTC时区。命名时区的详细信息，请参见[命名时区参考](~~297356~~)。\n    - 仅当实例为PostgreSQL云盘时，该参数可配置。\n\n> - 购买主实例时支持设置时区，只读实例不支持设置时区，只读实例将继承主实例时区。\n> - 如果不配置此参数，系统将根据您购买实例的地域，选择默认时区。",
+        "example": "+08:00"
+      },
+      {
+        "name": "DBIsIgnoreCase",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "表名是否区分大小写。取值：\n* **true**：不区分大小写（默认）。\n* **false**：区分大小写。",
+        "example": "true"
+      },
+      {
+        "name": "TargetMinorVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "指定创建的RDS实例的内核小版本，仅在创建MySQL或PostgreSQL实例时需要传入。\n格式：\n* MySQL：`<实例版本>_<数字版本号>`。例如`rds_20200229`、`xcluster_20200229`或`xcluster80_20200229`。说明如下：\n    * rds：高可用系列或基础系列。\n    * xcluster：MySQL 5.7三节点企业系列。\n    * xcluster80：MySQL 8.0三节点企业系列。\n\n    > 数字版本号可通过调用DescribeDBMiniEngineVersions接口查询。各版本差异，请参见[AliSQL 小版本Release Notes](~~96060~~)。\n* PostgreSQL：`rds_postgres_<大版本>00_<小版本号>`。例如`rds_postgres_1400_20220830`。说明如下：\n    * 1400：PostgreSQL大版本为14。\n    * 20220830：AliPG内核小版本，可通过调用DescribeDBMiniEngineVersions接口查询。各版本差异，请参见[PostgreSQL 小版本Release Notes](~~126002~~)。\n\n    > 如果**BabelfishConfig**中配置了启用Babelfish，则RDS PostgreSQL实例小版本格式为：`rds_postgres_大版本00_AliPG内核小版本_babelfish`。",
+        "example": "rds_20200229"
+      },
+      {
+        "name": "StorageAutoScale",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "存储空间自动扩容开关，仅MySQL和PostgreSQL支持。取值：\n* **Enable**：开启。\n* **Disable**：关闭（默认）。\n\n>您也可以在实例创建完成之后，调用ModifyDasInstanceConfig进行调整。更多信息，请参见[设置存储空间自动扩容](~~173826~~)。",
+        "example": "Disable"
+      },
+      {
+        "name": "StorageThreshold",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "存储空间自动扩容触发阈值（百分比）。取值：\n* **10**\n* **20**\n* **30**\n* **40**\n* **50**\n\n>**StorageAutoScale**为**Enable**时该参数必填。",
+        "example": "50"
+      },
+      {
+        "name": "StorageUpperBound",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "存储空间自动扩容的总存储空间上限值，即自动扩容不会导致实例总存储空间超过该值。单位：GB。\n\n> - 取值需大于等于0。\n> - **StorageAutoScale**为**Enable**时必填。",
+        "example": "2000"
+      },
+      {
+        "name": "DryRun",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否对本次创建实例的操作执行预检查。取值：\n* **true**：执行预检查操作，不创建实例。检查项目包含请求参数、请求格式、业务限制和库存等。\n* **false**：发送正常请求，通过检查后直接创建实例（默认）。",
+        "example": "false"
+      },
+      {
+        "name": "UserBackupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用户备份ID。可调用ListUserBackupFiles接口查询。传入该参数，可基于用户备份创建实例。\n\n如需传入此参数，有如下限制：\n- **PayType**参数必须为**Postpaid**。\n- **Engine**参数必须为**MySQL**。\n- **EngineVersion**参数必须为**5.7**。\n- **Category**参数必须为**Basic**。",
+        "example": "67798****"
+      },
+      {
+        "name": "Amount",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "指定需要创建的RDS MySQL实例数量。本参数仅适用于批量创建RDS MySQL实例。\n\n取值范围：**1**~**20**；默认值：**1**。\n\n> - 创建多个RDS MySQL实例时，可以考虑通过**Tag.Key**和**Tag.Value**参数给同一批次的实例打上标签，以方便创建完成后通过标签管理该批次的实例。\n> - 完成多个RDS MySQL实例的创建后，接口只会返回**TaskId**、**RequestId**和**Message**参数，不会返回其他详情参数。如需查询个体实例的详情，可调用DescribeDBInstanceAttribute接口。\n> - **engine**参数非**MySQL**，而本参数的值大于**1**时，接口会调用失败并返回错误码`InvalidParam.Engine`。",
+        "example": "2"
+      },
+      {
+        "name": "CreateStrategy",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "批量创建实例策略。本参数仅在**Amount**参数大于1时生效，取值：\n* **Atomicity**（默认值）：原子性。即同一批次的实例要么全部创建成功，若有一个创建失败，则所有实例创建失败。\n* **Partial**：非原子性。即实例的创建不受同一批次中其他实例的影响。",
+        "example": "Atomicity"
+      },
+      {
+        "name": "Tag",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "标签列表。",
+        "example": ""
+      },
+      {
+        "name": "DeletionProtection",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否开启RDS释放保护功能，仅按量付费实例支持。取值：\n* **true**：开启。\n* **false**：关闭（默认）。",
+        "example": "true"
+      },
+      {
+        "name": "BabelfishConfig",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "Babelfish for RDS PostgreSQL配置信息。\n\n配置格式：{\"babelfishEnabled\":\"true\",\"migrationMode\":\"xxxxxxx\",\"masterUsername\":\"xxxxxxx\",\"masterUserPassword\":\"xxxxxxxx\"}\n\n参数含义如下：\n- **babelfishEnabled**：是否开启Babelfish，开启为**true**，该参数不配置默认不开启。\n- **migrationMode**：数据库模式，单数据库模式配置为**single-db**，多数据库模式配置为**multi-db**。\n- **masterUsername**：初始化管理账号。由小写字母、数字、下划线组成，以字母开头，以字母或数字结尾，最多63个字符，且不能以pg开头。\n- **masterUserPassword**：管理账号的密码。由大写、小写、数字、特殊字符组成，至少包含三种，长度为8－32位；特殊字符包括`! @ # $ % ^ & * () _ + - =` 。\n\n> 该参数仅适用于RDS PostgreSQL实例，Babelfish for RDS PostgreSQL的更多介绍，请参见[Babelfish简介](~~428613~~)。",
+        "example": "{\"babelfishEnabled\":\"true\",\"migrationMode\":\"single-db\",\"masterUsername\":\"babelfish_user\",\"masterUserPassword\":\"Babelfish123!\"}"
+      },
+      {
+        "name": "ServerlessConfig",
+        "in": "query",
+        "required": false,
+        "type": "object",
+        "description": "RDS Serverless实例的相关设置。创建Serverless实例时必传。\n>MariaDB不支持创建Serverless实例。",
+        "example": ""
+      },
+      {
+        "name": "ConnectionString",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "数据库内网连接地址。\n\n连接地址格式：`xxx.mysql.rds.aliyuncs.com`，其中`xxx`是实例ID的前缀，如rm-uf6wjk5***。",
+        "example": "rm-uf6wjk5****.mysql.rds.aliyuncs.com"
+      },
+      {
+        "name": "Port",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "支持在创建RDS实例时初始化端口。取值范围：\n- MySQL：1000~65534\n- PostgreSQL、SQL Server、MariaDB：1000~5999",
+        "example": "3306"
+      },
+      {
+        "name": "BpeEnabled",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "弃用参数，无需配置。",
+        "example": "0"
+      },
+      {
+        "name": "BurstingEnabled",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "高性能云盘的IO性能突发功能开关。取值：\n* **true**：开启。\n* **false**：关闭。\n> 了解高性能云盘的IO性能突发功能的更多信息，请参见[什么是高性能云盘](~~2340501~~)。",
+        "example": "false"
+      },
+      {
+        "name": "AutoPay",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否自动支付。取值：\n\n- **true**：自动支付。您需要确保账户余额充足。\n- **false**：只生成订单不扣费。\n\n\n\n\n> 默认值为true。如果您的支付方式余额不足，可以将参数AutoPay设置为false，此时会生成未支付订单，您可以登录RDS管理控制台自行支付。\n>",
+        "example": "true"
+      },
+      {
+        "name": "IoAccelerationEnabled",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "高性能云盘的[Buffer Pool Extension（BPE）](~~2527067~~)功能开关。取值：\n\n - **1**：开启\n - **0**：不开启",
+        "example": "0"
+      },
+      {
+        "name": "ColdDataEnabled",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "高性能云盘[数据归档](~~2701832~~)功能开关。取值：\n\n- **true**：开启。\n- **false**：关闭。",
+        "example": "false"
+      },
+      {
+        "name": "WhitelistTemplateList",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "白名单列表。\n当需要配置多个IP地址时，用英文逗号隔开多个IP地址或IP段，且逗号前后不能有空格，例如`192.168.0.1,172.16.213.9`。",
+        "example": "192.168.0.1,172.16.213.9"
+      },
+      {
+        "name": "AutoCreateProxy",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否自动创建代理。取值：\n\n- **true**：开启自动创建，默认为通用代理。\n\n- **false**：不开启自动创建。",
+        "example": "false"
+      },
+      {
+        "name": "AutoUseCoupon",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "是否使用代金券。取值：\n* **true**：使用代金券。\n* **false**（默认）：不使用代金券。\n\n> 使用代金券后，若需要进行降配操作，由代金券抵扣的金额将不会进行退款。",
+        "example": "true"
+      },
+      {
+        "name": "PromotionCode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "优惠券code。",
+        "example": "aliwood-1688-mobile-promotion"
+      },
+      {
+        "name": "OptimizedWrites",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "[16K原子写](~~2858761~~)功能开关。取值：\n\n- **optimized**：开启。\n- **none**（默认）：关闭。",
+        "example": "optimized"
+      },
+      {
+        "name": "ExternalReplication",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "开启或关闭[RDS MySQL原生复制](~~2856526~~)。取值：\n- **ON**：开启。\n- **OFF**：关闭。",
+        "example": "ON"
+      },
+      {
+        "name": "CustomExtraInfo",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "",
+        "example": ""
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "DryRunResult",
+        "type": "boolean",
+        "description": "创建实例预检查是否通过。返回值：\n* **true**：通过。\n* **false**：未通过。\n\n> * 如不执行预检查，则不返回该参数。\n> * 如预检查未通过，则返回对应错误。"
+      },
+      {
+        "name": "TagResult",
+        "type": "boolean",
+        "description": "实例是否成功绑定标签。返回值：\n* **true**：成功。\n* **false**：失败。\n\n>如不为实例绑定标签，则不返回该参数。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "ConnectionString",
+        "type": "string",
+        "description": "实例内网连接地址。"
+      },
+      {
+        "name": "Message",
+        "type": "string",
+        "description": "批量创建任务的提示信息。\n\n> 该参数仅在**Amount**参数大于1时返回。"
+      },
+      {
+        "name": "DBInstanceId",
+        "type": "string",
+        "description": "实例ID。若给**Amount**参数指定大于**1**的值, 将返回与该值对应的实例ID个数，以逗号分隔。\n\n例如**Amount**参数为**3**，则返回3个实例ID。示例：\n`rm-uf6wjk5*****1，rm-uf6wjk5*****2，rm-uf6wjk5*****3`"
+      },
+      {
+        "name": "Port",
+        "type": "string",
+        "description": "实例内网连接地址对应端口号。"
+      },
+      {
+        "name": "TaskId",
+        "type": "string",
+        "description": "批量创建任务的任务ID。\n\n* 仅在**Amount**参数大于1时返回。\n* 当前暂不支持通过**TaskId**的值查看任务。"
+      },
+      {
+        "name": "DryRun",
+        "type": "boolean",
+        "description": "表示当前请求需要在创建实例前执行预检查。\n\n* 返回值固定为**true**。\n* 如不执行预检查，则不返回该参数。"
+      },
+      {
+        "name": "OrderId",
+        "type": "string",
+        "description": "订单ID。"
+      }
+    ]
+  },
+  "CreateAccount": {
+    "name": "",
+    "summary": "该接口用于创建数据库账号。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB\n\n### 相关功能文档\n><notice>使用该接口前，请仔细阅读功能文档，确保完全了解使用接口的前提条件及使用后造成的影响后，再进行操作。></notice>\n\n- [RDS MySQL创建账号](~~96089~~)\n- [RDS PostgreSQL创建账号](~~96753~~)\n- [RDS SQL Server创建账号](~~95810~~)\n- [RDS MariaDB创建账号](~~97132~~)",
+    "parameters": [
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID，可调用[DescribeDBInstances](~~610396~~)获取。",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "AccountName",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "数据库账号名称。\n\n> 该名称必须唯一，且由大写字母（仅MySQL支持）、小写字母、数字或下划线组成。账号命名具体限制，请参见各引擎教程：[创建MySQL账号](~~96089~~)、[创建PostgreSQL账号](~~96753~~)、[创建SQL Server账号](~~95810~~)、[创建MariaDB账号](~~97132~~)。",
+        "example": "test1"
+      },
+      {
+        "name": "AccountPassword",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "数据库账号的密码。\n> * 长度为8~32个字符。\n> * 由大写字母、小写字母、数字、特殊字符（`!@#$%^&*()_+-=`）中的任意三种组成。",
+        "example": "Test123456"
+      },
+      {
+        "name": "AccountDescription",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "账号描述，长度为2~256个字符。以中文、英文字母开头，可以包含数字、中文、英文、下划线（_）、短横线（-）。\n>不能以`http://`和`https://`开头。",
+        "example": "testuser"
+      },
+      {
+        "name": "AccountType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "账号类型，取值：\n\n- **Normal**（默认值）：普通账号。\n- **Super**：高权限账号，每个实例至多创建一个。\n- **Sysadmin**（仅SQL Server实例）：SA权限的数据库账号。创建前请先检查实例是否满足[前提条件](~~170736~~)。\n- **GlobalRO**（仅SQL Server实例）：全局只读账号，每个实例至多创建两个。实例数据库版本需为SQL Server 2016及以上且实例规格族为独享型或通用型。",
+        "example": "Normal"
+      },
+      {
+        "name": "CheckPolicy",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "SQL Server实例的[账号密码策略](~~2845728~~)，取值：\n- **true**：应用策略\n- **false**：不应用策略\n> - 设置为true时，必须预先[设置SQL Server账号密码策略](~~2848317~~)。\n> - 该参数不支持SQL Server[共享型](~~57184~~)、[2008 R2版本](~~145468~~)以及[Serverless类型](~~603466~~)的实例。",
+        "example": "true"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "AllocateInstancePublicConnection": {
+    "name": "",
+    "summary": "该接口用于为RDS实例申请外网连接地址。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB\n\n### 相关功能文档\n><notice>使用该接口前，请仔细阅读功能文档，确保完全了解使用接口的前提条件及使用后造成的影响后，再进行操作。></notice>\n\n- [RDS MySQL申请外网连接地址](~~26128~~)\n- [RDS PostgreSQL申请外网连接地址](~~97738~~)\n- [RDS SQL Server申请外网连接地址](~~97736~~)\n- [RDS MariaDB申请外网连接地址](~~97740~~)",
+    "parameters": [
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "ConnectionStringPrefix",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "外网连接地址的前缀。完整外网连接地址为：`前缀.引擎名.rds.aliyuncs.com`。例如`test1234.mysql.rds.aliyuncs.com`。\n\n> 长度5\\~40，不能包含汉字和非法字符（\\~!#%^&*=+|{};:'\",<>/?），建议由字母、数字、短横线（-）组成。",
+        "example": "test1234"
+      },
+      {
+        "name": "Port",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "外网连接端口，取值：**1000~5999**。",
+        "example": "3306"
+      },
+      {
+        "name": "BabelfishPort",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "Babelfish for RDS PostgreSQL TDS端口号。\n> 该参数仅适用于RDS PostgreSQL实例，Babelfish for RDS PostgreSQL的更多介绍，请参见[Babelfish简介](~~428613~~)。",
+        "example": "1433"
+      },
+      {
+        "name": "GeneralGroupName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群MySQL通用版实例所属的组名。",
+        "example": "rgc-bp1tkv8****"
+      },
+      {
+        "name": "PGBouncerPort",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "PgBouncer端口。\n> 该参数仅支持PostgreSQL实例。",
+        "example": "6432"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "ConnectionString",
+        "type": "string",
+        "description": "数据库连接地址。"
+      },
+      {
+        "name": "DbInstanceName",
+        "type": "string",
+        "description": "实例ID。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "DescribeDBInstanceAttribute": {
+    "name": "",
+    "summary": "该接口用于查询RDS实例的详细信息。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。\n><warning>请勿同时配置多个实例ID进行批量查询，否则将会查询超时导致失败。></warning>",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "Expired",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例过期状态。取值：\n\n* **True**：已过期。\n* **False**：未过期。",
+        "example": "False"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "Items",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "DescribeAccounts": {
+    "name": "",
+    "summary": "该接口用于查询RDS实例的账号信息。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。\n>暂不支持SQL Server 2017集群系列实例。",
+        "example": "rm-bp1v6z81ho9******"
+      },
+      {
+        "name": "AccountName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "数据库账号名称。",
+        "example": "zhttest"
+      },
+      {
+        "name": "PageSize",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "每页记录数，取值：**30~200**。默认值：**30**。",
+        "example": "30"
+      },
+      {
+        "name": "PageNumber",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "页码。默认值：**1**。取值为大于0且不超过Integer的最大值。\n\n",
+        "example": "1"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "Accounts",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "PageNumber",
+        "type": "integer",
+        "description": "页码。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "SystemAdminAccountFirstActivationTime",
+        "type": "string",
+        "description": "超级权限账号首次启用时间。格式：<i>yyyy-MM-dd</i>T<i>HH:mm:ss</i>Z（UTC时间）。\n\n> 仅SQL Server实例返回该参数。"
+      },
+      {
+        "name": "SystemAdminAccountStatus",
+        "type": "string",
+        "description": "超级权限账号是否启用，返回值如下：\n\n- **True**：已启用\n- **False**：未启用\n\n\n> 仅SQL Server实例支持[超级权限账号](~~170736~~)，该参数有返回值。其他引擎实例的返回值为空。"
+      },
+      {
+        "name": "TotalRecordCount",
+        "type": "integer",
+        "description": "总记录数。"
+      },
+      {
+        "name": "ResourceGroupId",
+        "type": "string",
+        "description": "资源组ID。"
+      }
+    ]
+  },
+  "DescribeAvailableZones": {
+    "name": "",
+    "summary": "该接口用于查询RDS的可用区资源。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n  > 该接口仅用于查询可用区资源，不用于控制台关于RDS PostgreSQL的售卖。购买页根据实际售卖策略不同，部分参数取值会略有不同，实际购买时请以[购买页](https://rdsbuy.console.aliyun.com/create/rds/PostgreSQL)为准。\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "地域ID。可调用DescribeRegions获取。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "Engine",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "数据库类型。取值：\n* **MySQL**\n* **SQLServer**\n* **PostgreSQL**\n* **MariaDB**",
+        "example": "MySQL"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "可用区ID。多可用区的格式与单可用区不同，包含`MAZ`字样，例如`cn-hangzhou-MAZ6(b,f)`、`cn-hangzhou-MAZ5(b,e,f)`。可以通过接口DescribeRegions查看可用区ID。",
+        "example": "cn-hangzhou-e"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "数据库版本。取值：\n- 常规实例\n    - MySQL：**5.5**、**5.6**、**5.7**、**8.0**\n    - SQL Server：**2008r2**、**08r2\\_ent\\_ha**、**2012**、**2012\\_ent\\_ha**、**2012\\_std\\_ha**、**2012\\_web**、**2014\\_std_ha**、**2016\\_ent\\_ha**、**2016\\_std\\_ha**、**2016\\_web**、**2017\\_std\\_ha**、**2017\\_ent**、**2019\\_std\\_ha**、**2019\\_ent**\n    - PostgreSQL：**10.0**、**11.0**、**12.0**、**13.0**、**14.0**、**15.0**\n    - MariaDB：**10.3**\n- Serverless实例\n    - MySQL：**5.7**、**8.0**\n    - SQL Server：**2016\\_std\\_sl**、**2017\\_std\\_sl**、**2019\\_std\\_sl**\n    - PostgreSQL：**14.0**\n\n    > MariaDB不支持创建Serverless实例。",
+        "example": "8.0"
+      },
+      {
+        "name": "CommodityCode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "当前实例的商品码。根据输入的商品码查询可售卖的资源。取值：\n\n* **bards**：主实例按量付费（中国站）\n* **rds**：主实例包年包月（中国站）\n* **rords**：只读实例按量付费（中国站）\n* **rds\\_rordspre\\_public\\_cn**：只读实例包年包月（中国站）\n* **bards_intl**：主实例按量付费（国际站）\n* **rds_intl**：主实例包年包月（国际站）\n* **rords_intl**：只读实例按量付费（国际站）\n* **rds\\_rordspre\\_public\\_intl**：只读实例包年包月（国际站）\n* **rds\\_serverless\\_public\\_cn**：serverless（中国站）\n* **rds\\_serverless\\_public\\_intl**：serverless（国际站）",
+        "example": "bards"
+      },
+      {
+        "name": "DispenseMode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "是否返回支持单可用区部署功能的可用区列表。取值：\n* **1**（默认值）：返回\n* **0**：不返回\n\n> 单可用区部署功能支持将三节点企业系列实例安装到单个可用区中。",
+        "example": "0"
+      },
+      {
+        "name": "DBInstanceName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "主实例ID。查询该主实例下可售卖的只读实例资源。\n\n**CommodityCode**参数为如下值时必填：\n* **rords_intl**\n* **rds_rordspre\\_public\\_intl**\n* **rords**\n* **rds_rordspre\\_public\\_cn**",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "Category",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例系列，取值：\n* 常规实例\n    * **Basic**：基础系列\n    * **HighAvailability**：高可用系列\n    * **cluster**：MySQL集群系列\n    * **AlwaysOn**：SQL Server集群系列\n    * **Finance**：三节点企业系列\n* Serverless实例\n    * **serverless_basic**：Serverless基础系列（仅适用MySQL和PostgreSQL）\n    * **serverless_standard**：MySQL Serverless高可用系列\n    * **serverless_ha**：SQL Server Serverless高可用系列",
+        "example": "HighAvailability"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "AvailableZones",
+        "type": "array",
+        "description": "RDS可用区资源列表。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "DescribeDBInstanceIPArrayList": {
+    "name": "",
+    "summary": "该接口用于查询RDS实例的IP白名单。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "WhitelistNetworkType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "白名单的网络类型，取值：\n* **Classic**：高安全白名单模式下的经典网络\n* **VPC**：高安全白名单模式下的专有网络\n* **MIX**：通用白名单模式\n\n默认返回所有网络类型的白名单IP。",
+        "example": "VPC"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "Items",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "DescribeDBInstanceNetInfoForChannel": {
+    "name": "",
+    "summary": "该接口用于查询RDS实例的所有连接地址信息。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于保证请求的幂等性，防止重复提交请求。由客户端生成该参数值，要保证在不同请求间唯一，最大值不超过64个ASCII字符，且该参数值中不能包含非ASCII字符。\n",
+        "example": "0c593ea1-3bea-11e9-b96b-88****"
+      },
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。",
+        "example": "rm-bp1k8s41l2o52****"
+      },
+      {
+        "name": "Flag",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "内部参数，无需传入。",
+        "example": "无"
+      },
+      {
+        "name": "DBInstanceNetRWSplitType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "查询的连接地址类型：\n* **0**（默认）：常规连接地址。\n* **1**：共享代理的读写分离地址。",
+        "example": "0"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "DBInstanceNetInfos",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "InstanceNetworkType",
+        "type": "string",
+        "description": "实例网络类型。返回值：\n* **VPC**：专有网络。\n* **Classic**：经典网络。\n"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "DescribePrice": {
+    "name": "",
+    "summary": "该接口用于查询RDS实例的价格信息。",
+    "description": "### 适用引擎\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于保证请求的幂等性，防止重复提交请求。由客户端生成该参数值，要保证在不同请求间唯一，最大值不超过64个ASCII字符，且该参数值中不能包含非ASCII字符。",
+        "example": "ETnLKlblzczshOTUbOCz****"
+      },
+      {
+        "name": "CommodityCode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "当前实例的商品码，取值：\n\n* **bards**：主实例按量付费（中国站）\n* **rds**（默认）：主实例包年包月（中国站）\n* **rords**：只读实例按量付费（中国站）\n* **rds_rordspre_public_cn**：只读实例包年包月（中国站）\n* **bards_intl**：主实例按量付费（国际站）\n* **rds_intl**：主实例包年包月（国际站）\n* **rords_intl**：只读实例按量付费（国际站）\n* **rds_rordspre_public_intl**：只读实例包年包月（国际站）\n\n>查询只读实例时必须传入本参数。",
+        "example": "rds"
+      },
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "地域ID。可调用DescribeRegions获取。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "Engine",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "数据库类型，取值：\n* **MySQL**\n* **SQLServer**\n* **PostgreSQL**\n* **MariaDB**",
+        "example": "MySQL"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "<props=\"china\">数据库版本，取值：\n- **MySQL**：**5.5**、**5.6**、**5.7**、**8.0**\n- **SQL Server**：**08r2_ent_ha**（云盘版，已停售）、**2008r2**（高性能本地盘，已停售）、**2012**（企业版单机）、**2012_ent_ha**、**2012_std_ha**、**2012_web**、**2014_ent_ha**、**2014_std_ha**、**2016_ent_ha**、**2016_std_ha**、**2016_web**、**2017_ent**、**2017_std_ha**、**2017_web**、**2019_ent**、**2019_std_ha**、**2019_web**、**2022_ent**、**2022_std_ha**、**2022_web**\n- **PostgreSQL**：**10.0**、**11.0**、**12.0**、**13.0**、**14.0**、**15.0**\n- **MariaDB**：**10.3**</props>\n\n\n\n<props=\"intl\">数据库版本，取值：\n- **MySQL**：**5.5**、**5.6**、**5.7**、**8.0**\n- **SQL Server**：**08r2_ent_ha**（云盘版，已停售）、**2008r2**（高性能本地盘，已停售）、**2012**（企业版单机）、**2012_ent_ha**、**2012_std_ha**、**2012_web**、**2016_ent_ha**、**2016_std_ha**、**2016_web**、**2017_ent**、**2017_std_ha**、**2017_web**、**2019_ent**、**2019_std_ha**、**2019_web**、**2022_ent**、**2022_std_ha**、**2022_web**\n- **PostgreSQL**：**10.0**、**11.0**、**12.0**、**13.0**、**14.0**、**15.0**\n- **MariaDB**：**10.3**</props>\n\n> SQL Server实例中`_ent`表示企业集群版、`_ent_ha`表示企业版、`_std_ha`表示标准版、`_web`表示Web版。",
+        "example": "8.0"
+      },
+      {
+        "name": "DBInstanceClass",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例规格，详情请参见[主实例规格表](~~26312~~)。",
+        "example": "mysql.x2.medium.xc"
+      },
+      {
+        "name": "DBInstanceStorage",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "实例存储空间，单位：GB。每5 GB进行递增，取值范围请参见[实例规格表](~~26312~~)。",
+        "example": "20"
+      },
+      {
+        "name": "PayType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的付费类型，取值：\n* **Prepaid**：预付费（包年包月）\n* **Postpaid**：后付费（按量付费）\n",
+        "example": "Prepaid"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "主节点可用区ID。可调用DescribeRegions获取。\n\n>指定了VPC和交换机时，为匹配交换机对应的可用区，该参数必填。",
+        "example": "cn-hangzhou-b"
+      },
+      {
+        "name": "UsedTime",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "指定购买时长，取值：\n* 当参数**TimeType**为**Year**时，UsedTime取值为**1~100**。\n* 当参数**TimeType**为**Month**时，UsedTime取值为**1~999**。\n\n默认值：**1**。",
+        "example": "1"
+      },
+      {
+        "name": "TimeType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "包年包月的付费类型，当**CommodityCode**参数的值为**rds**、**rds_rordspre_public_cn**、**rds_intl**或**rds_rordspre_public_intl**时必传。取值：\n* **Year**：包年\n* **Month**：包月",
+        "example": "Year"
+      },
+      {
+        "name": "Quantity",
+        "in": "query",
+        "required": true,
+        "type": "integer",
+        "description": "购买实例的数量，取值范围：**0~30**。",
+        "example": "10"
+      },
+      {
+        "name": "InstanceUsedType",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "实例类型，取值：\n* **0**：主实例\n* **3**：只读实例",
+        "example": "0"
+      },
+      {
+        "name": "OrderType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "订单类型，取值：\n* **BUY**：购买\n* **RENEW**：续费\n* **UPGRADE**：升级\n* **DOWNGRADE**：降级",
+        "example": "BUY"
+      },
+      {
+        "name": "DBInstanceStorageType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例存储类型，取值：\n* **general_essd**：高性能云盘\n* **local_ssd**：高性能本地盘\n* **cloud_ssd**：SSD云盘\n* **cloud_essd**：ESSD PL1云盘\n* **cloud_essd2**：ESSD PL2云盘\n* **cloud_essd3**：ESSD PL3云盘",
+        "example": "local_ssd"
+      },
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "变配或续费的实例ID。\n> - 需要查询实例变配或续费价格时需要传入该参数。\n> - 如果为只读实例，则需要传入其主实例的ID。",
+        "example": "rm-****"
+      },
+      {
+        "name": "DBNode",
+        "in": "query",
+        "required": false,
+        "type": "array",
+        "description": "节点相关信息。\n> 该参数用于MySQL集群系列实例。",
+        "example": ""
+      },
+      {
+        "name": "ServerlessConfig",
+        "in": "query",
+        "required": false,
+        "type": "object",
+        "description": "RDS Serverless实例的相关设置。\n>MariaDB不支持Serverless实例。",
+        "example": ""
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "OrderParams",
+        "type": "string",
+        "description": "订单参数。\n>仅当**OrderParamOut**参数传入**true**时，返回该参数。"
+      },
+      {
+        "name": "PriceInfo",
+        "type": "object",
+        "description": "价格信息。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "Rules",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "ServerlessPrice",
+        "type": "object",
+        "description": "Serverless价格信息。"
+      },
+      {
+        "name": "ShowDiscount",
+        "type": "boolean",
+        "description": "是否允许使用折扣。"
+      },
+      {
+        "name": "TradeMaxRCUAmount",
+        "type": "number",
+        "description": "根据用户所选择的最大RCU计算出的每小时费用预估。"
+      },
+      {
+        "name": "TradeMinRCUAmount",
+        "type": "number",
+        "description": "根据用户所选择的最小RCU计算出的每小时费用预估。"
+      }
+    ]
+  },
+  "ListClasses": {
+    "name": "",
+    "summary": "该接口用于查询RDS实例所有规格的详情。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于保证请求的幂等性，防止重复提交请求。由客户端生成该参数值，要保证在不同请求间唯一，最大值不超过64个ASCII字符，且该参数值中不能包含非ASCII字符。",
+        "example": "ETnLKlblzczshOTUbOCz****"
+      },
+      {
+        "name": "CommodityCode",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "需要查询的实例商品码。\n\n<props=\"china\">\n* **bards**：主实例按量付费\n* **rds**：主实例包年包月\n* **rords**：只读实例按量付费\n* **rds\\_rordspre\\_public\\_cn**：只读实例包年包月\n</props>\n\n<props=\"intl\">\n* **bards_intl**：主实例按量付费\n* **rds_intl**：主实例包年包月\n* **rords_intl**：只读实例按量付费\n* **rds\\_rordspre\\_public_intl**：只读实例包年包月\n</props>",
+        "example": "bards"
+      },
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。\n>查询只读实例规格列表，即**CommodityCode**参数中传入只读实例商品码时，本参数必传。",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "OrderType",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "需要查询的订单类型，取值：\n* **BUY**：新购。\n* **UPGRADE**：变更配置。\n* **RENEW**：续费。\n* **CONVERT**：转换付费类型。",
+        "example": "BUY"
+      },
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "地域ID。可调用DescribeRegions获取。\n>如果您使用的是阿里云国际站账号，此参数必传。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "Engine",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "数据库类型，取值：\n* **MySQL**\n* **SQLServer**\n* **PostgreSQL**\n* **MariaDB**",
+        "example": "MySQL"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "Items",
+        "type": "array",
+        "description": "实例规格信息列表。"
+      },
+      {
+        "name": "RegionId",
+        "type": "string",
+        "description": "地域ID。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "ModifySecurityIps": {
+    "name": "",
+    "summary": "修改指定RDS实例的IP白名单配置，支持覆盖、追加、删除三种修改模式。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB\n\n### 相关功能文档\n><notice>使用该接口前，请仔细阅读功能文档，确保完全了解使用接口的前提条件及使用后造成的影响后，再进行操作。></notice>\n\n- [RDS MySQL设置IP白名单](~~96118~~)\n- [RDS PostgreSQL设置IP白名单](~~43187~~)\n- [RDS SQL Server设置IP白名单](~~43186~~)\n- [RDS MariaDB设置IP白名单](~~90336~~)",
+    "parameters": [
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "目标实例ID。",
+        "example": "pgm-bp18n0c8zt45****"
+      },
+      {
+        "name": "SecurityIps",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "IP白名单。修改IP白名单前，请调用[DescribeDBInstanceIPArrayList](~~610518~~)接口查询实例IP已有白名单信息。\n\n<details>\n<summary>配置规则</summary>\n\n- 支持IP地址格式（如10.23.XX.XX）或者IP地址段格式（CIDR格式，如10.23.XX.XX/24）。\n\n- 多个IP地址或IP地址段以英文逗号（,）分隔，且逗号前后不能有空格。\n\n- 单个实例最多添加1000个IP地址或IP地址段。如果IP地址较多，建议将零散的IP地址合并为IP地址段，例如10.23.XX.XX/24。\n</details>",
+        "example": "10.23.XX.XX"
+      },
+      {
+        "name": "DBInstanceIPArrayName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "待修改白名单的分组名称（默认为Default）。指定分组不存在时，自动新增该分组。\n\n>单个实例最多支持200个白名单分组。",
+        "example": "test"
+      },
+      {
+        "name": "DBInstanceIPArrayAttribute",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "白名单分组属性。\n\n- （默认值）不传该参数时，表示普通分组。\n- 设置为`hidden`时，表示系统默认用于DMS、DTS和DAS等服务的分组。这些分组不在控制台显示，删除或修改后会导致DMS、DTS和DAS等服务无法访问RDS，请谨慎操作。",
+        "example": "hidden"
+      },
+      {
+        "name": "SecurityIPType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "IP地址类型。取值固定为IPv4，暂不支持IPv6。",
+        "example": "IPv4"
+      },
+      {
+        "name": "WhitelistNetworkType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "白名单的网络类型，取值：\n\n* **MIX**（默认值）：通用模式\n* **Classic**：高安全白名单模式下的经典网络\n* **VPC**：高安全白名单模式下的专有网络\n\n> * RDS PostgreSQL云盘版实例固定为通用模式（MIX），如果配置为其他模式，则会自动转换为通用模式。\n> * 仅RDS MySQL 5.1、5.5、5.6、5.7高性能本地盘，RDS PostgreSQL 9.4、10高性能本地盘支持高安全白名单模式。",
+        "example": "MIX"
+      },
+      {
+        "name": "ModifyMode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "修改方式，取值：\n* **Cover**（默认值）：**覆盖**，使用**SecurityIps**参数的值覆盖原IP白名单。\n* **Append**：**追加**，在原IP白名单中增加**SecurityIps**参数中输入的IP地址。\n* **Delete**：**删除**，在原IP白名单中删除**SecurityIps**参数中输入的IP地址。至少需要保留一个IP地址。",
+        "example": "Cover"
+      },
+      {
+        "name": "FreshWhiteListReadins",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "白名单同步只读实例列表。\n\n- 仅适用于创建了只读实例的RDS PostgreSQL实例。\n- 当有多个只读实例时，用英文逗号（,）分隔。",
+        "example": "pgr-bp17yuz4dn3d****,pgr-bp1vn2ph54u1****"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "TaskId",
+        "type": "string",
+        "description": "任务ID。"
+      }
+    ]
+  },
+  "DescribeDBInstances": {
+    "name": "",
+    "summary": "该接口用于查询RDS的实例列表。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB",
+    "parameters": [
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于保证请求的幂等性，防止重复提交请求。由客户端生成该参数值，要保证在不同请求间唯一，最大值不超过64个ASCII字符，且该参数值中不能包含非ASCII字符。",
+        "example": "ETnLKlblzczshOTUbOCz****"
+      },
+      {
+        "name": "proxyId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "废弃参数，无需配置。",
+        "example": "API"
+      },
+      {
+        "name": "Engine",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "数据库类型。取值：\n* **MySQL**\n* **SQLServer**\n* **PostgreSQL**\n* **MariaDB**\n\n默认返回所有数据库类型。",
+        "example": "MySQL"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "可用区ID。",
+        "example": "cn-hangzhou-a"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "资源组ID。",
+        "example": "rg-acfmy****"
+      },
+      {
+        "name": "DBInstanceStatus",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例状态，详情请参见[实例状态表](~~26315~~)。",
+        "example": "Running"
+      },
+      {
+        "name": "Expired",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的过期状态。取值：\n* **True**：已过期\n* **False**：未过期",
+        "example": "True"
+      },
+      {
+        "name": "SearchKey",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "可基于实例ID或者实例备注模糊搜索。",
+        "example": "rm-uf6w"
+      },
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例ID。",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "DBInstanceType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例类型。取值：\n* **Primary**：主实例\n* **Readonly**：只读实例\n* **Guard**：灾备实例\n* **Temp**：临时实例\n\n默认返回所有实例类型。",
+        "example": "Primary"
+      },
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "地域ID。可调用DescribeRegions获取。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "PageSize",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "每页记录数，取值：**1**~**100**。\n\n默认值：**30**。",
+        "example": "30"
+      },
+      {
+        "name": "PageNumber",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "页码，取值：大于0且不超过Integer的最大值。\n\n默认值：**1**。",
+        "example": "1"
+      },
+      {
+        "name": "InstanceNetworkType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的网络类型。取值：\n* **VPC**：专有网络下的实例\n* **Classic**：经典网络下的实例\n\n默认返回所有网络类型下的实例。",
+        "example": "Classic"
+      },
+      {
+        "name": "VpcId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "VPC ID。",
+        "example": "vpc-uf6f7l4fg90****"
+      },
+      {
+        "name": "VSwitchId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "交换机ID。",
+        "example": "vsw-uf6adz52c2p****"
+      },
+      {
+        "name": "DBInstanceClass",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例规格，详见[实例规格表](~~26312~~)。",
+        "example": "rds.mys2.small"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "数据库版本。",
+        "example": "8.0"
+      },
+      {
+        "name": "PayType",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "付费类型。取值：\n* **Postpaid**：按量付费\n* **Prepaid**：包年包月",
+        "example": "Postpaid"
+      },
+      {
+        "name": "ConnectionMode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的访问模式。取值：\n* **Standard**：标准访问模式\n* **Safe**：数据库代理模式\n\n默认返回所有访问模式下的实例。",
+        "example": "Standard"
+      },
+      {
+        "name": "Tags",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "查询绑定有该标签的实例，包括TagKey和TagValue。单次最多支持传入5组值，格式：{\"key1\":\"value1\",\"key2\":\"value2\"...}。",
+        "example": "{\"key1\":\"value1\"}"
+      },
+      {
+        "name": "DedicatedHostGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群ID。",
+        "example": "dhg-7a9****"
+      },
+      {
+        "name": "DedicatedHostId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "专属集群内的主机ID。",
+        "example": "i-bp****"
+      },
+      {
+        "name": "InstanceLevel",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "是否返回实例系列（Category）信息。取值：\n* **0**：不返回\n* **1**：返回",
+        "example": "0"
+      },
+      {
+        "name": "QueryAutoRenewal",
+        "in": "query",
+        "required": false,
+        "type": "boolean",
+        "description": "备用参数，无需配置。",
+        "example": "test"
+      },
+      {
+        "name": "ConnectionString",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的连接地址。通过该连接地址查询对应的实例。",
+        "example": "rm-uf6wjk5****.mysql.rds.aliyuncs.com"
+      },
+      {
+        "name": "NextToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "翻页凭证。取值为上一次调用**DescribeDBInstances**接口时返回的**NextToken**参数值。如果调用结果分多页展示，再次调用接口时传入该值便可以展示下一页的内容。",
+        "example": "o7PORW5o2TJg****"
+      },
+      {
+        "name": "MaxResults",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "每页记录数。取值：**1~100**。\n\n默认值：**30**。\n>传入该参数，则**PageSize**和**PageNumber**参数不可用。",
+        "example": "30"
+      },
+      {
+        "name": "Filter",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例过滤条件参数及其值的JSON串。",
+        "example": "{\"babelfishEnabled\":\"true\"}"
+      },
+      {
+        "name": "Category",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "实例的系列。取值：\n- **Basic**：基础系列\n- **HighAvailability**：高可用系列\n- **cluster**：集群系列\n- **serverless_basic**：Serverless",
+        "example": "cluster"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "Items",
+        "type": "object",
+        "description": ""
+      },
+      {
+        "name": "NextToken",
+        "type": "string",
+        "description": "翻页凭证。如果调用结果分多页展示，再次调用接口时在**NextToken**处传入该值便可以展示下一页的内容。"
+      },
+      {
+        "name": "PageNumber",
+        "type": "integer",
+        "description": "页码。\n>若您传入了**MaxResults**或**NextToken**参数，则本返回值仅会返回**1**，您可直接忽略。"
+      },
+      {
+        "name": "PageRecordCount",
+        "type": "integer",
+        "description": "当前页实例个数。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "TotalRecordCount",
+        "type": "integer",
+        "description": "总记录数。\n>若您传入了**MaxResults**或**NextToken**参数，则本返回值仅会显示当前页的记录数，您可直接忽略。"
+      }
+    ]
+  },
+  "StartDBInstance": {
+    "name": "",
+    "summary": "该接口用于启动暂停的RDS实例。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n\n### 相关功能文档\n><notice>使用该接口前，请仔细阅读功能文档，确保完全了解使用接口的前提条件及使用后造成的影响后，再进行操作。></notice>\n\n<props=\"china\">\n\n- [RDS MySQL启动实例](~~427093~~)\n- [RDS PostgreSQL启动实例](~~452314~~)\n- [RDS SQL Server启动实例](~~462504~~)\n\n</props>\n\n\n<props=\"intl\">\n\n[RDS SQL Server启动实例](~~462504~~)\n\n</props>",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "地域ID。可调用DescribeRegions获取。",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "DedicatedHostGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该接口也支持暂停专属集群下的RDS实例，此时需要配置专属集群ID。可调用DescribeDedicatedHostGroups查询。",
+        "example": "dhg-39****"
+      },
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。",
+        "example": "rm-bp****"
+      },
+      {
+        "name": "TargetDedicatedHostIdForMaster",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，配置主节点的目标主机ID。\n\n> **DBInstanceTransType**=**2**时需要传该本参数。",
+        "example": "dh-bp****"
+      },
+      {
+        "name": "TargetDedicatedHostIdForSlave",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，配置备节点的目标主机ID。\n\n> **DBInstanceTransType**=**2**时需要传入该参数。",
+        "example": "dh-bp****"
+      },
+      {
+        "name": "TargetDedicatedHostIdForLog",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "此参数已废弃，无需配置。",
+        "example": "dh-bp****"
+      },
+      {
+        "name": "EffectiveTime",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，生效时间，取值：\n\n* **Immediate**：立即生效。\n* **MaintainTime**：在可运维时间段内生效，请参见ModifyDBInstanceMaintainTime。\n* **SpecificTime**：指定时间生效。\n\n默认值：MaintainTime。",
+        "example": "Immediate"
+      },
+      {
+        "name": "SpecifiedTime",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，指定切换的时间。格式：yyyy-MM-ddTHH:mm:ssZ（UTC时间）。\n\n> 当**EffectiveTime**=**Specified**时需要填入本参数。",
+        "example": "2019-10-21T10:00:00Z"
+      },
+      {
+        "name": "TargetDBInstanceClass",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，目标实例的规格。",
+        "example": "rds.ebmhfc6.20xlarge"
+      },
+      {
+        "name": "EngineVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，数据库版本。",
+        "example": "5.7"
+      },
+      {
+        "name": "DBInstanceTransType",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "该参数仅支持专属集群实例，实例的迁移方式。取值：\n* **0**：默认值。系统优先进行本地升降级，若本地资源不足，则进行跨机迁移。\n* **1**：本地升降级。若系统判断实例当前不支持本地升降级，则会报错。\n* **2**：跨机迁移。将实例迁移到指定的主机，需要传入参数**DedicatedHostGroupId**、**TargetDedicatedHostIdForMaster**、**TargetDedicatedHostIdForSlave**。不能迁移到当前实例所在主机，否则会迁移失败。",
+        "example": "0"
+      },
+      {
+        "name": "Storage",
+        "in": "query",
+        "required": false,
+        "type": "integer",
+        "description": "该参数仅支持专属集群实例，自定义存储空间，取值：**5~2000**。单位：GB。不传该参数表示存储空间保持不变。",
+        "example": "1000"
+      },
+      {
+        "name": "VSwitchId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，交换机ID。",
+        "example": "vsw-****"
+      },
+      {
+        "name": "ZoneId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "该参数仅支持专属集群实例，可用区ID。",
+        "example": "cn-hangzhou-a"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "MigrationId",
+        "type": "integer",
+        "description": "该参数仅支持专属集群实例，迁移任务ID。"
+      },
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      },
+      {
+        "name": "TaskId",
+        "type": "integer",
+        "description": "任务ID。"
+      }
+    ]
+  },
+  "StopDBInstance": {
+    "name": "",
+    "summary": "该接口用于暂停RDS实例。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n\n### 相关功能文档\n><notice>使用该接口前，请仔细阅读功能文档，确保完全了解使用接口的前提条件及使用后造成的影响后，再进行操作。></notice>\n\n<props=\"china\"> \n\n- [RDS MySQL暂停实例](~~427093~~)\n- [RDS PostgreSQL暂停实例](~~452314~~)\n- [RDS SQL Server暂停实例](~~462504~~)\n\n</props>\n\n<props=\"intl\">\n\n[RDS SQL Server暂停实例](~~462504~~)\n\n</props>",
+    "parameters": [
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。",
+        "example": "rm-bp1q915x50h****"
+      },
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "地域ID。可调用DescribeRegions获取。",
+        "example": "cn-hangzhou"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  },
+  "RestartDBInstance": {
+    "name": "",
+    "summary": "该接口用于手动重启RDS实例。",
+    "description": "### 适用引擎\n\n- RDS MySQL\n- RDS PostgreSQL\n- RDS SQL Server\n- RDS MariaDB\n\n### 相关功能文档\n><notice>使用该接口前，请仔细阅读功能文档，确保完全了解使用接口的前提条件及使用后造成的影响后，再进行操作。></notice>\n\n- [RDS MySQL重启实例](~~96051~~)\n- [RDS PostgreSQL重启实例](~~96798~~)\n- [RDS SQL Server重启实例](~~95656~~)\n- [RDS MariaDB重启实例](~~97472~~)",
+    "parameters": [
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "用于保证请求的幂等性，防止重复提交请求。由客户端生成该参数值，要保证在不同请求间唯一，最大值不超过64个ASCII字符，且该参数值中不能包含非ASCII字符。",
+        "example": "ETnLKlblzczshOTUbOCz****"
+      },
+      {
+        "name": "DBInstanceId",
+        "in": "query",
+        "required": true,
+        "type": "string",
+        "description": "实例ID。可调用DescribeDBInstances获取。",
+        "example": "rm-uf6wjk5****"
+      },
+      {
+        "name": "NodeId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "节点的唯一标识，用于重启指定节点。可调用DescribeDBInstanceHAConfig获取。\n\n> 目前仅RDS SQL Server企业集群版实例支持重启备库。更多使用注意事项，请参见[重启备库](~~2411880~~)。",
+        "example": "2614****"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID。"
+      }
+    ]
+  }
+}
