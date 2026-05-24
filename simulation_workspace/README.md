@@ -54,5 +54,5 @@ python compare_modes_analyzer.py     # aggregate report
 
 ## Reproducing the experiments
 
-See [`../AI_REPRODUCE_GUIDE.md`](../AI_REPRODUCE_GUIDE.md) for the canonical,
-self-contained reproduction recipe.
+See the **Execution chains** section above for the canonical, self-contained
+reproduction recipes (Chain A / B / C).

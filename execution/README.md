@@ -42,6 +42,4 @@ from execution.cloudops_agent.agent import CloudOpsAgent
 ## Usage
 
 This package is not meant to be invoked directly. See
-`../simulation_workspace/` for experiment drivers, and
-[`../AI_REPRODUCE_GUIDE.md`](../AI_REPRODUCE_GUIDE.md) for the reproduction
-recipe.
+`../simulation_workspace/` for experiment drivers and reproduction recipes.

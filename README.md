@@ -71,7 +71,8 @@ LLM API keys (used by Hybrid / Explore modes only; Expert mode requires no
 keys) should be placed in `.env` (template in `.env.example`).
 
 For a complete, self-contained reproduction guide aimed at a fresh reader,
-see [`AI_REPRODUCE_GUIDE.md`](AI_REPRODUCE_GUIDE.md).
+see the per-experiment READMEs under `simulation_workspace/` and
+`training_scripts/`.
 
 ## Installation
 
@@ -160,7 +161,6 @@ po_inference_agent/
 │   └── cloudops_agent/      # Expert / Hybrid / Explore agent + GEE
 ├── simulation_workspace/    # NEW: execution-experiment drivers (§5.4.2)
 │   └── manual_scenarios/    # 6 Cloud-IaC ground-truth posets
-├── AI_REPRODUCE_GUIDE.md    # standalone reproduction guide
 ├── .env.example             # LLM API key template
 └── environment.yml
 ```
