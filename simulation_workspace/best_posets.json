@@ -3,48 +3,48 @@
     "ip_cov_target": 0.6,
     "eps_jump": 0.005,
     "cover_f1": 0.7272727272727272,
-    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_13_simple_ecs",
-    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_13_simple_ecs/summary.json",
+    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_13_simple_ecs",
+    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_13_simple_ecs/summary.json",
     "query": "在杭州可用区H创建一个2核4G的ECS实例"
   },
   "slb_ecs_rds": {
     "ip_cov_target": 1.0,
     "eps_jump": 0.05,
     "cover_f1": 0.923076923076923,
-    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_116_slb_ecs_rds",
-    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_116_slb_ecs_rds/summary.json",
+    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_116_slb_ecs_rds",
+    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_116_slb_ecs_rds/summary.json",
     "query": "创建一个完整的Web应用架构：包含一个SLB负载均衡器，后端挂载一台ECS服务器，并配置一个RDS MySQL数据库"
   },
   "slb_ecs_redis": {
     "ip_cov_target": 0.9,
     "eps_jump": 0.02,
     "cover_f1": 0.9523809523809524,
-    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_95_slb_ecs_redis",
-    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_95_slb_ecs_redis/summary.json",
+    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_95_slb_ecs_redis",
+    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_95_slb_ecs_redis/summary.json",
     "query": "搭建一个带缓存的Web服务：创建SLB负载均衡、一台ECS实例、以及Redis缓存实例"
   },
   "eip_slb_ecs": {
     "ip_cov_target": 0.9,
     "eps_jump": 0.005,
     "cover_f1": 1.0,
-    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_81_eip_slb_ecs",
-    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_81_eip_slb_ecs/summary.json",
+    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_81_eip_slb_ecs",
+    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_81_eip_slb_ecs/summary.json",
     "query": "创建一个公网可访问的负载均衡架构：申请一个EIP弹性公网IP，绑定到SLB，SLB后端挂载一台ECS"
   },
   "dual_zone_ecs_slb": {
     "ip_cov_target": 0.9,
     "eps_jump": 0.005,
     "cover_f1": 1.0,
-    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_77_dual_zone_ecs_slb_rds",
-    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_77_dual_zone_ecs_slb_rds/summary.json",
+    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_77_dual_zone_ecs_slb_rds",
+    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_77_dual_zone_ecs_slb_rds/summary.json",
     "query": "创建高可用架构：在杭州的两个不同可用区各创建一台ECS实例，并创建一个SLB将这两台ECS作为后端服务器"
   },
   "dual_zone_ecs_slb_rds": {
     "ip_cov_target": 1.0,
     "eps_jump": 0.005,
     "cover_f1": 0.8799999999999999,
-    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_101_dual_zone_ecs_slb_rds",
-    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/simulation_workspace/HPO_scenarios/exp_101_dual_zone_ecs_slb_rds/summary.json",
+    "exp_dir": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_101_dual_zone_ecs_slb_rds",
+    "summary_path": "/Users/chengzheqiao/Documents/phd/bhpop/po_inference_agent/simulation_workspace/HPO_scenarios/exp_101_dual_zone_ecs_slb_rds/summary.json",
     "query": "创建完整的高可用生产环境：双可用区部署两台ECS，创建SLB做负载均衡，并配置RDS MySQL主备高可用集群"
   }
 }
