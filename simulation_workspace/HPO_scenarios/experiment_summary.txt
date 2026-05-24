@@ -1,0 +1,16 @@
+Systematic Experiments Summary (Single PO per Scenario)
+Generated: 2026-01-21 05:35:09.773830
+
+Total rows: 480
+Scenarios: ['dual_zone_ecs_slb', 'dual_zone_ecs_slb_rds', 'eip_slb_ecs', 'simple_ecs', 'slb_ecs_rds', 'slb_ecs_redis']
+IP-Cov targets: [0.6, 0.7, 0.8, 0.9, 1.0]
+Epsilon values: [0.005, 0.01, 0.02, 0.05]
+Likelihoods: ['log_successors_queue_jump']
+
+Performance by method:
+                     cover_f1_mean  cover_f1_std  cover_f1_min  cover_f1_max  shd_mean  shd_std  shd_min  shd_max  feas_mean  feas_std    n
+method                                                                                                                                     
+bhpop_single_po             0.5640        0.3365        0.0000        1.0000    8.6833   7.5637        0       28     0.9950    0.0269  120
+heuristics_miner            0.5740        0.1053        0.4000        0.7368    8.0333   3.2017        3       13     0.1722    0.2501  120
+inductive_miner_imf         0.4579        0.1858        0.2069        0.7273   10.8333   5.7982        3       23     1.0000    0.0000  120
+majority                    0.5750        0.3146        0.1818        1.0000    9.0000   7.0246        0       19     0.4556    0.4849  120
