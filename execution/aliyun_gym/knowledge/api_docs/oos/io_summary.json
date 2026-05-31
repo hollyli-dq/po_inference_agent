@@ -1,0 +1,133 @@
+{
+  "StartExecution": {
+    "name": "",
+    "summary": "启动一个执行。",
+    "description": "",
+    "parameters": [
+      {
+        "name": "RegionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "地域ID",
+        "example": "cn-hangzhou"
+      },
+      {
+        "name": "TemplateName",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "模板名称。内容限制为字母、数字、中划线、下划线，长度200字符。",
+        "example": "vmeixme"
+      },
+      {
+        "name": "TemplateVersion",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "版本号，如不填默认为最新的版本号。",
+        "example": "v1"
+      },
+      {
+        "name": "Mode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "执行模式。取值：\n- Automatic（默认值）：自动执行\n- FailurePause：失败暂停\n- Debug：单步执行\n",
+        "example": "Automatic"
+      },
+      {
+        "name": "LoopMode",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "循环模式。取值：\n- Automatic（默认值）：不暂停\n- FirstBatchPause：第一批暂停\n- EveryBatchPause：每批暂停",
+        "example": "Automatic"
+      },
+      {
+        "name": "ParentExecutionId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "父执行ID",
+        "example": "exec-xxx"
+      },
+      {
+        "name": "SafetyCheck",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "安全检查模式。取值：\n\n- Skip（默认值）：此选项表示客户了解风险，无需确认即可执行任何Action，无论什么风险等级。`Mode=Automatic`时有效。\n- ConfirmEveryHighRiskAction：此选项会要求客户确认每一个高风险的Action。客户通过调用**NotifyExecution**接口进行确认或取消。",
+        "example": "Skip"
+      },
+      {
+        "name": "Parameters",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "由参数集合组成的Json字符串，默认为{}。",
+        "example": "{\"Status\":\"Running\"}"
+      },
+      {
+        "name": "ClientToken",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "访问令牌",
+        "example": "123e56767-e89b-12d3-a456-426655440000"
+      },
+      {
+        "name": "Tags",
+        "in": "query",
+        "required": false,
+        "type": "object",
+        "description": "要给执行打的标签",
+        "example": "{\n      \"k1\": \"v1\",\n      \"k2\": \"v2\"\n}"
+      },
+      {
+        "name": "Description",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "要给执行添加的描述信息",
+        "example": "test execution."
+      },
+      {
+        "name": "TemplateContent",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "模板内容，JSON或YAML格式（同CreateTemplate API 请求参数中的Content字段）。用户传入此字段可直接执行TemplateContent中的任务，而无需提前创建模板再创建执行任务（当用户选择已有的Template创建执行任务时不需传入此字段）。",
+        "example": "{   \"Description\": \"Example template, describe instances in some status\",   \"FormatVersion\": \"OOS-2019-06-01\",   \"Parameters\": {},   \"Tasks\": [     {       \"Name\": \"describeInstances\",       \"Action\": \"ACS::ExecuteAPI\",       \"Description\": \"desc-en\",       \"Properties\": {         \"Service\": \"ECS\",         \"API\": \"DescribeInstances\",         \"Parameters\": {           \"Status\": \"Running\"         }       }     }   ] }"
+      },
+      {
+        "name": "ResourceGroupId",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "资源组ID",
+        "example": "rg-acfmxsn4m4******"
+      },
+      {
+        "name": "TemplateURL",
+        "in": "query",
+        "required": false,
+        "type": "string",
+        "description": "阿里云对象存储OSS中存放OOS模板内容的URL(只支持公共读的URL)。用户传入此字段可直接根据行TemplateURL中存储的模板内容创建执行任务，无需提前创建模板再创建执行任务（当用户选择已有的Template创建执行任务时不需传入此字段）。",
+        "example": "http://oos-template.cn-hangzhou.oss.aliyun-inc.com/oos-test-template.json"
+      }
+    ],
+    "response_properties": [
+      {
+        "name": "RequestId",
+        "type": "string",
+        "description": "请求ID"
+      },
+      {
+        "name": "Execution",
+        "type": "object",
+        "description": "执行数据"
+      }
+    ]
+  }
+}

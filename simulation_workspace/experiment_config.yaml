@@ -1,0 +1,10 @@
+# HPO 批量实验配置文件
+# LLM 配置请在 .env 中设置
+
+# 实验配置
+experiment:
+  edge_threshold: 0.333      # HPO 后验边概率阈值
+
+# 输出配置
+output:
+  results_dir: "hpo_batch_results"

@@ -1,0 +1,38 @@
+{
+  "name": "Dual Zone ECS + SLB",
+  "description": "High Availability: ECS instances in two zones with SLB.",
+  "edges": [
+    [
+      "CreateVpc",
+      "CreateVSwitch"
+    ],
+    [
+      "CreateVpc",
+      "CreateSecurityGroup"
+    ],
+    [
+      "CreateSecurityGroup",
+      "AuthorizeSecurityGroup"
+    ],
+    [
+      "CreateVSwitch",
+      "RunInstances"
+    ],
+    [
+      "AuthorizeSecurityGroup",
+      "RunInstances"
+    ],
+    [
+      "CreateVSwitch",
+      "CreateLoadBalancer"
+    ],
+    [
+      "RunInstances",
+      "AddBackendServers"
+    ],
+    [
+      "CreateLoadBalancer",
+      "AddBackendServers"
+    ]
+  ]
+}

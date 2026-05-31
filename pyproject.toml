@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bpop"
+version = "0.1.0"
+description = "BPOP: De-Linearizing Agent Traces via Bayesian Inference of Latent Partial Orders (ICML 2026)"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "numpy>=1.19",
+    "scipy",
+    "pandas",
+    "networkx>=3.0",
+    "pyyaml>=6.0",
+    "matplotlib",
+    "seaborn",
+    "tqdm",
+    "tabulate",
+]
+
+[project.optional-dependencies]
+execution = [
+    "openai>=1.0.0",
+]
+process_mining = [
+    "pm4py",
+    "openpyxl",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*", "execution*", "simulation_workspace*", "training_scripts*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

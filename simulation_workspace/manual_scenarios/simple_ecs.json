@@ -1,0 +1,26 @@
+{
+  "name": "Simple ECS",
+  "description": "Deploys a VPC network and a single ECS instance.",
+  "edges": [
+    [
+      "CreateVpc",
+      "CreateVSwitch"
+    ],
+    [
+      "CreateVpc",
+      "CreateSecurityGroup"
+    ],
+    [
+      "CreateSecurityGroup",
+      "AuthorizeSecurityGroup"
+    ],
+    [
+      "CreateVSwitch",
+      "RunInstances"
+    ],
+    [
+      "AuthorizeSecurityGroup",
+      "RunInstances"
+    ]
+  ]
+}

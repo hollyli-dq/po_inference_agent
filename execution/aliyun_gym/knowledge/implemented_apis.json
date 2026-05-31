@@ -1,0 +1,101 @@
+{
+  "_description": "仿真器实现的 API 列表",
+  "_usage": "使用 api_meta_fetcher.py --api-list 参数指定此文件",
+  "_source": {
+    "aliyun_gym": "仿真器 handlers 实现",
+    "ops_mcp": "ops-mcp-server 实现"
+  },
+  
+  "Vpc": [
+    "CreateVpc",
+    "CreateVSwitch",
+    "DescribeVpcs",
+    "DescribeVSwitches",
+    "DescribeZones",
+    "AllocateEipAddress",
+    "AssociateEipAddress"
+  ],
+  
+  "Ecs": [
+    "CreateSecurityGroup",
+    "AuthorizeSecurityGroup",
+    "DescribeSecurityGroups",
+    "DescribeSecurityGroupAttribute",
+    "RunInstances",
+    "DescribeInstances",
+    "DescribeAvailableResource",
+    "DescribeImages",
+    "DescribeInstanceTypes",
+    "DescribePrice",
+    "DescribeZones",
+    "DescribeRegions",
+    "DescribeAccountAttributes",
+    "DeleteInstances",
+    "StartInstance",
+    "StopInstance",
+    "RebootInstance",
+    "ReplaceSystemDisk"
+  ],
+  
+  "Rds": [
+    "CreateDBInstance",
+    "CreateAccount",
+    "AllocateInstancePublicConnection",
+    "DescribeDBInstanceAttribute",
+    "DescribeDBInstances",
+    "DescribeAccounts",
+    "DescribeAvailableZones",
+    "DescribeDBInstanceIPArrayList",
+    "DescribeDBInstanceNetInfoForChannel",
+    "DescribePrice",
+    "ListClasses",
+    "ModifySecurityIps",
+    "StartDBInstance",
+    "StopDBInstance",
+    "RestartDBInstance"
+  ],
+  
+  "Slb": [
+    "CreateLoadBalancer",
+    "CreateLoadBalancerHTTPListener",
+    "CreateLoadBalancerTCPListener",
+    "StartLoadBalancerListener",
+    "AddBackendServers",
+    "DescribeLoadBalancers",
+    "DescribeLoadBalancerAttribute",
+    "DescribeLoadBalancerHTTPListenerAttribute",
+    "DescribeLoadBalancerTCPListenerAttribute",
+    "DescribeLoadBalancerListeners",
+    "CreateAccessControlList",
+    "AddAccessControlListEntry",
+    "DescribeAvailableResource"
+  ],
+  
+  "R-kvstore": [
+    "CreateInstance",
+    "AllocateInstancePublicConnection",
+    "DescribeInstances",
+    "DescribeAvailableResource",
+    "DescribeDBInstanceNetInfo",
+    "DescribePrice",
+    "DescribeSecurityIps",
+    "ModifySecurityIps"
+  ],
+  
+  "Oos": [
+    "StartExecution"
+  ],
+  
+  "Cms": [
+    "CreateMonitorGroup",
+    "CreateMonitorGroupInstances",
+    "CreateHostAvailability",
+    "DescribeMetricLast"
+  ],
+  
+  "Oss": [
+    "ListBuckets",
+    "PutBucket",
+    "DeleteBucket"
+  ]
+}

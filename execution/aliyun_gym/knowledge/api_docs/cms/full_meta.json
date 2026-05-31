@@ -1,0 +1,1383 @@
+{
+  "service": "Cms",
+  "name": "云监控",
+  "version": "2019-01-01",
+  "style": "RPC",
+  "apis": {
+    "CreateMonitorGroup": {
+      "summary": "调用CreateMonitorGroup接口创建应用分组。",
+      "methods": [
+        "post",
+        "get"
+      ],
+      "schemes": [
+        "http",
+        "https"
+      ],
+      "security": [
+        {
+          "AK": []
+        }
+      ],
+      "operationType": "write",
+      "deprecated": false,
+      "systemTags": {
+        "operationType": "create",
+        "riskType": "none",
+        "chargeType": "free",
+        "tenantRelevance": "publicInformation"
+      },
+      "parameters": [
+        {
+          "name": "GroupName",
+          "in": "query",
+          "schema": {
+            "description": "应用分组名称。",
+            "type": "string",
+            "required": true,
+            "example": "ECS_Group"
+          }
+        },
+        {
+          "name": "ContactGroups",
+          "in": "query",
+          "schema": {
+            "description": "报警联系组。应用分组的报警通知会发送给该报警联系组中的报警联系人。\n\n> 报警联系组是一组报警联系人，可以包含一个或多个报警联系人。关于如何创建报警联系人和报警联系组，请参见[PutContact](~~PutContact~~)和[PutContactGroup](~~PutContactGroup~~)。",
+            "type": "string",
+            "required": false,
+            "example": "ECS_Alert_Group"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "Code": {
+                "description": "状态码。\n\n> 200表示成功。",
+                "type": "integer",
+                "format": "int32",
+                "example": "200"
+              },
+              "Message": {
+                "description": "错误信息。",
+                "type": "string",
+                "example": "The specified resource is not found."
+              },
+              "RequestId": {
+                "description": "请求ID。",
+                "type": "string",
+                "example": "83C89BA6-ABD4-4398-A175-83E86C47A001"
+              },
+              "GroupId": {
+                "description": "应用分组ID。",
+                "type": "integer",
+                "format": "int64",
+                "example": "1234567"
+              },
+              "Success": {
+                "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。",
+                "type": "boolean",
+                "example": "true"
+              }
+            }
+          }
+        }
+      },
+      "errorCodes": {
+        "206": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          }
+        ],
+        "400": [
+          {
+            "errorCode": "InvalidQueryParameter",
+            "errorMessage": "%s"
+          }
+        ],
+        "401": [
+          {
+            "errorCode": "AccessDeniedException",
+            "errorMessage": "You donot have sufficient access to perform this action."
+          }
+        ],
+        "402": [
+          {
+            "errorCode": "LimitExceeded",
+            "errorMessage": "The quota for this customer had been reached."
+          }
+        ],
+        "403": [
+          {
+            "errorCode": "InvalidClientTokenId",
+            "errorMessage": "not allow this operation."
+          }
+        ],
+        "404": [
+          {
+            "errorCode": "ResourceNotFound",
+            "errorMessage": "The specified resource is not found."
+          }
+        ],
+        "406": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          }
+        ],
+        "409": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          },
+          {
+            "errorCode": "ResourceConflict",
+            "errorMessage": "Concurrent modification of resources."
+          },
+          {
+            "errorCode": "ResourceExist",
+            "errorMessage": "Resources already exist."
+          }
+        ],
+        "412": [
+          {
+            "errorCode": "ResourcesOverLimit",
+            "errorMessage": "Resources over limit."
+          }
+        ],
+        "429": [
+          {
+            "errorCode": "Throttli∂ngException",
+            "errorMessage": "The request was denied due to request throttling."
+          }
+        ],
+        "500": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          },
+          {
+            "errorCode": "InternalError",
+            "errorMessage": "The request processing has failed due to some unknown error."
+          }
+        ],
+        "503": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          }
+        ]
+      },
+      "responseDemo": "[{\"type\":\"json\",\"example\":\"{\\n  \\\"Code\\\": 200,\\n  \\\"Message\\\": \\\"The specified resource is not found.\\\",\\n  \\\"RequestId\\\": \\\"83C89BA6-ABD4-4398-A175-83E86C47A001\\\",\\n  \\\"GroupId\\\": 1234567,\\n  \\\"Success\\\": true\\n}\",\"errorExample\":\"\"},{\"type\":\"xml\",\"example\":\"<CreateMonitorGroupResponse>\\n\\t<RequestId>83C89BA6-ABD4-4398-A175-83E86C47A001</RequestId>\\n\\t<Code>200</Code>\\n\\t<Success>true</Success>\\n\\t<GroupId>1234567</GroupId>\\n</CreateMonitorGroupResponse>\\t\",\"errorExample\":\"\"}]",
+      "title": "创建应用分组",
+      "description": "本文将提供一个示例，创建应用分组`ECS_Group`。",
+      "requestParamsDescription": " ",
+      "extraInfo": " "
+    },
+    "CreateMonitorGroupInstances": {
+      "summary": "调用CreateMonitorGroupInstances接口添加指定资源到指定应用分组。",
+      "methods": [
+        "post",
+        "get"
+      ],
+      "schemes": [
+        "http",
+        "https"
+      ],
+      "security": [
+        {
+          "AK": []
+        }
+      ],
+      "operationType": "write",
+      "systemTags": {
+        "operationType": "create",
+        "riskType": "none",
+        "chargeType": "free",
+        "tenantRelevance": "publicInformation"
+      },
+      "parameters": [
+        {
+          "name": "GroupId",
+          "in": "query",
+          "schema": {
+            "description": "应用分组ID。",
+            "type": "string",
+            "required": true,
+            "docRequired": true,
+            "example": "3607****"
+          }
+        },
+        {
+          "name": "Instances",
+          "in": "query",
+          "style": "repeatList",
+          "schema": {
+            "description": "实例列表。",
+            "type": "array",
+            "items": {
+              "description": "无。",
+              "type": "object",
+              "properties": {
+                "InstanceName": {
+                  "description": "实例名称。",
+                  "type": "string",
+                  "required": true,
+                  "example": "test-instance-ecs"
+                },
+                "Category": {
+                  "description": "云服务名称缩写。\n\n关于如何获取云服务名称缩写，请参见[DescribeProjectMeta](~~114916~~)接口的返回参数`Labels`中的`metricCategory`。",
+                  "type": "string",
+                  "required": true,
+                  "example": "ecs"
+                },
+                "InstanceId": {
+                  "description": "实例ID。",
+                  "type": "string",
+                  "required": true,
+                  "example": "i-2ze26xj5wwy12****"
+                },
+                "RegionId": {
+                  "description": "实例所在地域。",
+                  "type": "string",
+                  "required": true,
+                  "example": " cn-hangzhou"
+                }
+              },
+              "required": false
+            },
+            "required": true,
+            "maxItems": 2000
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "Code": {
+                "description": "状态码。\n\n> 200表示成功。",
+                "type": "integer",
+                "format": "int32",
+                "example": "200"
+              },
+              "Message": {
+                "description": "错误信息。",
+                "type": "string",
+                "example": "The Request is not authorization."
+              },
+              "RequestId": {
+                "description": "请求ID。",
+                "type": "string",
+                "example": "1BC69FEB-56CD-4555-A0E2-02536A24A946"
+              },
+              "Success": {
+                "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。",
+                "type": "boolean",
+                "example": "true"
+              }
+            }
+          }
+        }
+      },
+      "errorCodes": {
+        "206": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          }
+        ],
+        "400": [
+          {
+            "errorCode": "InvalidQueryParameter",
+            "errorMessage": "%s"
+          }
+        ],
+        "401": [
+          {
+            "errorCode": "AccessDeniedException",
+            "errorMessage": "You donot have sufficient access to perform this action."
+          }
+        ],
+        "402": [
+          {
+            "errorCode": "LimitExceeded",
+            "errorMessage": "The quota for this customer had been reached."
+          }
+        ],
+        "403": [
+          {
+            "errorCode": "InvalidClientTokenId",
+            "errorMessage": "not allow this operation."
+          }
+        ],
+        "404": [
+          {
+            "errorCode": "ResourceNotFound",
+            "errorMessage": "%s"
+          }
+        ],
+        "406": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          }
+        ],
+        "409": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          },
+          {
+            "errorCode": "ResourceExist",
+            "errorMessage": "%s"
+          }
+        ],
+        "412": [
+          {
+            "errorCode": "ResourcesOverLimit",
+            "errorMessage": "%s"
+          }
+        ],
+        "429": [
+          {
+            "errorCode": "Throttli∂ngException",
+            "errorMessage": "The request was denied due to request throttling."
+          }
+        ],
+        "500": [
+          {
+            "errorCode": "InternalError",
+            "errorMessage": "%s"
+          }
+        ],
+        "503": [
+          {
+            "errorCode": "%s",
+            "errorMessage": "%s"
+          }
+        ]
+      },
+      "responseDemo": "[{\"type\":\"json\",\"example\":\"{\\n  \\\"Code\\\": 200,\\n  \\\"Message\\\": \\\"The Request is not authorization.\\\",\\n  \\\"RequestId\\\": \\\"1BC69FEB-56CD-4555-A0E2-02536A24A946\\\",\\n  \\\"Success\\\": true\\n}\",\"errorExample\":\"\"},{\"type\":\"xml\",\"example\":\"<CreateMonitorGroupInstancesResponse>\\n    <RequestId>1BC69FEB-56CD-4555-A0E2-02536A24A946</RequestId>\\n    <Success>true</Success>\\n    <Code>200</Code>\\n</CreateMonitorGroupInstancesResponse>\",\"errorExample\":\"\"}]",
+      "title": "添加指定资源到指定应用分组",
+      "description": "一个应用分组中，一个云服务最多添加3000个资源，单次最多添加1000个资源，应用分组中的总资源数无限制。\n\n本文将提供一个示例，将地域`cn-hangzhou`的云服务器ECS的实例（实例ID为`i-2ze26xj5wwy12****`，实例名称为`test-instance-ecs`）添加到应用分组`3607****`。",
+      "requestParamsDescription": "关于公共请求参数的详情，请参见[公共参数](~~199331~~)。",
+      "responseParamsDescription": " ",
+      "extraInfo": " "
+    },
+    "CreateHostAvailability": {
+      "summary": "调用CreateHostAvailability接口创建可用性监控任务。",
+      "methods": [
+        "post",
+        "get"
+      ],
+      "schemes": [
+        "http",
+        "https"
+      ],
+      "security": [
+        {
+          "AK": []
+        }
+      ],
+      "operationType": "write",
+      "systemTags": {
+        "operationType": "create",
+        "riskType": "none",
+        "chargeType": "free",
+        "tenantRelevance": "publicInformation"
+      },
+      "parameters": [
+        {
+          "name": "GroupId",
+          "in": "query",
+          "schema": {
+            "description": "应用分组ID。",
+            "type": "integer",
+            "format": "int64",
+            "required": true,
+            "example": "123456"
+          }
+        },
+        {
+          "name": "TaskName",
+          "in": "query",
+          "schema": {
+            "description": "可用性监控任务名称。取值范围：4~100个字符，支持英文字母、数字、下划线（_）和汉字。",
+            "type": "string",
+            "required": true,
+            "example": "task1"
+          }
+        },
+        {
+          "name": "TaskScope",
+          "in": "query",
+          "schema": {
+            "description": "可用性监控任务的探测范围。取值：\n\n- GROUP：表示将当前应用分组内的所有ECS实例作为探测任务的探针。\n- GROUP_SPEC_INSTANCE：表示将当前应用分组内的指定ECS实例作为探测任务的探针。设置该参数时，需要同时设置InstanceList（发起探测的ECS实例列表）。",
+            "type": "string",
+            "required": false,
+            "example": "GROUP",
+            "default": "GROUP"
+          }
+        },
+        {
+          "name": "TaskType",
+          "in": "query",
+          "schema": {
+            "description": "可用性监控任务的探测类型。取值：\n\n- PING\n- TELNET\n- HTTP",
+            "type": "string",
+            "required": true,
+            "example": "HTTP"
+          }
+        },
+        {
+          "name": "TaskOption.HttpURI",
+          "in": "query",
+          "schema": {
+            "description": "HTTP、Telnet探测类型的探测URI地址。",
+            "type": "string",
+            "required": false,
+            "example": "https://www.aliyun.com\ntelnet://127.0.0.1:80"
+          }
+        },
+        {
+          "name": "TaskOption.TelnetOrPingHost",
+          "in": "query",
+          "schema": {
+            "description": "探测的域名或地址。\n>如果探测任务类型为PING，则需要设置该参数。",
+            "type": "string",
+            "required": false,
+            "example": "www.aliyun.com"
+          }
+        },
+        {
+          "name": "TaskOption.HttpResponseCharset",
+          "in": "query",
+          "schema": {
+            "description": "HTTP探测类型的响应字符集。\n\n> 仅支持UTF-8。",
+            "type": "string",
+            "required": false,
+            "example": "UTF-8"
+          }
+        },
+        {
+          "name": "TaskOption.HttpPostContent",
+          "in": "query",
+          "schema": {
+            "description": "HTTP探测类型探测请求的Post内容。",
+            "type": "string",
+            "required": false,
+            "example": "params1=paramsValue1"
+          }
+        },
+        {
+          "name": "TaskOption.HttpResponseMatchContent",
+          "in": "query",
+          "schema": {
+            "description": "匹配响应的内容。",
+            "type": "string",
+            "required": false,
+            "example": "ok"
+          }
+        },
+        {
+          "name": "TaskOption.HttpMethod",
+          "in": "query",
+          "schema": {
+            "description": "探测类型的方法。取值：\n\n- GET\n- POST\n- HEAD\n\n>如果任务的探测类型为HTTP，则需要设置该参数。",
+            "type": "string",
+            "required": false,
+            "example": "GET"
+          }
+        },
+        {
+          "name": "TaskOption.HttpNegative",
+          "in": "query",
+          "schema": {
+            "description": "匹配HTTP响应内容的报警规则。取值：\n- true：如果HTTP响应内容包含设置的报警规则，则报警。\n- false：如果HTTP响应内容不包含设置的报警规则，则报警。\n\n>如果任务的探测类型为HTTP，则该参数生效。",
+            "type": "boolean",
+            "required": false,
+            "example": "true"
+          }
+        },
+        {
+          "name": "TaskOption.HttpHeader",
+          "in": "query",
+          "schema": {
+            "description": "HTTP请求的Header。格式为`参数名:参数`，多个参数之间用回车符分隔，例如：\n```\nparams1:value1\nparams2:value2\n```",
+            "type": "string",
+            "required": false,
+            "example": "token:testTokenValue"
+          }
+        },
+        {
+          "name": "TaskOption.Interval",
+          "in": "query",
+          "schema": {
+            "description": "探测频率。单位：秒。取值：15、30、60、120、300、900、1800和3600。\n\n> 仅3.5.1及以上版本的云监控插件支持该参数。",
+            "type": "integer",
+            "format": "int32",
+            "required": false,
+            "example": "60"
+          }
+        },
+        {
+          "name": "AlertConfig.NotifyType",
+          "in": "query",
+          "schema": {
+            "description": "报警通知类型。取值：\n\n<props=\"china\">- 2：电话+短信+邮件+钉钉机器人。</props>\n\n<props=\"china\">- 1：短信+邮件+钉钉机器人。</props>\n\n<props=\"china\">- 0：邮件+钉钉机器人。</props>\n\n\n<props=\"intl\">0：邮件+钉钉机器人。</props>\n\n<props=\"partner\">0：邮件+钉钉机器人。</props>",
+            "type": "integer",
+            "format": "int32",
+            "required": true,
+            "example": "0"
+          }
+        },
+        {
+          "name": "AlertConfig.StartTime",
+          "in": "query",
+          "schema": {
+            "description": "报警生效的开始时间。取值范围：0~23。\n\n例如：`AlertConfig.StartTime`为0，`AlertConfig.EndTime`为22，表示报警生效时间为00:00:00至22:00:00。\n\n>如果报警不在生效时间内，则超过阈值也不会发送报警通知。",
+            "type": "integer",
+            "format": "int32",
+            "required": false,
+            "example": "0"
+          }
+        },
+        {
+          "name": "AlertConfig.EndTime",
+          "in": "query",
+          "schema": {
+            "description": "报警生效的结束时间。取值范围：0~23。\n\n例如：`AlertConfig.StartTime`为0，`AlertConfig.EndTime`为22，表示报警生效时间为00:00:00至22:00:00。\n\n>如果报警不在生效时间内，则超过阈值也不会发送报警通知。",
+            "type": "integer",
+            "format": "int32",
+            "required": false,
+            "example": "22"
+          }
+        },
+        {
+          "name": "AlertConfig.SilenceTime",
+          "in": "query",
+          "schema": {
+            "description": "通道沉默时间。单位：秒，默认值：86400（1天）。",
+            "type": "integer",
+            "format": "int32",
+            "required": false,
+            "example": "86400"
+          }
+        },
+        {
+          "name": "AlertConfig.WebHook",
+          "in": "query",
+          "schema": {
+            "description": "URL回调地址。",
+            "type": "string",
+            "required": false,
+            "example": "https://www.aliyun.com/webhook.json"
+          }
+        },
+        {
+          "name": "AlertConfigEscalationList",
+          "in": "query",
+          "style": "repeatList",
+          "schema": {
+            "description": "无。",
+            "type": "array",
+            "items": {
+              "description": "无。",
+              "type": "object",
+              "properties": {
+                "MetricName": {
+                  "description": "报警的监控项。N的取值范围：1~21。取值：\n\n- HttpStatus：HTTP状态码。\n- HttpLatency：HTTP等待时间。\n- TelnetStatus：Telnet状态码。\n- TelnetLatency：Telnet等待时间。\n- PingLostRate：Ping丢包率。",
+                  "type": "string",
+                  "required": true,
+                  "example": "HttpStatus"
+                },
+                "Value": {
+                  "description": "报警阈值。N的取值范围：1~21。",
+                  "type": "string",
+                  "required": false,
+                  "example": "90"
+                },
+                "Times": {
+                  "description": "报警重试次数。N的取值范围：1~21。",
+                  "type": "integer",
+                  "format": "int32",
+                  "required": false,
+                  "example": "3"
+                },
+                "Operator": {
+                  "description": "报警规则比较符号。N的取值范围：1~21。取值：\n\n- `>`\n- `>=`\n- `<`\n- `<=`\n- `=`",
+                  "type": "string",
+                  "required": false,
+                  "example": ">"
+                },
+                "Aggregate": {
+                  "description": "报警统计方法。N的取值范围：1~21。不同监控项的取值如下：\n\n- HttpStatus：Value。\n- HttpLatency：Average。\n- TelnetStatus：Value。\n- TelnetLatency：Average。\n- PingLostRate：Average。\n\n>状态码类的统计方法为原始值（Value），延时时间或丢包率的统计方法为平均值（Average）。",
+                  "type": "string",
+                  "required": false,
+                  "example": "Value"
+                }
+              },
+              "required": false
+            },
+            "required": true,
+            "maxItems": 10
+          }
+        },
+        {
+          "name": "InstanceList",
+          "in": "query",
+          "style": "repeatList",
+          "schema": {
+            "description": "发起探测的ECS实例列表。N的取值范围：1~21。\n\n> 当`TaskScope`为`GROUP_SPEC_INSTANCE`时，需要设置该参数。",
+            "type": "array",
+            "items": {
+              "description": "发起探测的ECS实例列表。N的取值范围：1~21。\n\n> 当`TaskScope`为`GROUP_SPEC_INSTANCE`时，需要设置该参数。",
+              "type": "string",
+              "required": false,
+              "example": "2"
+            },
+            "required": false,
+            "example": "i-absdfkwl321****",
+            "maxItems": 1000
+          }
+        },
+        {
+          "name": "AlertConfigTargetList",
+          "in": "query",
+          "style": "flat",
+          "schema": {
+            "description": "报警触发目标。",
+            "type": "array",
+            "items": {
+              "description": "报警触发目标。",
+              "type": "object",
+              "properties": {
+                "Id": {
+                  "description": "报警触发目标ID。",
+                  "type": "string",
+                  "required": false,
+                  "example": "1"
+                },
+                "Arn": {
+                  "description": "资源ARN。格式为`acs:{云产品缩写}:{regionId}:{userId}:/{资源类型}/{资源名称}/message`。例如：`acs:mns:cn-hangzhou:120886317861****:/queues/test123/message`。参数说明如下：\n\n- {云产品缩写}：目前仅支持轻量消息队列（原 MNS）。\n\n- {userId}：阿里云账号ID。\n\n- {regionId}：轻量消息队列（原 MNS）或主题所在地域。\n\n- {资源类型}`：接收报警的资源类型。取值：\n\n  - **queues**：队列。\n  - **topics**：主题。\n\n- {资源名称}：资源名称。\n\n  - 如果资源类型为**queues**，则资源名称为队列名称。\n  - 如果资源类型为**topics**，则资源名称为主题名称。",
+                  "type": "string",
+                  "required": false,
+                  "example": "acs:mns:cn-hangzhou:120886317861****:/queues/test/message"
+                },
+                "Level": {
+                  "description": "报警级别。取值：\n\n- INFO：信息。\n- WARN：警告。\n- CRITICAL：紧急。",
+                  "type": "string",
+                  "required": false,
+                  "example": "[\"INFO\", \"WARN\", \"CRITICAL\"]"
+                },
+                "JsonParams": {
+                  "description": "报警回调的JSON格式参数。",
+                  "type": "string",
+                  "required": false,
+                  "example": "{\"customField1\":\"value1\",\"customField2\":\"$.name\"}"
+                }
+              },
+              "required": false
+            },
+            "required": false
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "Code": {
+                "description": "状态码。\n\n>200表示成功。",
+                "type": "string",
+                "example": "200"
+              },
+              "Message": {
+                "description": "错误信息。",
+                "type": "string",
+                "example": "The specified resource is not found."
+              },
+              "RequestId": {
+                "description": "请求ID。",
+                "type": "string",
+                "example": "ACBDBB40-DFB6-4F4C-8957-51FFB233969C"
+              },
+              "TaskId": {
+                "description": "可用性监控任务ID。",
+                "type": "integer",
+                "format": "int64",
+                "example": "12345"
+              },
+              "Success": {
+                "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。",
+                "type": "boolean",
+                "example": "true"
+              }
+            }
+          }
+        }
+      },
+      "errorCodes": {
+        "400": [
+          {
+            "errorCode": "ParameterInvalid",
+            "errorMessage": "Parameter invalid."
+          }
+        ],
+        "403": [
+          {
+            "errorCode": "AccessForbidden",
+            "errorMessage": "User not authorized to operate on the specified resource."
+          }
+        ],
+        "404": [
+          {
+            "errorCode": "ResourceNotFound",
+            "errorMessage": "%s"
+          }
+        ],
+        "409": [
+          {
+            "errorCode": "ResourceConflict",
+            "errorMessage": "Concurrent modification of resources."
+          },
+          {
+            "errorCode": "ResourceExist",
+            "errorMessage": "Resources already exist."
+          }
+        ],
+        "412": [
+          {
+            "errorCode": "ResouceOverLimit",
+            "errorMessage": "The task over limit"
+          }
+        ],
+        "500": [
+          {
+            "errorCode": "InternalError",
+            "errorMessage": "The request processing has failed due to some unknown error."
+          }
+        ]
+      },
+      "responseDemo": "[{\"type\":\"json\",\"example\":\"{\\n  \\\"Code\\\": \\\"200\\\",\\n  \\\"Message\\\": \\\"The specified resource is not found.\\\",\\n  \\\"RequestId\\\": \\\"ACBDBB40-DFB6-4F4C-8957-51FFB233969C\\\",\\n  \\\"TaskId\\\": 12345,\\n  \\\"Success\\\": true\\n}\",\"errorExample\":\"\"},{\"type\":\"xml\",\"example\":\"<CreateHostAvailabilityResponse>\\n\\t<TaskId>12345</TaskId>\\n\\t<RequestId>CDA78493-F10F-485F-98AD-B4C0B40AB225</RequestId>\\n\\t<Code>200</Code>\\n\\t<Success>true</Success>\\n</CreateHostAvailabilityResponse>\",\"errorExample\":\"\"}]",
+      "title": "创建可用性监控任务",
+      "description": "本文将提供一个示例，在应用分组`123456`中创建探测类型为`HTTP`的可用性监控任务`task1`，通过邮件和钉钉机器人给您发送报警。\n\n",
+      "requestParamsDescription": "关于公共请求参数的详情，请参见[公共参数](~~199331~~)。",
+      "responseParamsDescription": " ",
+      "extraInfo": " "
+    },
+    "DescribeMetricLast": {
+      "summary": "调用DescribeMetricLast接口查询指定监控项的最新监控数据。",
+      "methods": [
+        "post",
+        "get"
+      ],
+      "schemes": [
+        "http",
+        "https"
+      ],
+      "security": [
+        {
+          "AK": []
+        }
+      ],
+      "operationType": "read",
+      "systemTags": {
+        "operationType": "get",
+        "riskType": "none",
+        "chargeType": "free"
+      },
+      "parameters": [
+        {
+          "name": "Namespace",
+          "in": "query",
+          "schema": {
+            "description": "云产品的数据命名空间。\n\n关于云产品的数据命名空间，请参见[云产品监控项](~~163515~~)。",
+            "type": "string",
+            "required": true,
+            "docRequired": true,
+            "example": "acs_ecs_dashboard"
+          }
+        },
+        {
+          "name": "MetricName",
+          "in": "query",
+          "schema": {
+            "description": "云产品的监控项名称。\n\n关于监控项名称，请参见[云产品监控项](~~163515~~)。\n\n",
+            "type": "string",
+            "required": true,
+            "docRequired": true,
+            "example": "CPUUtilization"
+          }
+        },
+        {
+          "name": "Period",
+          "in": "query",
+          "schema": {
+            "description": "监控数据的统计周期。\n\n取值：15、60、900和3600。\n\n单位：秒。\n\n> - 如果不设置统计周期，则按照注册监控项时申请的上报周期来查询监控数据。\n    - 每个云产品的监控项（`MetricName`）的统计周期不同。更多信息，请参见[云产品监控项](~~163515~~)中目标云产品**指标列表**页面中的`Min Periods`列。",
+            "type": "string",
+            "required": false,
+            "example": "60"
+          }
+        },
+        {
+          "name": "StartTime",
+          "in": "query",
+          "schema": {
+            "description": "查询监控项的开始时间。",
+            "type": "string",
+            "required": false,
+            "example": "2019-01-31 10:00:00"
+          }
+        },
+        {
+          "name": "EndTime",
+          "in": "query",
+          "schema": {
+            "description": "查询监控项的结束时间。\n\n- 对于秒级数据，查询数据的起始时间是EndTime往前倒推20分钟后与startTime对比的最大值。\n\n- 对于分钟级数据，查询数据的起始时间是EndTime往前倒推2小时后与startTime对比的最大值。\n\n- 对于小时级数据，查询数据的起始时间是EndTime往前倒推2天后与startTime对比的最大值。\n\n ",
+            "type": "string",
+            "required": false,
+            "example": "2019-01-31 10:10:00"
+          }
+        },
+        {
+          "name": "Dimensions",
+          "in": "query",
+          "schema": {
+            "description": "指定资源的监控维度。\n\n格式：`key:value`键值对形式的集合，例如：`{\"userId\":\"120886317861****\"}`和`{\"instanceId\":\"i-2ze2d6j5uhg20x47****\"}`。\n\n> 单次请求最多支持批量查询50个实例。\n\n\n\n\n",
+            "type": "string",
+            "required": false,
+            "example": "[{\"instanceId\":\"i-2ze2d6j5uhg20x47****\"}]"
+          }
+        },
+        {
+          "name": "NextToken",
+          "in": "query",
+          "schema": {
+            "description": "分页游标的标识。\n\n- 如果匹配查询条件的返回结果超过了分页大小，则会返回这个分页游标。\n- 如果需要获取下一页数据，将返回的游标值作为请求参数即可，直到无游标值返回，表示已经获取了全部数据。",
+            "type": "string",
+            "required": false,
+            "example": "15761432850009dd70bb64cff1f0fff6c0b08ffff073be5fb1e785e2b020f7fed9b5e137bd810a6d6cff5ae****"
+          }
+        },
+        {
+          "name": "Length",
+          "in": "query",
+          "schema": {
+            "description": "返回监控数据的每页大小，用于分页查询。\n\n默认值：1000，即每页1000条监控数据。\n\n> 单次请求Length的最大值为1440。",
+            "type": "string",
+            "required": false,
+            "example": "1000"
+          }
+        },
+        {
+          "name": "Express",
+          "in": "query",
+          "schema": {
+            "description": "对现有查询结果进行实时计算的表达式。",
+            "type": "string",
+            "required": false,
+            "example": "{\"groupby\":[\"userId\",\"instanceId\"]}"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "object",
+            "properties": {
+              "NextToken": {
+                "description": "分页游标标识。",
+                "type": "string",
+                "example": "xxxxxx"
+              },
+              "RequestId": {
+                "description": "请求ID。",
+                "type": "string",
+                "example": "021472A6-25E3-4094-8D00-BA4B6A5486C3"
+              },
+              "Success": {
+                "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。",
+                "type": "boolean",
+                "example": "true"
+              },
+              "Datapoints": {
+                "description": "监控数据列表。",
+                "type": "string",
+                "example": "[{\"timestamp\":1548777660000,\"userId\":\"123456789876****\",\"instanceId\":\"i-abcdefgh12****\",\"Minimum\":93.1,\"Average\":99.52,\"Maximum\":100}]"
+              },
+              "Code": {
+                "description": "状态码。\n>200表示成功。",
+                "type": "string",
+                "example": "200"
+              },
+              "Message": {
+                "description": "错误信息。",
+                "type": "string",
+                "example": "The specified resource is not found."
+              },
+              "Period": {
+                "description": "时间间隔。\n\n单位：秒。",
+                "type": "string",
+                "example": "60"
+              }
+            }
+          }
+        }
+      },
+      "errorCodes": {
+        "400": [
+          {
+            "errorCode": "ParameterInvalid",
+            "errorMessage": "Illegal parameters."
+          }
+        ],
+        "403": [
+          {
+            "errorCode": "AccessForbidden",
+            "errorMessage": "User not authorized to operate on the specified resource."
+          }
+        ],
+        "404": [
+          {
+            "errorCode": "ResourceNotFound",
+            "errorMessage": "The specified resource is not found."
+          }
+        ],
+        "500": [
+          {
+            "errorCode": "InternalError",
+            "errorMessage": "The request processing has failed due to some unknown error."
+          }
+        ]
+      },
+      "responseDemo": "[{\"type\":\"json\",\"example\":\"{\\n  \\\"NextToken\\\": \\\"xxxxxx\\\",\\n  \\\"RequestId\\\": \\\"021472A6-25E3-4094-8D00-BA4B6A5486C3\\\",\\n  \\\"Success\\\": true,\\n  \\\"Datapoints\\\": \\\"[{\\\\\\\"timestamp\\\\\\\":1548777660000,\\\\\\\"userId\\\\\\\":\\\\\\\"123456789876****\\\\\\\",\\\\\\\"instanceId\\\\\\\":\\\\\\\"i-abcdefgh12****\\\\\\\",\\\\\\\"Minimum\\\\\\\":93.1,\\\\\\\"Average\\\\\\\":99.52,\\\\\\\"Maximum\\\\\\\":100}]\\\",\\n  \\\"Code\\\": \\\"200\\\",\\n  \\\"Message\\\": \\\"The specified resource is not found.\\\",\\n  \\\"Period\\\": \\\"60\\\"\\n}\",\"errorExample\":\"\"},{\"type\":\"xml\",\"example\":\"<QueryMetricListResponse>\\r\\n\\t<Period>60</Period>\\r\\n\\t<Datapoints>\\r\\n\\t\\t<timestamp>1548777660000</timestamp>\\r\\n\\t\\t<Maximum>100</Maximum>\\r\\n\\t\\t<userId>123456789876****</userId>\\r\\n\\t\\t<Minimum>93.1</Minimum>\\r\\n\\t\\t<instanceId>i-abcdefgh12****</instanceId>\\r\\n\\t\\t<Average>99.52</Average>\\r\\n\\t</Datapoints>\\r\\n\\t<RequestId>6A5F022D-AC7C-460E-94AE-B9E75083D027</RequestId>\\r\\n\\t<Success>true</Success>\\r\\n\\t<Code>200</Code>\\r\\n</QueryMetricListResponse>\",\"errorExample\":\"\"}]",
+      "title": "查询指定监控项的最新监控数据",
+      "description": "### 使用限制\n- 调用DescribeMetricLast、DescribeMetricList、DescribeMetricData和DescribeMetricTop的接口，有100万次/月免费额度（总计），当免费额度用完且您没有开通基础云监控按量计费时，将无法正常使用该API。如果您已开通基础云监控的按量计费，当免费调用额度用完时，该API仍然可以正常使用，超出免费额度部分将自动按使用量计费。开通方法详见[开通按量计费](https://common-buy.aliyun.com/?spm=a2c4g.11186623.0.0.6c8f3481IbSHgG&commodityCode=cms_basic_public_cn&from_biz_channel=help_bill)。\n- 单个API的调用次数限制为50次/秒，即一个阿里云账号及该账号下的RAM用户共用50次/秒。\n\n> 当您调用API时，如果返回信息`Throttling.User`或`Request was denied due to user flow control`，则说明该API被限流。处理方法，请参见[如何处理查询API限流问题](~~2615031~~)。\n### 注意事项\n各云产品监控数据的存储时长与`Period`（统计周期）有关，`Period`越大，查询的监控数据越稀疏，监控数据的存储时间越长，具体关系如下：\n- `Period`小于60秒，存储时长为7天。\n- `Period`等于60秒，存储时长为31天。\n- `Period`大于等于300秒，存储时长为91天。\n### 使用说明\n本文将提供一个示例，查询云产品`acs_ecs_dashboard`监控项`CPUUtilization`的最新监控数据。返回结果显示，当前账号`123456789876****`下实例`i-abcdefgh12****`间隔60秒的最大值为100、最小值为93.1、平均值为99.52。",
+      "requestParamsDescription": "关于公共请求参数的详情，请参见[公共参数](~~199331~~)。 ",
+      "responseParamsDescription": " ",
+      "extraInfo": " "
+    }
+  },
+  "api_io_summary": {
+    "CreateMonitorGroup": {
+      "name": "",
+      "summary": "调用CreateMonitorGroup接口创建应用分组。",
+      "description": "本文将提供一个示例，创建应用分组`ECS_Group`。",
+      "parameters": [
+        {
+          "name": "GroupName",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "应用分组名称。",
+          "example": "ECS_Group"
+        },
+        {
+          "name": "ContactGroups",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "报警联系组。应用分组的报警通知会发送给该报警联系组中的报警联系人。\n\n> 报警联系组是一组报警联系人，可以包含一个或多个报警联系人。关于如何创建报警联系人和报警联系组，请参见[PutContact](~~PutContact~~)和[PutContactGroup](~~PutContactGroup~~)。",
+          "example": "ECS_Alert_Group"
+        }
+      ],
+      "response_properties": [
+        {
+          "name": "Code",
+          "type": "integer",
+          "description": "状态码。\n\n> 200表示成功。"
+        },
+        {
+          "name": "Message",
+          "type": "string",
+          "description": "错误信息。"
+        },
+        {
+          "name": "RequestId",
+          "type": "string",
+          "description": "请求ID。"
+        },
+        {
+          "name": "GroupId",
+          "type": "integer",
+          "description": "应用分组ID。"
+        },
+        {
+          "name": "Success",
+          "type": "boolean",
+          "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。"
+        }
+      ]
+    },
+    "CreateMonitorGroupInstances": {
+      "name": "",
+      "summary": "调用CreateMonitorGroupInstances接口添加指定资源到指定应用分组。",
+      "description": "一个应用分组中，一个云服务最多添加3000个资源，单次最多添加1000个资源，应用分组中的总资源数无限制。\n\n本文将提供一个示例，将地域`cn-hangzhou`的云服务器ECS的实例（实例ID为`i-2ze26xj5wwy12****`，实例名称为`test-instance-ecs`）添加到应用分组`3607****`。",
+      "parameters": [
+        {
+          "name": "GroupId",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "应用分组ID。",
+          "example": "3607****"
+        },
+        {
+          "name": "Instances",
+          "in": "query",
+          "required": true,
+          "type": "array",
+          "description": "实例列表。",
+          "example": ""
+        }
+      ],
+      "response_properties": [
+        {
+          "name": "Code",
+          "type": "integer",
+          "description": "状态码。\n\n> 200表示成功。"
+        },
+        {
+          "name": "Message",
+          "type": "string",
+          "description": "错误信息。"
+        },
+        {
+          "name": "RequestId",
+          "type": "string",
+          "description": "请求ID。"
+        },
+        {
+          "name": "Success",
+          "type": "boolean",
+          "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。"
+        }
+      ]
+    },
+    "CreateHostAvailability": {
+      "name": "",
+      "summary": "调用CreateHostAvailability接口创建可用性监控任务。",
+      "description": "本文将提供一个示例，在应用分组`123456`中创建探测类型为`HTTP`的可用性监控任务`task1`，通过邮件和钉钉机器人给您发送报警。\n\n",
+      "parameters": [
+        {
+          "name": "GroupId",
+          "in": "query",
+          "required": true,
+          "type": "integer",
+          "description": "应用分组ID。",
+          "example": "123456"
+        },
+        {
+          "name": "TaskName",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "可用性监控任务名称。取值范围：4~100个字符，支持英文字母、数字、下划线（_）和汉字。",
+          "example": "task1"
+        },
+        {
+          "name": "TaskScope",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "可用性监控任务的探测范围。取值：\n\n- GROUP：表示将当前应用分组内的所有ECS实例作为探测任务的探针。\n- GROUP_SPEC_INSTANCE：表示将当前应用分组内的指定ECS实例作为探测任务的探针。设置该参数时，需要同时设置InstanceList（发起探测的ECS实例列表）。",
+          "example": "GROUP"
+        },
+        {
+          "name": "TaskType",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "可用性监控任务的探测类型。取值：\n\n- PING\n- TELNET\n- HTTP",
+          "example": "HTTP"
+        },
+        {
+          "name": "TaskOption.HttpURI",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "HTTP、Telnet探测类型的探测URI地址。",
+          "example": "https://www.aliyun.com\ntelnet://127.0.0.1:80"
+        },
+        {
+          "name": "TaskOption.TelnetOrPingHost",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "探测的域名或地址。\n>如果探测任务类型为PING，则需要设置该参数。",
+          "example": "www.aliyun.com"
+        },
+        {
+          "name": "TaskOption.HttpResponseCharset",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "HTTP探测类型的响应字符集。\n\n> 仅支持UTF-8。",
+          "example": "UTF-8"
+        },
+        {
+          "name": "TaskOption.HttpPostContent",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "HTTP探测类型探测请求的Post内容。",
+          "example": "params1=paramsValue1"
+        },
+        {
+          "name": "TaskOption.HttpResponseMatchContent",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "匹配响应的内容。",
+          "example": "ok"
+        },
+        {
+          "name": "TaskOption.HttpMethod",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "探测类型的方法。取值：\n\n- GET\n- POST\n- HEAD\n\n>如果任务的探测类型为HTTP，则需要设置该参数。",
+          "example": "GET"
+        },
+        {
+          "name": "TaskOption.HttpNegative",
+          "in": "query",
+          "required": false,
+          "type": "boolean",
+          "description": "匹配HTTP响应内容的报警规则。取值：\n- true：如果HTTP响应内容包含设置的报警规则，则报警。\n- false：如果HTTP响应内容不包含设置的报警规则，则报警。\n\n>如果任务的探测类型为HTTP，则该参数生效。",
+          "example": "true"
+        },
+        {
+          "name": "TaskOption.HttpHeader",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "HTTP请求的Header。格式为`参数名:参数`，多个参数之间用回车符分隔，例如：\n```\nparams1:value1\nparams2:value2\n```",
+          "example": "token:testTokenValue"
+        },
+        {
+          "name": "TaskOption.Interval",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "探测频率。单位：秒。取值：15、30、60、120、300、900、1800和3600。\n\n> 仅3.5.1及以上版本的云监控插件支持该参数。",
+          "example": "60"
+        },
+        {
+          "name": "AlertConfig.NotifyType",
+          "in": "query",
+          "required": true,
+          "type": "integer",
+          "description": "报警通知类型。取值：\n\n<props=\"china\">- 2：电话+短信+邮件+钉钉机器人。</props>\n\n<props=\"china\">- 1：短信+邮件+钉钉机器人。</props>\n\n<props=\"china\">- 0：邮件+钉钉机器人。</props>\n\n\n<props=\"intl\">0：邮件+钉钉机器人。</props>\n\n<props=\"partner\">0：邮件+钉钉机器人。</props>",
+          "example": "0"
+        },
+        {
+          "name": "AlertConfig.StartTime",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "报警生效的开始时间。取值范围：0~23。\n\n例如：`AlertConfig.StartTime`为0，`AlertConfig.EndTime`为22，表示报警生效时间为00:00:00至22:00:00。\n\n>如果报警不在生效时间内，则超过阈值也不会发送报警通知。",
+          "example": "0"
+        },
+        {
+          "name": "AlertConfig.EndTime",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "报警生效的结束时间。取值范围：0~23。\n\n例如：`AlertConfig.StartTime`为0，`AlertConfig.EndTime`为22，表示报警生效时间为00:00:00至22:00:00。\n\n>如果报警不在生效时间内，则超过阈值也不会发送报警通知。",
+          "example": "22"
+        },
+        {
+          "name": "AlertConfig.SilenceTime",
+          "in": "query",
+          "required": false,
+          "type": "integer",
+          "description": "通道沉默时间。单位：秒，默认值：86400（1天）。",
+          "example": "86400"
+        },
+        {
+          "name": "AlertConfig.WebHook",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "URL回调地址。",
+          "example": "https://www.aliyun.com/webhook.json"
+        },
+        {
+          "name": "AlertConfigEscalationList",
+          "in": "query",
+          "required": true,
+          "type": "array",
+          "description": "无。",
+          "example": ""
+        },
+        {
+          "name": "InstanceList",
+          "in": "query",
+          "required": false,
+          "type": "array",
+          "description": "发起探测的ECS实例列表。N的取值范围：1~21。\n\n> 当`TaskScope`为`GROUP_SPEC_INSTANCE`时，需要设置该参数。",
+          "example": "i-absdfkwl321****"
+        },
+        {
+          "name": "AlertConfigTargetList",
+          "in": "query",
+          "required": false,
+          "type": "array",
+          "description": "报警触发目标。",
+          "example": ""
+        }
+      ],
+      "response_properties": [
+        {
+          "name": "Code",
+          "type": "string",
+          "description": "状态码。\n\n>200表示成功。"
+        },
+        {
+          "name": "Message",
+          "type": "string",
+          "description": "错误信息。"
+        },
+        {
+          "name": "RequestId",
+          "type": "string",
+          "description": "请求ID。"
+        },
+        {
+          "name": "TaskId",
+          "type": "integer",
+          "description": "可用性监控任务ID。"
+        },
+        {
+          "name": "Success",
+          "type": "boolean",
+          "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。"
+        }
+      ]
+    },
+    "DescribeMetricLast": {
+      "name": "",
+      "summary": "调用DescribeMetricLast接口查询指定监控项的最新监控数据。",
+      "description": "### 使用限制\n- 调用DescribeMetricLast、DescribeMetricList、DescribeMetricData和DescribeMetricTop的接口，有100万次/月免费额度（总计），当免费额度用完且您没有开通基础云监控按量计费时，将无法正常使用该API。如果您已开通基础云监控的按量计费，当免费调用额度用完时，该API仍然可以正常使用，超出免费额度部分将自动按使用量计费。开通方法详见[开通按量计费](https://common-buy.aliyun.com/?spm=a2c4g.11186623.0.0.6c8f3481IbSHgG&commodityCode=cms_basic_public_cn&from_biz_channel=help_bill)。\n- 单个API的调用次数限制为50次/秒，即一个阿里云账号及该账号下的RAM用户共用50次/秒。\n\n> 当您调用API时，如果返回信息`Throttling.User`或`Request was denied due to user flow control`，则说明该API被限流。处理方法，请参见[如何处理查询API限流问题](~~2615031~~)。\n### 注意事项\n各云产品监控数据的存储时长与`Period`（统计周期）有关，`Period`越大，查询的监控数据越稀疏，监控数据的存储时间越长，具体关系如下：\n- `Period`小于60秒，存储时长为7天。\n- `Period`等于60秒，存储时长为31天。\n- `Period`大于等于300秒，存储时长为91天。\n### 使用说明\n本文将提供一个示例，查询云产品`acs_ecs_dashboard`监控项`CPUUtilization`的最新监控数据。返回结果显示，当前账号`123456789876****`下实例`i-abcdefgh12****`间隔60秒的最大值为100、最小值为93.1、平均值为99.52。",
+      "parameters": [
+        {
+          "name": "Namespace",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "云产品的数据命名空间。\n\n关于云产品的数据命名空间，请参见[云产品监控项](~~163515~~)。",
+          "example": "acs_ecs_dashboard"
+        },
+        {
+          "name": "MetricName",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "description": "云产品的监控项名称。\n\n关于监控项名称，请参见[云产品监控项](~~163515~~)。\n\n",
+          "example": "CPUUtilization"
+        },
+        {
+          "name": "Period",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "监控数据的统计周期。\n\n取值：15、60、900和3600。\n\n单位：秒。\n\n> - 如果不设置统计周期，则按照注册监控项时申请的上报周期来查询监控数据。\n    - 每个云产品的监控项（`MetricName`）的统计周期不同。更多信息，请参见[云产品监控项](~~163515~~)中目标云产品**指标列表**页面中的`Min Periods`列。",
+          "example": "60"
+        },
+        {
+          "name": "StartTime",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "查询监控项的开始时间。",
+          "example": "2019-01-31 10:00:00"
+        },
+        {
+          "name": "EndTime",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "查询监控项的结束时间。\n\n- 对于秒级数据，查询数据的起始时间是EndTime往前倒推20分钟后与startTime对比的最大值。\n\n- 对于分钟级数据，查询数据的起始时间是EndTime往前倒推2小时后与startTime对比的最大值。\n\n- 对于小时级数据，查询数据的起始时间是EndTime往前倒推2天后与startTime对比的最大值。\n\n ",
+          "example": "2019-01-31 10:10:00"
+        },
+        {
+          "name": "Dimensions",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "指定资源的监控维度。\n\n格式：`key:value`键值对形式的集合，例如：`{\"userId\":\"120886317861****\"}`和`{\"instanceId\":\"i-2ze2d6j5uhg20x47****\"}`。\n\n> 单次请求最多支持批量查询50个实例。\n\n\n\n\n",
+          "example": "[{\"instanceId\":\"i-2ze2d6j5uhg20x47****\"}]"
+        },
+        {
+          "name": "NextToken",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "分页游标的标识。\n\n- 如果匹配查询条件的返回结果超过了分页大小，则会返回这个分页游标。\n- 如果需要获取下一页数据，将返回的游标值作为请求参数即可，直到无游标值返回，表示已经获取了全部数据。",
+          "example": "15761432850009dd70bb64cff1f0fff6c0b08ffff073be5fb1e785e2b020f7fed9b5e137bd810a6d6cff5ae****"
+        },
+        {
+          "name": "Length",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "返回监控数据的每页大小，用于分页查询。\n\n默认值：1000，即每页1000条监控数据。\n\n> 单次请求Length的最大值为1440。",
+          "example": "1000"
+        },
+        {
+          "name": "Express",
+          "in": "query",
+          "required": false,
+          "type": "string",
+          "description": "对现有查询结果进行实时计算的表达式。",
+          "example": "{\"groupby\":[\"userId\",\"instanceId\"]}"
+        }
+      ],
+      "response_properties": [
+        {
+          "name": "NextToken",
+          "type": "string",
+          "description": "分页游标标识。"
+        },
+        {
+          "name": "RequestId",
+          "type": "string",
+          "description": "请求ID。"
+        },
+        {
+          "name": "Success",
+          "type": "boolean",
+          "description": "操作是否成功。取值：\n\n- true：成功。\n\n- false：失败。"
+        },
+        {
+          "name": "Datapoints",
+          "type": "string",
+          "description": "监控数据列表。"
+        },
+        {
+          "name": "Code",
+          "type": "string",
+          "description": "状态码。\n>200表示成功。"
+        },
+        {
+          "name": "Message",
+          "type": "string",
+          "description": "错误信息。"
+        },
+        {
+          "name": "Period",
+          "type": "string",
+          "description": "时间间隔。\n\n单位：秒。"
+        }
+      ]
+    }
+  }
+}
