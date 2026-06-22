@@ -1,0 +1,55 @@
+% Oxford color theme for the Gemini beamerposter theme
+% Based on the University of Oxford brand palette (Oxford Blue #002147)
+
+% ====================
+% Definitions
+% ====================
+
+\definecolor{oxfordblue}{RGB}{0, 33, 71}     % Oxford Blue (primary)
+\definecolor{oxfordmid}{RGB}{0, 71, 132}     % mid blue (headline / titles)
+\definecolor{oxfordlight}{RGB}{233, 240, 248} % light tint (block backgrounds)
+\definecolor{oxfordgray}{RGB}{245, 246, 250}  % near-white gray
+\definecolor{oxfordaccent}{RGB}{190, 12, 49}  % accent red for alerts
+
+% ====================
+% Theme
+% ====================
+
+% Basic colors
+\setbeamercolor{palette primary}{fg=black,bg=white}
+\setbeamercolor{palette secondary}{fg=black,bg=white}
+\setbeamercolor{palette tertiary}{bg=oxfordblue,fg=white}
+\setbeamercolor{palette quaternary}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=oxfordblue}
+
+% Headline
+\setbeamercolor{headline}{fg=white,bg=oxfordblue}
+\setbeamercolor{headline rule}{bg=oxfordmid}
+
+% Block
+\setbeamercolor{block title}{fg=oxfordmid,bg=white}
+\setbeamercolor{block separator}{bg=oxfordblue}
+\setbeamercolor{block body}{fg=black,bg=white}
+
+% Alert Block (highlight) -- Oxford blue, not red
+\setbeamercolor{block title alerted}{fg=white,bg=oxfordmid}
+\setbeamercolor{block separator alerted}{bg=oxfordblue}
+\setbeamercolor{block body alerted}{fg=black,bg=oxfordlight}
+
+% Example Block
+\setbeamercolor{block title example}{fg=white,bg=oxfordmid}
+\setbeamercolor{block separator example}{bg=oxfordmid}
+\setbeamercolor{block body example}{fg=black,bg=oxfordlight}
+
+% Heading
+\setbeamercolor{heading}{fg=oxfordblue}
+
+% Itemize
+\setbeamercolor{item}{fg=oxfordmid}
+
+% Bibliography
+\setbeamercolor{bibliography item}{fg=black}
+\setbeamercolor{bibliography entry author}{fg=black}
+\setbeamercolor{bibliography entry title}{fg=black}
+\setbeamercolor{bibliography entry location}{fg=black}
+\setbeamercolor{bibliography entry note}{fg=black}

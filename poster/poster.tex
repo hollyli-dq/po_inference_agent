@@ -1,0 +1,284 @@
+% ICML 2026 poster -- De-Linearizing Agent Traces (BPOP)
+% Built on the Gemini beamerposter theme: https://github.com/anishathalye/gemini
+
+\documentclass[final]{beamer}
+
+% ====================
+% Packages
+% ====================
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+% ICML 2026 main-conference suggested size: 36in (H) x 48in (W) = 91 x 122 cm (landscape)
+\usepackage[size=custom,width=121.9,height=91.4,scale=1.2]{beamerposter}
+\usetheme{gemini}
+\usecolortheme{oxford}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{anyfontsize}
+\usepackage{amsmath, amssymb}
+\usepackage{microtype}
+% discourage very short last lines (widows) in justified paragraphs
+\clubpenalty=10000 \widowpenalty=10000 \finalhyphendemerits=10000
+
+% ====================
+% Lengths
+% ====================
+
+% N=3 columns: (N+1)*sepwidth + N*colwidth = paperwidth
+\newlength{\sepwidth}
+\newlength{\colwidth}
+\setlength{\sepwidth}{0.025\paperwidth}
+\setlength{\colwidth}{0.3\paperwidth}
+
+\newcommand{\separatorcolumn}{\begin{column}{\sepwidth}\end{column}}
+
+% ====================
+% Title
+% ====================
+
+\title{De-Linearizing Agent Traces with Bayesian Partial Orders\\[0.5ex]
+  {\normalfont\LARGE Bayesian Inference of Latent Partial Orders for Efficient Execution}}
+
+\author{Dongqing Li\textsuperscript{1,$\ast$} \and Zheqiao Cheng\textsuperscript{2,$\ast$}
+        \and Geoff K.\ Nicholls\textsuperscript{1} \and Quyu Kong\textsuperscript{3}}
+
+\institute[shortinst]{\textsuperscript{1}University of Oxford \quad
+  \textsuperscript{2}Zhejiang University \quad
+  \textsuperscript{3}Independent Researcher \quad
+  ($\ast$\,equal contribution)}
+
+% ====================
+% Footer
+% ====================
+
+\footercontent{
+  \href{https://arxiv.org/abs/2602.02806}{arXiv:2602.02806} \hfill
+  ICML 2026, Seoul, South Korea \hfill
+  \href{mailto:dongqing.li@kellogg.ox.ac.uk}{dongqing.li@kellogg.ox.ac.uk}}
+
+% ====================
+% Logos
+% ====================
+% Drop your files into figures/ and they are picked up automatically.
+% Left  = Oxford : figures/oxplogo.png (or oxford-stats-logo.{pdf,png})
+% Right = ICML 2026 : figures/icml-2026-logo.{pdf,png}
+\IfFileExists{figures/oxplogo.png}
+  {\logoleft{\hspace{2.5cm}\includegraphics[height=7cm]{figures/oxplogo.png}\hspace{0.8cm}%
+     \raisebox{1.8cm}{\parbox[b]{15cm}{\fontsize{40}{46}\selectfont\bfseries Department of\\[0.2ex]Statistics}}}}
+  {\IfFileExists{figures/oxford-stats-logo.pdf}
+    {\logoleft{\includegraphics[height=7cm]{figures/oxford-stats-logo.pdf}}}
+    {\IfFileExists{figures/oxford-stats-logo.png}
+      {\logoleft{\includegraphics[height=7cm]{figures/oxford-stats-logo.png}}}{}}}
+\IfFileExists{figures/icml-2026-logo.pdf}
+  {\logoright{\includegraphics[height=7cm]{figures/icml-2026-logo.pdf}}}
+  {\IfFileExists{figures/icml-2026-logo.png}
+    {\logoright{\includegraphics[height=7cm]{figures/icml-2026-logo.png}}}{}}
+
+% ====================
+% Body
+% ====================
+
+\begin{document}
+
+\begin{frame}[t]
+\begin{columns}[t]
+\separatorcolumn
+
+% ============================================================
+% COLUMN 1 -- Motivation & Idea
+% ============================================================
+\begin{column}{\colwidth}
+
+  \begin{exampleblock}{The Big Idea}
+
+    {\large Successful agent traces are \emph{not} recipes --- they are
+    \textbf{noisy linearizations of a latent partial-order workflow}.}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.40\colwidth]{figures/fig2_chaos.png}
+      \caption{One latent plan (left) explains many valid execution orders
+      (right); the \textbf{frontier} is the set of ready actions.}
+    \end{figure}
+
+  \end{exampleblock}
+
+  \begin{block}{The Problem: Agents Re-Reason a Fixed Recipe}
+
+    LLM agents execute workflows as \textbf{sequential traces}, which:
+    \begin{itemize}
+      \item \textbf{Hide concurrency} --- independent steps look ordered,
+        blocking parallelism.
+      \item \textbf{Trigger re-reasoning} every run (the ``perpetual intern'')
+        --- slow and costly.
+    \end{itemize}
+    \textbf{BPOP:} recover the latent partial order \emph{once}, then compile it
+    into a fast, reusable graph executor (the ``domain expert'').
+
+  \end{block}
+
+  \begin{block}{Traditional vs.\ BPOP Agent}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.92\colwidth]{figures/architecture.pdf}
+      \caption{BPOP recovers the partial order and compiles a low-latency,
+      parallel graph executor.}
+    \end{figure}
+
+    \heading{Contributions}
+    \begin{enumerate}
+      \item Agent traces as \textbf{noisy linearizations} of a latent
+        partial-order workflow.
+      \item A tractable \textbf{frontier-softmax} likelihood that avoids
+        \#P-hard marginalization over linear extensions.
+      \item \textbf{Recoverability \& feasibility} analysis; open-sourced
+        \textbf{Cloud-IaC-6} benchmark.
+      \item \textbf{Graph compilation} into a frontier-based executor.
+    \end{enumerate}
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+
+% ============================================================
+% COLUMN 2 -- Method
+% ============================================================
+\begin{column}{\colwidth}
+
+  \begin{block}{Model: Bayesian Partial Order Planning}
+
+    \heading{Prior over partial orders}
+    Each action $a_j$ gets a latent vector $U_j\in\mathbb{R}^K$. The order
+    $h=(\mathcal{A},\succ_h)$ is the \textbf{intersection of $K$ total orders}:
+    $$
+    a_i \succ_h a_j \iff U_{i,k} > U_{j,k}\quad \forall k\in\{1,\dots,K\}.
+    $$
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.44\colwidth]{figures/latent_U_crop.png}
+      \caption{Latent coordinates $U_{j,k}$: Action 1 dominates all $k$, so it
+      precedes every other action.}
+    \end{figure}
+
+    \heading{Frontier-softmax likelihood}
+    With remaining actions $R_t$, the frontier is $F_t(h)=\{a\in R_t :
+    \nexists\,b\in R_t,\ b\succ_h a\}$. A trace is a product of local choices:
+    $$
+    p(y_t\mid y_{<t},h)=(1-\epsilon)\,
+      \frac{\exp\!\big(\beta\,Q(y_t)\big)}
+           {\sum_{a\in F_t(h)}\exp\!\big(\beta\,Q(a)\big)}
+      \;+\;\frac{\epsilon}{|R_t|},
+    $$
+    ($=0$ for $y_t\notin F_t$). $\beta$: inverse temperature; $\epsilon$:
+    ``trembling-hand'' noise. Utility $Q(a)=\log(1+S_t(a))$ favors bottleneck
+    actions ($S_t$ = descendant count).
+
+    \textbf{Tractable:} $O(|\!\succ_h\!|+T|\mathcal{A}|)$ vs.\ \#P-hard counting
+    of linear extensions.
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.95\colwidth]{figures/fig10_likelihood.png}
+      \caption{Stepwise likelihood: at each $t$ the choice is scored over the
+      frontier $F_t$ by utility $Q$; off-frontier picks ($y_3{=}4$) are explained
+      only by the noise term $\epsilon/|R_t|$.}
+    \end{figure}
+
+  \end{block}
+
+  \begin{block}{From Posterior to Executable Graph}
+
+    MCMC over $(U,\beta,\epsilon)$ yields a posterior over $h$; threshold its
+    relation probabilities at $\alpha$ to compile the SOP graph.
+    \begin{itemize}
+      \item $\alpha$ = \textbf{risk--efficiency knob}: higher $\Rightarrow$
+        sparser, more parallel, riskier.
+      \item Default $\alpha{=}1/3$ favors \textbf{recall} (safety-biased);
+        $\widehat{h}_{\text{thr}}(1/3)\!\approx\!\widehat{h}_{\text{mode}}$.
+      \item Compiled \textbf{Graph Execution Engine} fires ready actions in
+        parallel, loading only relevant context per node.
+    \end{itemize}
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+
+% ============================================================
+% COLUMN 3 -- Results
+% ============================================================
+\begin{column}{\colwidth}
+
+  \begin{block}{Structural Recovery vs.\ Trace Diversity}
+
+    On \textbf{Cloud-IaC-6} ($n{=}54$ LLM traces) and WFCommons workflows vs.\
+    Majority, Inductive/Heuristics Miner, Bayesian Queue-Jump.
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.66\colwidth]{figures/fig8_recovery.png}
+      \caption{Edge-F1 vs.\ IP-Cov. BPOP improves with trace diversity and
+      overtakes all baselines, while keeping high feasibility where trace-only
+      methods are unstable or collapse to $0$.}
+    \end{figure}
+
+  \end{block}
+
+  \begin{block}{Recovered SOP (Qualitative)}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.80\colwidth]{figures/fig5_sop.png}
+      \caption{Recovered vs.\ true SOPs (SRASearch, Epigenomics). Green: correct;
+      red: missed (unsafe); orange: extra (safe). Errors are safety-biased.}
+    \end{figure}
+
+  \end{block}
+
+  \begin{alertblock}{Key Results}
+
+    \begin{itemize}
+      \item \textbf{Best recovery:} Edge-F1 \textbf{0.91} (SRASearch) and
+        \textbf{0.79} (Epigenomics), vs.\ $\le 0.43$ for every baseline.
+      \item \textbf{Reasoning removed:} at IP-Cov $\ge 0.9$, completeness 100\%,
+        fallback 0\%, cost $\to\!\sim$583 intent tokens/task
+        (\textbf{0 reasoning tokens}) vs.\ pure-LLM's 234k--382k.
+      \item \textbf{Hybrid} mode: only mode with 100\% success on all 6
+        scenarios; errors are safety-biased (extra constraints, not missing).
+    \end{itemize}
+
+  \end{alertblock}
+
+  \begin{block}{Paper, Project \& Posets}
+
+    \begin{minipage}[t]{0.32\linewidth}
+      \centering
+      \includegraphics[width=0.44\linewidth]{figures/qr_paper.png}\\[0.3em]
+      \textbf{Paper}\\ \footnotesize arXiv:2602.02806
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.32\linewidth}
+      \centering
+      \includegraphics[width=0.44\linewidth]{figures/qr_code.png}\\[0.3em]
+      \textbf{Project \& Code}\\ \footnotesize github.com/hollyli-dq
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.32\linewidth}
+      \centering
+      \includegraphics[width=0.44\linewidth]{figures/project_qr.png}\\[0.3em]
+      \textbf{Posets Project}\\ \footnotesize stats.ox.ac.uk/$\sim$nicholls
+    \end{minipage}
+
+  \end{block}
+
+\end{column}
+
+\separatorcolumn
+\end{columns}
+\end{frame}
+
+\end{document}
